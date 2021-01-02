@@ -1,0 +1,22 @@
+{
+  "name": "vitessecms/block",
+  "type": "library",
+  "description": "Block module for VitesseCms",
+  "keywords": ["php","phalcon","vitessecms"],
+  "homepage": "https://github.com/thedigitalproblemsolver/VitesseCMS",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Jasper Jaklofsky",
+      "email": "info@thedigitalproblemsolver.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "VitesseCms\\Admin\\": "src/"
+    }
+  },
+  "require": {
+    "vitessecms/vitessecms": "~0.0.15"
+  }
+}
