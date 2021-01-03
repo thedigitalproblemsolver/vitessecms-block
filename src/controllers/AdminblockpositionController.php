@@ -30,17 +30,14 @@ class AdminblockpositionController extends AbstractAdminController implements Re
                 endif;
             endforeach;
 
-            $blockPosition = $this->repositories->blockPosition->getById(
-                $this->dispatcher->getParam(0),
-                false
-            );
+            $blockPosition = $this->repositories->blockPosition->getById($this->dispatcher->getParam(0), false);
             if ($blockPosition instanceof BlockPosition):
                 $blockPosition->set('datagroup', $datagroups)->save();
                 $message = 'ADMIN_BLOCKPOSITION_UPDATED';
             endif;
         endif;
 
-        $this->flash->_($message);
+        $this->flash->setSucces($message);
 
         $this->redirect();
     }

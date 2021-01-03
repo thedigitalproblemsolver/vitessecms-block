@@ -10,6 +10,9 @@ use VitesseCms\Core\Utils\DirectoryUtil;
 use VitesseCms\Core\Utils\FileUtil;
 use VitesseCms\Core\Utils\SystemUtil;
 
+/**
+ * @deprecated move to BlockUtil
+ */
 class BlockHelper
 {
     public static function getTypes(string $rootDir, string $accountDir): array
@@ -18,7 +21,7 @@ class BlockHelper
         $files = $types = [];
 
         $directories = [
-            $rootDir.'src/block/models/',
+            $rootDir.'../block/src/models/',
             $accountDir.'src/block/models/',
         ];
 

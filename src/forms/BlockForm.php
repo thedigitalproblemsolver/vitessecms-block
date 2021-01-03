@@ -5,6 +5,7 @@ namespace VitesseCms\Block\Forms;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Core\Utils\SystemUtil;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Models\Attributes;
@@ -33,7 +34,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             $object
         );
 
-        $files = SystemUtil::getTemplateFiles($type);
+        $files = BlockUtil::getTemplateFiles($type, $this->configuration);
         $options = [];
         foreach ($files as $key => $label) :
             $selected = false;

@@ -23,7 +23,7 @@ class BlockItemlistDatagroupSubForm implements BlockSubFormInterface
 
         if (is_array($block->_('items'))) :
             foreach ($block->_('items') as $datagroupId) :
-                BlockItemlistSubForm::buildDatafieldValueForm($form, $datagroupId);
+                BlockItemlistSubForm::buildDatafieldValueForm($form, $datagroupId, $repositories);
             endforeach;
             $form->addText('parentId', 'datafieldValue[parentId]');
         endif;

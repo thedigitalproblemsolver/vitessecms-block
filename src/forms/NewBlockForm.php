@@ -8,7 +8,7 @@ use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
-class NewBlockForm extends AbstractForm implements RepositoriesInterface
+class NewBlockForm extends AbstractForm
 {
     public function build(): NewBlockForm
     {

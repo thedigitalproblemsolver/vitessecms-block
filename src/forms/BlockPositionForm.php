@@ -2,16 +2,31 @@
 
 namespace VitesseCms\Block\Forms;
 
+use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Core\Models\Datagroup;
 use VitesseCms\Database\AbstractCollection;
+use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
 use VitesseCms\Form\AbstractForm;
+use VitesseCms\Form\AbstractFormWithRepository;
 use VitesseCms\Form\Helpers\ElementHelper;
+use VitesseCms\Form\Interfaces\FormWithRepositoryInterface;
 use VitesseCms\Form\Models\Attributes;
 
-class BlockPositionForm extends AbstractForm
+class BlockPositionForm extends AbstractFormWithRepository
 {
-    public function initialize(AbstractCollection $item): void
+    /**
+     * @var BlockPosition
+     */
+    protected $item;
+
+    /**
+     * @var RepositoryInterface
+     */
+    protected $repositories;
+
+    public function buildForm(): FormWithRepositoryInterface
     {
         $this->addText(
             '%CORE_NAME%',
@@ -23,11 +38,8 @@ class BlockPositionForm extends AbstractForm
                 'block',
                 (new Attributes())
                     ->setRequired(true)
-                    ->setOptions(ElementHelper::arrayToSelectOptions(
-                        Block::findAll(),
-                        [$item->_('block')]
-                    )
-                    )
+                    ->setOptions(ElementHelper::modelIteratorToOptions($this->repositories->block->findAll())
+                )
             )->addDropdown(
                 '%ADMIN_POSITION%',
                 'position',
@@ -40,28 +52,35 @@ class BlockPositionForm extends AbstractForm
             );
 
         if (
-            !is_array($item->_('datagroup'))
-            && substr_count($item->_('datagroup'), 'page:') === 0
+            !is_array($this->item->_('datagroup'))
+            && substr_count($this->item->_('datagroup'), 'page:') === 0
         ) :
-            Datagroup::setFindPublished(false);
-            $dataGroups = Datagroup::findAll();
+            $datagroups = $this->repositories->datagroup->findAll(null,false);
             $dataGroupOptions = ['all' => 'All'];
-            foreach ($dataGroups as $dataGroup) :
-                $dataGroupOptions[(string)$dataGroup->getId()] = $dataGroup->_('name');
-            endforeach;
+            while ($datagroups->valid()) :
+                $datagroup = $datagroups->current();
+                $dataGroupOptions[(string)$datagroup->getId()] = $datagroup->getNameField();
+                $datagroup = $datagroups->next();
+            endwhile;
 
             $this->addDropdown(
                 '%ADMIN_DATAGROUP%',
                 'datagroup',
-                (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions(
-                    $dataGroupOptions,
-                    [$item->_('datagroup')]
-                ))
+                (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions($dataGroupOptions))
             );
         endif;
 
         $this->addAcl('%ADMIN_PERMISSION_ROLES%', 'roles')
             ->addNumber('%ADMIN_ORDERING%', 'ordering')
             ->addSubmitButton('%CORE_SAVE%');
+
+        return $this;
+    }
+
+    public function setEntity($entity)
+    {
+        parent::setEntity($entity);
+
+        $this->item = $entity;
     }
 }

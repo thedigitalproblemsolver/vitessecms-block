@@ -15,23 +15,32 @@ class BlockFilterSubForm implements BlockSubFormInterface
 {
     public static function getBlockForm(BlockForm $form, Block $block, RepositoryInterface $repositories): void
     {
-        $datagroups = $repositories->datagroup->findAll(new FindValueIterator([new FindValue('component', 'content')]));
+        $datagroups = $repositories->datagroup->findAll(new FindValueIterator(
+            [new FindValue('component', 'content')]
+        ));
+
         $datagroupIds = [];
         while ($datagroups->valid()) :
             $datagroup = $datagroups->current();
             $datagroupIds[] = (string)$datagroup->getId();
             $datagroups->next();
         endwhile;
-        Item::setFindValue('datagroup', ['$in' => $datagroupIds]);
+
+        $items = $repositories->item->findAll(
+            new FindValueIterator([new FindValue('datagroup', ['$in' => $datagroupIds])])
+        );
 
         $form->addDropdown(
             '%ADMIN_FILTER_RESULT_TARGET_PAGE%',
             'targetPage',
-            (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions(Item::findAll()))
+            (new Attributes())->setOptions(ElementHelper::modelIteratorToOptions($items))
         )->addDropdown(
             '%ADMIN_FILTER_SEARCHABLE_GROUPS%',
             'searchGroups',
-            (new Attributes())->setOptions(ElementHelper::modelIteratorToOptions($datagroups))->setMultiple(true)
+            (new Attributes())
+                ->setOptions(ElementHelper::modelIteratorToOptions($datagroups))
+                ->setMultiple(true)
+                ->setInputClass('select2')
         )->addToggle('Use label placeholders', 'labelAsPlaceholder');
     }
 }

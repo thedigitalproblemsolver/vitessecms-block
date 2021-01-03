@@ -8,6 +8,7 @@ use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Core\Repositories\DatafieldRepository;
 use VitesseCms\Core\Repositories\DatagroupRepository;
+use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
 
 /**
  * @property BlockPositionRepository $blockPosition
@@ -17,6 +18,6 @@ use VitesseCms\Core\Repositories\DatagroupRepository;
  * @property DatafieldRepository $datafield
  * @property ItemRepository $item
  */
-interface RepositoryInterface
+interface RepositoryInterface extends BaseRepositoriesInterface
 {
 }

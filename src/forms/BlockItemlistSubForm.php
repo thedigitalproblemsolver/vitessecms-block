@@ -10,7 +10,11 @@ use VitesseCms\Content\Models\Item;
 use VitesseCms\Core\Helpers\ItemHelper;
 use VitesseCms\Core\Models\Datafield;
 use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Database\Models\FindValue;
+use VitesseCms\Database\Models\FindValueIterator;
+use VitesseCms\Field\Models\FieldCheckbox;
 use VitesseCms\Field\Models\FieldDatagroup;
+use VitesseCms\Field\Models\FieldPrice;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
@@ -44,13 +48,11 @@ class BlockItemlistSubForm implements BlockSubFormInterface
                 (new Attributes())->setMultilang(true)
             );
 
-        $options = [
-            [
-                'value'    => '',
-                'label'    => '%ADMIN_TYPE_TO_SEARCH%',
-                'selected' => false,
-            ],
-        ];
+        $options = [[
+            'value'    => '',
+            'label'    => '%ADMIN_TYPE_TO_SEARCH%',
+            'selected' => false,
+        ]];
         if ($block->_('readmoreItem')) :
             $selectedItem = $repositories->item->getById($block->_('readmoreItem'));
             if ($selectedItem !== null):
@@ -72,59 +74,50 @@ class BlockItemlistSubForm implements BlockSubFormInterface
         )->addToggle('%ADMIN_READMORE_SHOW_PER_ITEM%', 'readmoreShowPerItem');
     }
 
-    public static function buildDatafieldValueForm(BlockForm $form, string $datagroupId): void
+    public static function buildDatafieldValueForm(BlockForm $form, string $datagroupId, RepositoryInterface $repositories): void
     {
-        $datagroup = Datagroup::findById($datagroupId);
-        if ($datagroup) :
-            $form->_(
-                'html',
-                'html',
-                'html',
-                [
-                    'html' => '<h2>'.$datagroup->_('name').'</h2>',
-                ]
-            );
-            foreach ($datagroup->_('datafields') as $datafieldOptions) :
+        $datagroup = $repositories->datagroup->getById($datagroupId);
+        if ($datagroup !== null) :
+            $form->addHtml('<h2>'.$datagroup->_('name').'</h2>');
+            foreach ($datagroup->getDatafields() as $datafieldOptions) :
                 /** @var Datafield $datafield */
-                $datafield = Datafield::findById($datafieldOptions['id']);
-                if ($datafield) :
-                    $fieldName = 'datafieldValue['.$datafield->_('calling_name').']';
-                    $name = $datafield->_('name');
+                $datafield = $repositories->datafield->getById($datafieldOptions['id']);
+                if ($datafield !== null) :
+                    $fieldName = 'datafieldValue['.$datafield->getCallingName().']';
+                    $name = $datafield->getNameField();
                     switch ($datafield->getFieldType()):
                         case 'FieldCheckbox':
-                            $form->_(
-                                'select',
+                        case FieldCheckbox::class:
+                            $form->addDropdown(
                                 $name,
                                 $fieldName,
-                                [
-                                    'options' => ElementHelper::arrayToSelectOptions([
-                                        'both'        => 'selected or not selected',
-                                        'selected'    => 'selected',
-                                        'notSelected' => 'not selected',
-                                    ]),
-                                ]
-                            );
+                                (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions([
+                                    'both'        => 'selected or not selected',
+                                    'selected'    => 'selected',
+                                    'notSelected' => 'not selected',
+                                ])
+                            ));
                             break;
                         case 'FieldPrice':
-                            $form->_(
-                                'select',
+                        case FieldPrice::class:
+                            $form->addDropdown(
                                 $name.' discount',
                                 'datafieldValue[discount]',
-                                [
-                                    'options' => ElementHelper::arrayToSelectOptions([
-                                        'bothEmpty' => 'empty or not empty',
-                                        'empty'     => 'empty',
-                                        'notEmpty'  => 'not empty',
-                                    ]),
-                                ]
-                            );
+                                ( new Attributes())->setOptions(ElementHelper::arrayToSelectOptions([
+                                    'bothEmpty' => 'empty or not empty',
+                                    'empty'     => 'empty',
+                                    'notEmpty'  => 'not empty',
+                                ])
+                            ));
                             break;
                         case 'FieldDatagroup':
                         case FieldDatagroup::class:
                             $options = [];
                             if ($datafield->getDatagroup() !== null) {
-                                Item::setFindValue('datagroup', $datafield->getDatagroup());
-                                $options = ElementHelper::arrayToSelectOptions(Item::findAll());
+                                $items = $repositories->item->findAll(new FindValueIterator(
+                                    [new FindValue('datagroup', $datafield->getDatagroup())]
+                                ));
+                                $options = ElementHelper::modelIteratorToOptions($items);
                                 $options[] = [
                                     'value'    => ItemListEnum::OPTION_CURRENT_ITEM,
                                     'label'    => '%FORM_OPTION_ACTIVE_ITEM%',
@@ -138,11 +131,7 @@ class BlockItemlistSubForm implements BlockSubFormInterface
                             );
                             break;
                         default:
-                            $form->_(
-                                'text',
-                                $name,
-                                $fieldName
-                            );
+                            $form->addText($name, $fieldName);
                             break;
                     endswitch;
                 endif;

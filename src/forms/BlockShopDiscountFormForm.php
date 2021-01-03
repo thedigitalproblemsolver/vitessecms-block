@@ -1,31 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace VitesseCms\Block\Forms;
 
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Form\AbstractForm;
+use VitesseCms\Form\Models\Attributes;
 
-/**
- * Class BlockShopDiscountFormForm
- */
 class BlockShopDiscountFormForm extends AbstractForm
 {
-
-    /**
-     * @param AbstractCollection $item
-     */
     public function initialize(AbstractCollection $item)
     {
-        $this->_(
-            'text',
-            'Uw kortingscode',
-            'code',
-            [
-                'required' => 'required',
-            ]
-        )->_(
-            'submit',
-            '%CORE_SAVE%'
-        );
+        $this->addText('Uw kortingscode', 'code',(new Attributes())->setRequired(true))
+            ->addSubmitButton('%CORE_SAVE%');
     }
 }
