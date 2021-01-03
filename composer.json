@@ -17,6 +17,7 @@
     }
   },
   "require": {
-    "vitessecms/vitessecms": "~0.0.16"
+    "vitessecms/vitessecms": "~0.0.16",
+    "vitessecms/admin": "^0.0.3"
   }
 }
