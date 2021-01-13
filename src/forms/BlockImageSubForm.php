@@ -10,6 +10,6 @@ class BlockImageSubForm implements BlockSubFormInterface
 {
     public static function getBlockForm(BlockForm $form, Block $block, RepositoryInterface $repositories): void
     {
-        $form->addUpload('Image', 'image');
+        $form->addFilemanager('Image', 'image');
     }
 }
