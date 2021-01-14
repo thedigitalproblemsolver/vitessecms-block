@@ -15,7 +15,7 @@ class BlockVideoSubForm implements BlockSubFormInterface
             'Video-url',
             'videoUrl',
             (new Attributes())->setRequired(true)->setMultilang(true)
-        )->addUpload(
+        )->addFilemanager(
             'Video-poster',
             'videoPoster',
             (new Attributes())->setMultilang(true)
