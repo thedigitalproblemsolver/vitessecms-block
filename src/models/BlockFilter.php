@@ -4,7 +4,7 @@ namespace VitesseCms\Block\Models;
 
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Content\Models\Item;
-use VitesseCms\Core\Models\Datafield;
+use VitesseCms\Datafield\Models\Datafield;
 use VitesseCms\Core\Models\Datagroup;
 use VitesseCms\Form\Forms\BaseForm;
 use VitesseCms\Media\Enums\AssetsEnum;

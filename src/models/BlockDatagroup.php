@@ -3,7 +3,7 @@
 namespace VitesseCms\Block\Models;
 
 use VitesseCms\Block\AbstractBlockModel;
-use VitesseCms\Core\Repositories\DatafieldRepository;
+use VitesseCms\Datafield\Repositories\DatafieldRepository;
 use VitesseCms\Database\Utils\MongoUtil;
 
 class BlockDatagroup extends AbstractBlockModel
