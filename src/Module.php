@@ -8,7 +8,7 @@ use VitesseCms\Block\Repositories\RepositoryCollection;
 use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Core\AbstractModule;
-use VitesseCms\Core\Repositories\DatafieldRepository;
+use VitesseCms\Datafield\Repositories\DatafieldRepository;
 use VitesseCms\Core\Repositories\DatagroupRepository;
 use Phalcon\DiInterface;
 

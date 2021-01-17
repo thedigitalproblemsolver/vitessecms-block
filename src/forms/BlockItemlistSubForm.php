@@ -8,13 +8,13 @@ use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Content\Models\Item;
 use VitesseCms\Core\Helpers\ItemHelper;
-use VitesseCms\Core\Models\Datafield;
+use VitesseCms\Datafield\Models\Datafield;
 use VitesseCms\Core\Models\Datagroup;
 use VitesseCms\Database\Models\FindValue;
 use VitesseCms\Database\Models\FindValueIterator;
-use VitesseCms\Field\Models\FieldCheckbox;
-use VitesseCms\Field\Models\FieldDatagroup;
-use VitesseCms\Field\Models\FieldPrice;
+use VitesseCms\Datafield\Models\FieldCheckbox;
+use VitesseCms\Datafield\Models\FieldDatagroup;
+use VitesseCms\Datafield\Models\FieldPrice;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 

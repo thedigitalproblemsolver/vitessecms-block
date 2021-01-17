@@ -5,7 +5,7 @@ namespace VitesseCms\Block\Repositories;
 use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Content\Repositories\ItemRepository;
-use VitesseCms\Core\Repositories\DatafieldRepository;
+use VitesseCms\Datafield\Repositories\DatafieldRepository;
 use VitesseCms\Core\Repositories\DatagroupRepository;
 
 class RepositoryCollection implements RepositoryInterface
