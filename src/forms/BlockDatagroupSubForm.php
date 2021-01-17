@@ -6,7 +6,7 @@ use VitesseCms\Block\Interfaces\BlockSubFormInterface;
 use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Core\Models\DatafieldIterator;
-use VitesseCms\Field\Models\FieldDatagroup;
+use VitesseCms\Datafield\Models\FieldDatagroup;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
