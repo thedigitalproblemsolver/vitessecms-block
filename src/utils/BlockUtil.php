@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Block\Utils;
 
-use VitesseCms\Core\Services\ConfigService;
+use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Utils\DirectoryUtil;
 use VitesseCms\Core\Utils\FileUtil;
 
