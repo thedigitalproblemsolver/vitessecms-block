@@ -22,7 +22,7 @@ class BlockShopPaymentResult extends AbstractBlockModel
             !$this->di->user->isLoggedIn()
             || !$this->di->session->get('currentOrderId')
         ) :
-            $this->di->flash->_('USER_NO_ACCESS', 'error');
+            $this->di->flash->setError('USER_NO_ACCESS');
             $this->di->response->redirect($this->di->url->getBaseUri());
         endif;
 
@@ -30,7 +30,7 @@ class BlockShopPaymentResult extends AbstractBlockModel
             Order::setFindPublished(false);
             $order = Order::findById($this->di->session->get('currentOrderId'));
             if ((string)$this->di->user->getId() !== $order->_('shopper')['userId']) :
-                $this->di->flash->_('USER_NO_ACCESS', 'error');
+                $this->di->flash->setError('USER_NO_ACCESS');
                 $this->di->response->redirect($this->di->url->getBaseUri());
             endif;
         endif;
