@@ -45,7 +45,7 @@ class BlockShopCheckoutSummary extends AbstractBlockModel
             $block->set('backLink', $previousStep->_('slug'));
         else :
             $logMessage .= ' user logged out';
-            $this->di->flash->_('USER_NO_ACCESS', 'error');
+            $this->di->flash->setError('USER_NO_ACCESS');
             $this->di->response->setStatusCode(401, 'Unauthorized')->redirect('');
         endif;
 
