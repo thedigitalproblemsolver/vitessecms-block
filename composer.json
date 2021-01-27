@@ -21,6 +21,7 @@
     "vitessecms/admin": "~0.0.11",
     "vitessecms/configuration": "~0.0.7",
     "vitessecms/language": "~0.0.1",
-    "vitessecms/media": "~0.0.1"
+    "vitessecms/media": "~0.0.1",
+    "vitessecms/sef": "~0.0.1"
   }
 }
