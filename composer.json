@@ -23,6 +23,6 @@
     "vitessecms/language": "~0.0.1",
     "vitessecms/media": "~0.0.1",
     "vitessecms/sef": "~0.0.1",
-    "vitessecms/setting": "~0.0.1"
+    "vitessecms/setting": "~0.0.2"
   }
 }
