@@ -24,7 +24,7 @@ class BlockShopCart extends AbstractBlockModel
         parent::parse($block);
 
         $cart = $this->di->shop->cart->getCartFromSession();
-        Item::setFindValue('datagroup', $this->di->setting->_('SHOP_DATAGROUP_CHECKOUT'));
+        Item::setFindValue('datagroup', $this->di->setting->get('SHOP_DATAGROUP_CHECKOUT'));
         $checkoutPage = Item::findFirst();
 
         $template = explode('/', $this->_('template'));
@@ -38,9 +38,9 @@ class BlockShopCart extends AbstractBlockModel
                 break;
             case 'large':
                 if (!$cart->hasProducts()) :
-                    $block->set('EmptyCartPage', Item::findById($this->di->setting->_('SHOP_PAGE_EMPTYCART')));
+                    $block->set('EmptyCartPage', Item::findById($this->di->setting->get('SHOP_PAGE_EMPTYCART')));
                 else :
-                    Item::setFindValue('datagroup', $this->di->setting->_('SHOP_DATAGROUP_PACKING'));
+                    Item::setFindValue('datagroup', $this->di->setting->get('SHOP_DATAGROUP_PACKING'));
                     $block->set('packingItems', Item::findAll());
                     if ($block->_('packingItems')) :
                         $block->set('packingTeaser', '%SHOP_PACKING_TEASER%');
