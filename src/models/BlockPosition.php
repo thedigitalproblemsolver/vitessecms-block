@@ -25,6 +25,11 @@ class BlockPosition extends AbstractCollection
      */
     public $class;
 
+    public function getBlock(): string
+    {
+        return $this->block;
+    }
+
     public function render(
         ViewService $view,
         User $user,
