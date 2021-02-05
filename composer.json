@@ -18,14 +18,15 @@
     }
   },
   "require": {
-    "vitessecms/admin": "~0.0.12",
+    "vitessecms/admin": "~0.0.13",
     "vitessecms/configuration": "~0.0.7",
     "vitessecms/language": "~0.0.1",
     "vitessecms/media": "~0.0.2",
     "vitessecms/sef": "~0.0.1",
     "vitessecms/setting": "~0.0.2",
-    "vitessecms/user": "~0.0.1",
+    "vitessecms/user": "~0.0.2",
     "vitessecms/core": "~0.0.1",
-    "vitessecms/form": "~0.0.5"
+    "vitessecms/form": "~0.0.6",
+    "vitessecms/datafield": "~0.0.4"
   }
 }
