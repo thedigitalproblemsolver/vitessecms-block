@@ -9,7 +9,7 @@ use VitesseCms\Communication\Repositories\NewsletterRepository;
 use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Core\AbstractModule;
 use VitesseCms\Datafield\Repositories\DatafieldRepository;
-use VitesseCms\Core\Repositories\DatagroupRepository;
+use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 use Phalcon\DiInterface;
 
 class Module extends AbstractModule
