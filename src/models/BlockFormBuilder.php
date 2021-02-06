@@ -3,7 +3,7 @@
 namespace VitesseCms\Block\Models;
 
 use VitesseCms\Block\AbstractBlockModel;
-use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Utils\UiUtils;
 use VitesseCms\Form\Forms\BaseForm;

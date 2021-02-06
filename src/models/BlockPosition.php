@@ -6,7 +6,7 @@ use VitesseCms\Block\Helpers\BlockHelper;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Core\Helpers\ItemHelper;
-use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Core\Services\CacheService;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Database\AbstractCollection;

@@ -5,7 +5,7 @@ namespace VitesseCms\Block\Models;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Content\Models\Item;
 use VitesseCms\Core\Helpers\ItemHelper;
-use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Media\Enums\AssetsEnum;
 
 class BlockMainContent extends AbstractBlockModel
