@@ -5,7 +5,7 @@ namespace VitesseCms\Block\Forms;
 use VitesseCms\Block\Interfaces\BlockSubFormInterface;
 use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Block\Models\Block;
-use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
