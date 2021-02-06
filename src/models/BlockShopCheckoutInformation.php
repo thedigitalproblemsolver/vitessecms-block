@@ -5,7 +5,7 @@ namespace VitesseCms\Block\Models;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Content\Models\Item;
 use VitesseCms\Database\AbstractCollection;
-use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Form\Forms\BaseForm;
 use VitesseCms\Shop\Models\Shopper;
 use VitesseCms\User\Forms\LoginForm;

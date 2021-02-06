@@ -5,7 +5,7 @@ namespace VitesseCms\Block\Forms;
 use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Models\BlockPosition;
-use VitesseCms\Core\Models\Datagroup;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
 use VitesseCms\Form\AbstractForm;
