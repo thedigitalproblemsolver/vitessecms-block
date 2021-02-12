@@ -2,13 +2,15 @@
 
 namespace VitesseCms\Block\Listeners;
 
-use VitesseCms\Block\Models\Block;
 use Phalcon\Events\Manager;
+use VitesseCms\Block\Controllers\AdminblockController;
+use VitesseCms\Block\Controllers\AdminblockpositionController;
 
 class InitiateAdminListeners
 {
     public static function setListeners(Manager $eventsManager): void
     {
-        $eventsManager->attach(Block::class, new AdminBlockListener());
+        $eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
+        $eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
     }
 }
