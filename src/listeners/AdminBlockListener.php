@@ -2,12 +2,14 @@
 
 namespace VitesseCms\Block\Listeners;
 
+use Phalcon\Events\Event;
+use VitesseCms\Admin\AbstractAdminController;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Models\BlockLogo;
+use VitesseCms\Admin\Forms\AdminlistFormInterface;
 use VitesseCms\Setting\Enum\CallingNameEnum;
 use VitesseCms\Setting\Enum\TypeEnum;
 use VitesseCms\Setting\Factory\SettingFactory;
-use Phalcon\Events\Event;
 
 class AdminBlockListener
 {
@@ -63,5 +65,20 @@ class AdminBlockListener
         endif;
 
         unset($block->logo_default, $block->logo_mobile, $block->logo_email, $block->favicon);
+    }
+
+    public function adminListFilter(
+        Event $event,
+        AbstractAdminController $controller,
+        AdminlistFormInterface $form
+    ): string
+    {
+        $form->addNameField($form);
+        $form->addPublishedField($form);
+
+        return $form->renderForm(
+            $controller->getLink() . '/' . $controller->router->getActionName(),
+            'adminFilter'
+        );
     }
 }
