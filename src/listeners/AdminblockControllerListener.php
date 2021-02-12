@@ -11,7 +11,7 @@ use VitesseCms\Setting\Enum\CallingNameEnum;
 use VitesseCms\Setting\Enum\TypeEnum;
 use VitesseCms\Setting\Factory\SettingFactory;
 
-class AdminBlockListener
+class AdminblockControllerListener
 {
     public function beforeModelSave(Event $event, Block $block): void
     {
