@@ -21,8 +21,8 @@ class BlockHelper
         $files = $types = [];
 
         $directories = [
-            $rootDir.'../block/src/models/',
-            $accountDir.'src/block/models/',
+            $rootDir.'../block/src/Models/',
+            $accountDir.'src/block/Models/',
         ];
 
         foreach ($directories as $directory) :

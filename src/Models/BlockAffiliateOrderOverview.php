@@ -37,7 +37,7 @@ class BlockAffiliateOrderOverview extends AbstractBlockModel
 
                 $orderList = $this->view->renderTemplate(
                     'affiliate_orderlist',
-                    $this->di->configuration->getRootDir().'template/core/views/partials/shop',
+                    $this->di->configuration->getRootDir().'template/core/Views/partials/shop',
                     [
                         'orderlistOrders' => $pagination->items,
                         'pagination' => $pagination

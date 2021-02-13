@@ -23,7 +23,7 @@ class AdminblockController extends AbstractAdminController implements Repositori
     public function editAction(
         string $itemId = null,
         string $template = 'editForm',
-        string $templatePath = '/core/src/resources/views/admin/',
+        string $templatePath = '/form/src/Resources/views/admin/',
         AbstractForm $form = null
     ): void {
         if ($itemId === null) :
