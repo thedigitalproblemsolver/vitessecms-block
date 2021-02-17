@@ -108,7 +108,7 @@ class BlockService
             ) :
                 $contentExtra = $this->view->renderTemplate(
                     'block_position_toolbar',
-                    $this->configuration->getVendorNameDir().'block/src/resources/views/admin/',
+                    $this->configuration->getVendorNameDir().'block/src/Resources/views/admin/',
                     ['templatePosition' => $templatePosition]
                 );
             endif;
