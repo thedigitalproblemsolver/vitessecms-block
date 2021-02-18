@@ -10,6 +10,7 @@ class InitiateAdminListeners
 {
     public static function setListeners(Manager $eventsManager): void
     {
+        $eventsManager->attach('adminMenu', new AdminMenuListener());
         $eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
         $eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
     }
