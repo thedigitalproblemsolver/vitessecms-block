@@ -23,26 +23,26 @@ class BlockNewsletterSubscribe extends AbstractBlockModel
         parent::parse($block);
 
         $redirect = true;
-        if($this->di->request->get('e')) :
+        if ($this->di->request->get('e')) :
             $email = base64_decode($this->di->request->get('e'));
-            if($email) :
-                foreach((array)$block->_('subscribe') as $newsletterId) :
+            if ($email) :
+                foreach ((array)$block->_('subscribe') as $newsletterId) :
                     $newsletter = Newsletter::findById($newsletterId);
-                    if($newsletter) :
+                    if ($newsletter) :
                         NewsletterHelper::addMemberByEmail($newsletter, $email);
                     endif;
                     $redirect = false;
                 endforeach;
-                foreach((array)$block->_('unsubscribe') as $newsletterId) :
+                foreach ((array)$block->_('unsubscribe') as $newsletterId) :
                     $newsletter = Newsletter::findById($newsletterId);
-                    if($newsletter) :
+                    if ($newsletter) :
                         NewsletterHelper::unsubscribeMemberByEmail($newsletter, $email);
                     endif;
                     $redirect = false;
                 endforeach;
-                foreach((array)$block->_('remove') as $newsletterId) :
+                foreach ((array)$block->_('remove') as $newsletterId) :
                     $newsletter = Newsletter::findById($newsletterId);
-                    if($newsletter) :
+                    if ($newsletter) :
                         NewsletterHelper::removeMemberByEmail($newsletter, $email);
                     endif;
                     $redirect = false;
@@ -50,7 +50,7 @@ class BlockNewsletterSubscribe extends AbstractBlockModel
             endif;
         endif;
 
-        if($redirect && !$this->di->user->hasAdminAccess() ) :
+        if ($redirect && !$this->di->user->hasAdminAccess()) :
             $this->di->response->redirect($this->di->url->getBaseUri())->send();
             die();
         endif;

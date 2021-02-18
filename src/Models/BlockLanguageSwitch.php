@@ -19,16 +19,16 @@ class BlockLanguageSwitch extends AbstractBlockModel
         parent::parse($block);
         $languages = Language::find();
 
-        if($this->view->getVar('currentItem')) :
+        if ($this->view->getVar('currentItem')) :
             $currentItem = $this->view->getVar('currentItem');
             /** @var Language $language */
-            foreach ($languages as $key => $language ):
-                $language->set('slug',$currentItem->_('slug',$language->_('short')));
+            foreach ($languages as $key => $language):
+                $language->set('slug', $currentItem->_('slug', $language->_('short')));
                 $language->set('showDelimiter', true);
-                if($language->_('slug') === '/') :
-                    $language->set('slug',null);
+                if ($language->_('slug') === '/') :
+                    $language->set('slug', null);
                     $language->set('showDelimiter', false);
-                elseif (substr_count($language->_('domain'),'/'.$language->getShortCode().'/')) :
+                elseif (substr_count($language->_('domain'), '/' . $language->getShortCode() . '/')) :
                     $language->set('showDelimiter', false);
                 endif;
             endforeach;

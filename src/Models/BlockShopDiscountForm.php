@@ -21,7 +21,7 @@ class BlockShopDiscountForm extends AbstractBlockModel
         parent::parse($block);
 
         $discount = $this->di->shop->discount->loadFromSession();
-        if($discount) :
+        if ($discount) :
             $block->set(
                 'discountUsedText',
                 $this->di->language->get('SHOP_DISCOUNT_CODE_BEING_USED', [$discount->_('code')])

@@ -33,6 +33,6 @@ class BlockNewsletterSubscriptions extends AbstractBlockModel
             $newletterList = NewsletterList::findById($newsletterListArray['newsletterListId']);
             $newsletterLists[$key]['newsletterListName'] = $newletterList->_('name');
         endforeach;
-        $block->set('newsletterLists',$newsletterLists);
+        $block->set('newsletterLists', $newsletterLists);
     }
 }

@@ -50,7 +50,7 @@ class BlockAffiliateInitialize extends AbstractBlockModel
             $this->di->log->write(
                 new ObjectId($itemId),
                 Item::class,
-                'Affiliate entry for '.$website.' from '.$referer
+                'Affiliate entry for ' . $website . ' from ' . $referer
             );
         endif;
 

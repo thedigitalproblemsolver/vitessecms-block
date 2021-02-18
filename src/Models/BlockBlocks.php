@@ -14,13 +14,13 @@ class BlockBlocks extends AbstractBlockModel
 
         $content = [];
         foreach ((array)$block->_('blocks') as $blockId) :
-            if(MongoUtil::isObjectId($blockId)) :
+            if (MongoUtil::isObjectId($blockId)) :
                 /** @var Block $tmpBlock */
                 $tmpBlock = Block::findById($blockId);
-                if($tmpBlock) :
+                if ($tmpBlock) :
                     $content[] = [
-                        'id'      => $tmpBlock->getId(),
-                        'name'    => $tmpBlock->_('name'),
+                        'id' => $tmpBlock->getId(),
+                        'name' => $tmpBlock->_('name'),
                         'content' => BlockHelper::render(
                             $tmpBlock,
                             $this->di->view,

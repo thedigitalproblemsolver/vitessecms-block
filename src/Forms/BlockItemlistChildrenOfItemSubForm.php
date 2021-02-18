@@ -17,16 +17,16 @@ class BlockItemlistChildrenOfItemSubForm implements BlockSubFormInterface
         $selectedItem = null;
 
         $options = [[
-            'value'    => '',
-            'label'    => '%ADMIN_TYPE_TO_SEARCH%',
+            'value' => '',
+            'label' => '%ADMIN_TYPE_TO_SEARCH%',
             'selected' => false,
         ]];
         if ($block->_('item')) :
             $selectedItem = $repositories->item->getById($block->_('item'));
             $itemPath = ItemHelper::getPathFromRoot($selectedItem);
             $options[] = [
-                'value'    => (string)$selectedItem->getId(),
-                'label'    => implode(' - ', $itemPath),
+                'value' => (string)$selectedItem->getId(),
+                'label' => implode(' - ', $itemPath),
                 'selected' => true,
 
             ];

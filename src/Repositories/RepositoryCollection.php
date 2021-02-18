@@ -47,12 +47,13 @@ class RepositoryCollection implements RepositoryInterface
         DatagroupRepository $datagroupRepository,
         ItemRepository $itemRepository,
         DatafieldRepository $datafieldRepository
-    ) {
+    )
+    {
         $this->blockPosition = $blockPositionRepository;
         $this->block = $blockRepository;
         $this->newsletter = $newsletterRepository;
         $this->datagroup = $datagroupRepository;
-        $this->item  = $itemRepository;
+        $this->item = $itemRepository;
         $this->datafield = $datafieldRepository;
     }
 }

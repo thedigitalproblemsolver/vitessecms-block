@@ -15,7 +15,6 @@ class BlockFormBuilderFactory
             ->setNewsletters($block->_('newsletters'))
             ->setUseRecaptcha((bool)$block->_('useRecaptcha'))
             ->setName($block->getRaw('name'))
-            ->setSystemThankyou($block->getRaw('systemThankyou'))
-            ;
+            ->setSystemThankyou($block->getRaw('systemThankyou'));
     }
 }

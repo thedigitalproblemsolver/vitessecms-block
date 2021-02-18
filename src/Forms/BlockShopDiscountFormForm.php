@@ -10,7 +10,7 @@ class BlockShopDiscountFormForm extends AbstractForm
 {
     public function initialize(AbstractCollection $item)
     {
-        $this->addText('Uw kortingscode', 'code',(new Attributes())->setRequired(true))
+        $this->addText('Uw kortingscode', 'code', (new Attributes())->setRequired(true))
             ->addSubmitButton('%CORE_SAVE%');
     }
 }

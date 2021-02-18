@@ -14,6 +14,6 @@ interface BlockModelInterface
     public function loadAssets(Block $block): void;
 
     public function getCacheKey(Block $block): string;
-    
+
     public function setExcludeFromCache(bool $value): BlockModelInterface;
 }

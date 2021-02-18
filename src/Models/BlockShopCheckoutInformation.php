@@ -31,7 +31,7 @@ class BlockShopCheckoutInformation extends AbstractBlockModel
 
             if (!$shopper) :
                 $this->di->flash->error('We are missing some addres information. Please fil in this form');
-                $this->di->response->redirect($this->di->url->getBaseUri().'shop/shopper/edit/');
+                $this->di->response->redirect($this->di->url->getBaseUri() . 'shop/shopper/edit/');
                 $logMessage .= ' but shopper is missing';
                 $this->di->view->disable();
             else :
@@ -62,7 +62,7 @@ class BlockShopCheckoutInformation extends AbstractBlockModel
             /** @var Datagroup $datagroup */
             $datagroup = Datagroup::findById($this->di->setting->get('SHOP_DATAGROUP_REGISTRATIONFORM'));
             $datagroup->buildItemForm($formRegistration);
-            $formRegistration->_('submit', '%FORM_SUBMIT% %CORE_AND% %CORE_TO% '.strtolower($nextStep->_('name')));
+            $formRegistration->_('submit', '%FORM_SUBMIT% %CORE_AND% %CORE_TO% ' . strtolower($nextStep->_('name')));
 
             $formLogin = new LoginForm();
 

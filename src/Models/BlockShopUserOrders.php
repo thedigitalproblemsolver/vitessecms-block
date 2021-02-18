@@ -20,19 +20,19 @@ class BlockShopUserOrders extends AbstractBlockModel
     {
         parent::parse($block);
 
-        if($this->di->user->isLoggedIn()) :
+        if ($this->di->user->isLoggedIn()) :
             Order::setFindPublished(false);
             Order::setFindValue(
                 'shopper.user._id',
                 new ObjectID((string)$this->di->user->getId())
             );
-            Order::addFindOrder('orderId',-1);
+            Order::addFindOrder('orderId', -1);
             $orders = Order::findAll();
             $pagination = PaginatonFactory::createFromArray($orders, $this->di->request, $this->di->url);
 
             $orderList = $this->view->renderTemplate(
                 'affiliate_orderlist',
-                $this->di->configuration->getRootDir().'template/core/Views/partials/shop',
+                $this->di->configuration->getRootDir() . 'template/core/Views/partials/shop',
                 [
                     'orderlistOrders' => $pagination->items,
                     'pagination' => $pagination

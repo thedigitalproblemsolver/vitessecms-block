@@ -13,7 +13,8 @@ class BlockFactory
         array $blockSettings = [],
         bool $published = false,
         int $ordering = 0
-    ): Block {
+    ): Block
+    {
         $block = new Block();
         $block->set('name', $title, true);
         $block->set('block', $blockType);

@@ -35,7 +35,8 @@ class BlockPosition extends AbstractCollection
         User $user,
         BlockRepository $blockRepository,
         CacheService $cacheService
-    ): string {
+    ): string
+    {
         $return = '';
 
         $block = $blockRepository->getById($this->block);
@@ -48,12 +49,12 @@ class BlockPosition extends AbstractCollection
                     || PermissionUtils::check($user, 'block', 'adminblockposition', 'edit')
                 )
             ) :
-                $return = $this->getEditElements($view, $user, (string)$block->getId()).$return;
+                $return = $this->getEditElements($view, $user, (string)$block->getId()) . $return;
             endif;
 
             if (!empty($this->class) || !empty($block->getClass())) :
-                $return = '<div '.HtmlHelper::makeAttribute([$block->getClass(), $this->class], 'class').'>'.
-                    $return.
+                $return = '<div ' . HtmlHelper::makeAttribute([$block->getClass(), $this->class], 'class') . '>' .
+                    $return .
                     '</div>';
             endif;
         endif;
@@ -66,23 +67,23 @@ class BlockPosition extends AbstractCollection
         $publishedIcon = ItemHelper::getPublishIcon($this->isPublished(), true);
 
         $return = '<div class="blockposition-toolbar">
-                Block : '.$this->getNameField().'
+                Block : ' . $this->getNameField() . '
                 <div class="btn-group" role="group">';
         if (PermissionUtils::check($user, 'block', 'adminblock', 'edit')) :
             $return .= '<a
                             class="fa fa-edit btn btn-info openmodal"
-                            href="admin/block/adminblock/edit/'.$blockId.'"
+                            href="admin/block/adminblock/edit/' . $blockId . '"
                         ></a>';
         endif;
         if (PermissionUtils::check($user, 'block', 'adminblockposition', 'edit')) :
             $return .= '<a
-                            id="publish-toggle-'.$this->getId().'"
-                            class="'.$publishedIcon.'"
-                            href="'.$this->di->url->getBaseUri().'admin/block/adminblockposition/togglepublish/'.$this->getId().'"
+                            id="publish-toggle-' . $this->getId() . '"
+                            class="' . $publishedIcon . '"
+                            href="' . $this->di->url->getBaseUri() . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
                         ></a>
                         <a
                             class="fa fa-trash btn btn-danger"
-                            href="'.$this->di->url->getBaseUri().'admin/block/adminblockposition/delete/'.$this->getId().'"
+                            href="' . $this->di->url->getBaseUri() . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
                         ></a>';
         endif;
         $return .= '</div>';
@@ -96,18 +97,18 @@ class BlockPosition extends AbstractCollection
             endif;
 
             $return .= '<form
-                        action="admin/block/adminblockposition/setdatagroup/'.$this->getId().'"
+                        action="admin/block/adminblockposition/setdatagroup/' . $this->getId() . '"
                         method="post"
                         class="adminform-datagroup"
                     >
                     <select name="datagroup[]" multiple="multiple" >
-                        <option value="all" '.$selected.' >All</option>';
+                        <option value="all" ' . $selected . ' >All</option>';
             if ($view->getVar('currentId')) :
                 $selectedPage = '';
-                if (\in_array('page:'.$view->getVar('currentId'), (array)$this->_('datagroup'))) :
+                if (\in_array('page:' . $view->getVar('currentId'), (array)$this->_('datagroup'))) :
                     $selectedPage = ' selected="selected" ';
                 endif;
-                $return .= '<option value="page:'.$view->getVar('currentId').'" '.$selectedPage.' >Only on current page</option>';
+                $return .= '<option value="page:' . $view->getVar('currentId') . '" ' . $selectedPage . ' >Only on current page</option>';
             endif;
             /** @var Datagroup $datagroup */
             foreach ($datagroups as $datagroup) :
@@ -116,10 +117,10 @@ class BlockPosition extends AbstractCollection
                     $selected = ' selected="selected" ';
                 endif;
                 $return .= '<option 
-                                value="'.$datagroup->getId().'"
-                                '.$selected.'
-                            >'.
-                    $datagroup->getNameField().'
+                                value="' . $datagroup->getId() . '"
+                                ' . $selected . '
+                            >' .
+                    $datagroup->getNameField() . '
                             </option>';
             endforeach;
             $return .= '</select><br />

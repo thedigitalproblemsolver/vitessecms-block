@@ -106,16 +106,6 @@ class BlockFormBuilder extends AbstractBlockModel
         return $this->useRecaptcha;
     }
 
-    public function getDatagroup(): string
-    {
-        return $this->datagroup;
-    }
-
-    public function getNewsletters(): array
-    {
-        return $this->newsletters;
-    }
-
     public function setUseRecaptcha(bool $useRecaptcha): BlockFormBuilder
     {
         $this->useRecaptcha = $useRecaptcha;
@@ -123,16 +113,26 @@ class BlockFormBuilder extends AbstractBlockModel
         return $this;
     }
 
-    public function setNewsletters(array $newsletters): BlockFormBuilder
+    public function getDatagroup(): string
     {
-        $this->newsletters = $newsletters;
-
-        return $this;
+        return $this->datagroup;
     }
 
     public function setDatagroup(string $datagroup): BlockFormBuilder
     {
         $this->datagroup = $datagroup;
+
+        return $this;
+    }
+
+    public function getNewsletters(): array
+    {
+        return $this->newsletters;
+    }
+
+    public function setNewsletters(array $newsletters): BlockFormBuilder
+    {
+        $this->newsletters = $newsletters;
 
         return $this;
     }
@@ -146,7 +146,7 @@ class BlockFormBuilder extends AbstractBlockModel
 
     public function getSystemThankyouByShortCode(string $shortCode): ?string
     {
-        if($this->systemThankyou !== null && !empty($this->systemThankyou[$shortCode])) :
+        if ($this->systemThankyou !== null && !empty($this->systemThankyou[$shortCode])) :
             return $this->systemThankyou[$shortCode];
         endif;
 

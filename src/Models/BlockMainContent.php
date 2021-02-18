@@ -37,11 +37,33 @@ class BlockMainContent extends AbstractBlockModel
     }
 
     //TODO verplaaten naar??
-    protected function setMetaInformation(Item $item): void
+
+    /**
+     * @TODO hoe dit flexibel op te lossen? ? accoutn evente listener
+     */
+    protected function fixBloembollen(): void
     {
-        $this->view->set('metaTitle', $item->_('name'));
-        $this->view->set('metaKeywords', $item->_('name'));
-        $this->view->set('metaDescription', $item->_('introtext'));
+        if (
+            $this->view->getVar('currentItem')
+            && substr_count($this->view->getVar('currentItem')->_('bodytext'), 'bloembollenkopen') > 0
+        ) :
+            $bodyText = $this->view->getVar('currentItem')->_('bodytext');
+            $bodyText = str_replace(
+                ['href=http://www.bloembollenkopen.nl', '.html>'],
+                [
+                    'href="http://www.bloembollenkopen.nl/bol/?tt=4889_253953_258885_&r=http://www.bloembollenkopen.nl',
+                    '.html" target="_blank" rel="nofollow" >',
+                ],
+                $bodyText
+            );
+
+            $this->view->getVar('currentItem')->set(
+                'bodytext',
+                $bodyText,
+                true,
+                $this->di->configuration->getLanguageShort()
+            );
+        endif;
     }
 
     protected function extendBlock(Datagroup $datagroup, Block $block): void
@@ -96,6 +118,13 @@ class BlockMainContent extends AbstractBlockModel
         $block->set('imageFullWidth', true);
     }
 
+    protected function setMetaInformation(Item $item): void
+    {
+        $this->view->set('metaTitle', $item->_('name'));
+        $this->view->set('metaKeywords', $item->_('name'));
+        $this->view->set('metaDescription', $item->_('introtext'));
+    }
+
     public function loadAssets(Block $block): void
     {
         parent::parse($block);
@@ -111,34 +140,6 @@ class BlockMainContent extends AbstractBlockModel
             if (substr_count($datagroup->_('template'), 'shop_clothing_design_overview')) :
                 $this->di->assets->load(AssetsEnum::LAZYLOAD);
             endif;
-        endif;
-    }
-
-    /**
-     * @TODO hoe dit flexibel op te lossen? ? accoutn evente listener
-     */
-    protected function fixBloembollen(): void
-    {
-        if (
-            $this->view->getVar('currentItem')
-            && substr_count($this->view->getVar('currentItem')->_('bodytext'), 'bloembollenkopen') > 0
-        ) :
-            $bodyText = $this->view->getVar('currentItem')->_('bodytext');
-            $bodyText = str_replace(
-                ['href=http://www.bloembollenkopen.nl', '.html>'],
-                [
-                    'href="http://www.bloembollenkopen.nl/bol/?tt=4889_253953_258885_&r=http://www.bloembollenkopen.nl',
-                    '.html" target="_blank" rel="nofollow" >',
-                ],
-                $bodyText
-            );
-
-            $this->view->getVar('currentItem')->set(
-                'bodytext',
-                $bodyText,
-                true,
-                $this->di->configuration->getLanguageShort()
-            );
         endif;
     }
 

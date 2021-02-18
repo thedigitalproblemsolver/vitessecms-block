@@ -28,21 +28,21 @@ class Block extends AbstractCollection
 
     public function getClass(): string
     {
-        return $this->class??'';
+        return $this->class ?? '';
     }
 
     public function getMaincontentWrapper(): string
     {
-        return $this->maincontentWrapper??'';
+        return $this->maincontentWrapper ?? '';
     }
 
     public function getTemplate(): string
     {
-        return $this->template??'';
+        return $this->template ?? '';
     }
 
     public function getBlock(): string
     {
-        return $this->block?str_replace('Modules','VitesseCms',$this->block):'';
+        return $this->block ? str_replace('Modules', 'VitesseCms', $this->block) : '';
     }
 }

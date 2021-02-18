@@ -20,28 +20,27 @@ class BlockFilter extends AbstractBlockModel
         $filter = new BaseForm();
         $filter->setLabelAsPlaceholder((bool)$block->_('labelAsPlaceholder'));
 
-        $templateParts = explode('/',$block->_('template'));
+        $templateParts = explode('/', $block->_('template'));
         $templateParts = array_reverse($templateParts);
-        $templatePath = $this->di->config->get('defaultTemplateDir').
-            'views/blocks/Filter/'.
-            ucfirst($templateParts[0])
-        ;
+        $templatePath = $this->di->config->get('defaultTemplateDir') .
+            'views/blocks/Filter/' .
+            ucfirst($templateParts[0]);
 
-        $filter->_('html',null,null,[
-            'html' => $this->view->renderTemplate('_filter_form',$templatePath)
+        $filter->_('html', null, null, [
+            'html' => $this->view->renderTemplate('_filter_form', $templatePath)
         ]);
 
-        $filter->_('htmlraw',null,null,[
-            'html' => $this->view->renderTemplate('_filter_container_start',$templatePath)
+        $filter->_('htmlraw', null, null, [
+            'html' => $this->view->renderTemplate('_filter_container_start', $templatePath)
         ]);
 
-        if(substr_count(strtolower($templateParts[0]),'horizontal')) :
+        if (substr_count(strtolower($templateParts[0]), 'horizontal')) :
             $filter->setFormTemplate('form_horizontal');
         endif;
 
-        foreach((array)$block->_('searchGroups') as $searchGroupId) :
+        foreach ((array)$block->_('searchGroups') as $searchGroupId) :
             $datagroup = Datagroup::findById($searchGroupId);
-            foreach ( (array)$datagroup->_('datafields') as $field) :
+            foreach ((array)$datagroup->_('datafields') as $field) :
                 if (!empty($field['filterable'])) :
                     $datafield = Datafield::findById($field['id']);
                     /** @var Datafield $datafield */
@@ -52,13 +51,13 @@ class BlockFilter extends AbstractBlockModel
             endforeach;
         endforeach;
 
-        $filter->_('htmlraw', null,null, [
-            'html' => $this->view->renderTemplate('_filter_container_end',$templatePath)
+        $filter->_('htmlraw', null, null, [
+            'html' => $this->view->renderTemplate('_filter_container_end', $templatePath)
         ]);
-        $filter->_('hidden',null,'searchGroups', ['value' => implode(',',$ids)]);
-        $filter->_('hidden',null,'firstRun', ['value' => true]);
+        $filter->_('hidden', null, 'searchGroups', ['value' => implode(',', $ids)]);
+        $filter->_('hidden', null, 'firstRun', ['value' => true]);
 
-        BlockPosition::setFindValue('datagroup', ['$in' => ['page:'.$block->_('targetPage')]]);
+        BlockPosition::setFindValue('datagroup', ['$in' => ['page:' . $block->_('targetPage')]]);
         $resultBlockPosition = BlockPosition::findFirst();
 
         Block::setFindValue('_id', new ObjectID($resultBlockPosition->_('block')));
@@ -66,7 +65,7 @@ class BlockFilter extends AbstractBlockModel
         $filter->_('hidden', null, 'blockId', ['value' => (string)$resultBlock->getId()]);
 
         $item = Item::findById($block->_('targetPage'));
-        $block->set('filter',$filter->renderForm(
+        $block->set('filter', $filter->renderForm(
             $item->_('slug'),
             'filter'
         ));

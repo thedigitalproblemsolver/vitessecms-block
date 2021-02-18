@@ -65,19 +65,18 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     {
         $reflect = new \ReflectionClass($this);
         /** @var BlockSubFormInterface $class */
-        $class = 'VitesseCms\\Block\\Forms\\'.$reflect->getShortName().'SubForm';
-        if(class_exists($class)) :
+        $class = 'VitesseCms\\Block\\Forms\\' . $reflect->getShortName() . 'SubForm';
+        if (class_exists($class)) :
             $class::getBlockForm($form, $item, $repositories);
         endif;
 
-        $class = 'VitesseCms\\'.
-            ucwords($form->configuration->getAccount()).
-            '\\Block\\Forms\\'.
-            $reflect->getShortName().
-            'SubForm'
-        ;
+        $class = 'VitesseCms\\' .
+            ucwords($form->configuration->getAccount()) .
+            '\\Block\\Forms\\' .
+            $reflect->getShortName() .
+            'SubForm';
 
-        if(class_exists($class)) :
+        if (class_exists($class)) :
             $class::getBlockForm($form, $item, $repositories);
         endif;
     }
@@ -103,6 +102,6 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
 
     public function getTemplate(): string
     {
-        return $this->template??'core';
+        return $this->template ?? 'core';
     }
 }

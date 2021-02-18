@@ -30,8 +30,8 @@ class BlockItemlistSubForm implements BlockSubFormInterface
             '%ADMIN_ITEM_ORDER_DISPLAY%',
             'displayOrdering',
             (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions([
-                'ordering'  => '%ADMIN_ITEM_ORDER_ORDERING%',
-                'name'      => '%ADMIN_ITEM_ORDER_NAME%',
+                'ordering' => '%ADMIN_ITEM_ORDER_ORDERING%',
+                'name' => '%ADMIN_ITEM_ORDER_NAME%',
                 'createdAt' => '%ADMIN_ITEM_ORDER_CREATED%',
             ]))
         )->addDropdown(
@@ -49,8 +49,8 @@ class BlockItemlistSubForm implements BlockSubFormInterface
             );
 
         $options = [[
-            'value'    => '',
-            'label'    => '%ADMIN_TYPE_TO_SEARCH%',
+            'value' => '',
+            'label' => '%ADMIN_TYPE_TO_SEARCH%',
             'selected' => false,
         ]];
         if ($block->_('readmoreItem')) :
@@ -58,8 +58,8 @@ class BlockItemlistSubForm implements BlockSubFormInterface
             if ($selectedItem !== null):
                 $itemPath = ItemHelper::getPathFromRoot($selectedItem);
                 $options[] = [
-                    'value'    => (string)$selectedItem->getId(),
-                    'label'    => implode(' - ', $itemPath),
+                    'value' => (string)$selectedItem->getId(),
+                    'label' => implode(' - ', $itemPath),
                     'selected' => true,
                 ];
             endif;
@@ -78,12 +78,12 @@ class BlockItemlistSubForm implements BlockSubFormInterface
     {
         $datagroup = $repositories->datagroup->getById($datagroupId);
         if ($datagroup !== null) :
-            $form->addHtml('<h2>'.$datagroup->_('name').'</h2>');
+            $form->addHtml('<h2>' . $datagroup->_('name') . '</h2>');
             foreach ($datagroup->getDatafields() as $datafieldOptions) :
                 /** @var Datafield $datafield */
                 $datafield = $repositories->datafield->getById($datafieldOptions['id']);
                 if ($datafield !== null) :
-                    $fieldName = 'datafieldValue['.$datafield->getCallingName().']';
+                    $fieldName = 'datafieldValue[' . $datafield->getCallingName() . ']';
                     $name = $datafield->getNameField();
                     switch ($datafield->getFieldType()):
                         case 'FieldCheckbox':
@@ -92,23 +92,23 @@ class BlockItemlistSubForm implements BlockSubFormInterface
                                 $name,
                                 $fieldName,
                                 (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions([
-                                    'both'        => 'selected or not selected',
-                                    'selected'    => 'selected',
+                                    'both' => 'selected or not selected',
+                                    'selected' => 'selected',
                                     'notSelected' => 'not selected',
                                 ])
-                            ));
+                                ));
                             break;
                         case 'FieldPrice':
                         case FieldPrice::class:
                             $form->addDropdown(
-                                $name.' discount',
+                                $name . ' discount',
                                 'datafieldValue[discount]',
-                                ( new Attributes())->setOptions(ElementHelper::arrayToSelectOptions([
+                                (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions([
                                     'bothEmpty' => 'empty or not empty',
-                                    'empty'     => 'empty',
-                                    'notEmpty'  => 'not empty',
+                                    'empty' => 'empty',
+                                    'notEmpty' => 'not empty',
                                 ])
-                            ));
+                                ));
                             break;
                         case 'FieldDatagroup':
                         case FieldDatagroup::class:
@@ -119,8 +119,8 @@ class BlockItemlistSubForm implements BlockSubFormInterface
                                 ));
                                 $options = ElementHelper::modelIteratorToOptions($items);
                                 $options[] = [
-                                    'value'    => ItemListEnum::OPTION_CURRENT_ITEM,
-                                    'label'    => '%FORM_OPTION_ACTIVE_ITEM%',
+                                    'value' => ItemListEnum::OPTION_CURRENT_ITEM,
+                                    'label' => '%FORM_OPTION_ACTIVE_ITEM%',
                                     'selected' => null,
                                 ];
                             }

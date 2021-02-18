@@ -60,14 +60,14 @@ class BlockShopPaymentResult extends AbstractBlockModel
                         endif;
                         break;
                     default:
-                        $block->set('trigger'.ucfirst($trigger), true);
+                        $block->set('trigger' . ucfirst($trigger), true);
                 endswitch;
             endforeach;
 
             $this->di->log->write(
                 $order->getId(),
                 Order::class,
-                'Order '.$order->_('orderId').' thankyou with orderstate '.$orderState->_('calling_name')
+                'Order ' . $order->_('orderId') . ' thankyou with orderstate ' . $orderState->_('calling_name')
             );
         else :
             $this->di->flash->error('Order could not be found');

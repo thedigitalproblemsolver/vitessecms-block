@@ -17,20 +17,20 @@ class NewBlockForm extends AbstractForm
             'name',
             (new Attributes())->setRequired(true)->setMultilang(true)
         )
-        ->addText('%ADMIN_CSS_CLASS%', 'class')
-        ->addDropdown(
-            '%ADMIN_BLOCK%',
-            'block',
-            (new Attributes())->setRequired(true)
-                ->setOptions(
-                    ElementHelper::arrayToSelectOptions(
-                        BlockHelper::getTypes(
-                            $this->configuration->getRootDir(),
-                            $this->configuration->getAccountDir()
+            ->addText('%ADMIN_CSS_CLASS%', 'class')
+            ->addDropdown(
+                '%ADMIN_BLOCK%',
+                'block',
+                (new Attributes())->setRequired(true)
+                    ->setOptions(
+                        ElementHelper::arrayToSelectOptions(
+                            BlockHelper::getTypes(
+                                $this->configuration->getRootDir(),
+                                $this->configuration->getAccountDir()
+                            )
                         )
                     )
-                )
-        )->addSubmitButton('%CORE_SAVE%');
+            )->addSubmitButton('%CORE_SAVE%');
 
         return $this;
     }

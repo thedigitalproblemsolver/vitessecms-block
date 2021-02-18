@@ -28,7 +28,7 @@ class BlockFilterResult extends AbstractBlockModel
 
         if ($this->di->request->isAjax()) :
             $return = [];
-            if($this->di->request->getPost('firstRun') === '1') :
+            if ($this->di->request->getPost('firstRun') === '1') :
                 $return['results'] = [];
                 $return['heading'] = [$languageShort => $block->_('heading')];
                 $return['introtext'] = [$languageShort => $block->_('introtext')];
@@ -37,13 +37,13 @@ class BlockFilterResult extends AbstractBlockModel
                 unset($post['csrf']);
                 $cacheKey = $this->di->cache->getCacheKey($post);
                 $items = $this->di->cache->get($cacheKey);
-                if(!$items) :
+                if (!$items) :
                     $items = $this->getItems();
                     $this->di->cache->save($cacheKey, $items);
                 endif;
 
                 $return['results'] = $items;
-                if ( \count($return['results']) === 0 ) :
+                if (\count($return['results']) === 0) :
                     $return['noresultText'] = SefHelper::parsePlaceholders(
                         $block->_('noresultText'),
                         $this->view->getVar('currentId')
@@ -84,7 +84,7 @@ class BlockFilterResult extends AbstractBlockModel
                 foreach ((array)$results['hits']['hits'] as $hit) :
                     $ids[] = new ObjectID($hit['_id']);
                 endforeach;
-                Item::addFindOrder('name',1);
+                Item::addFindOrder('name', 1);
                 Item::setFindValue('_id', ['$in' => $ids]);
 
                 $items = Item::findAll();

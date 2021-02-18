@@ -13,14 +13,14 @@ class BlockPositionFactory
         $datagroupId,
         bool $published = false,
         int $ordering = 0
-    ): BlockPosition {
+    ): BlockPosition
+    {
         return (new BlockPosition())
             ->set('name', $title, true)
             ->set('block', $blockId)
             ->set('position', $position)
             ->set('datagroup', $datagroupId)
             ->set('published', $published)
-            ->set('ordering', $ordering)
-            ;
+            ->set('ordering', $ordering);
     }
 }

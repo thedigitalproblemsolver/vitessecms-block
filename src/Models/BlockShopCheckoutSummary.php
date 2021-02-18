@@ -23,9 +23,9 @@ class BlockShopCheckoutSummary extends AbstractBlockModel
 
         $logMessage = 'Checkout summary';
         if ($this->di->user->isLoggedIn()):
-            Shopper::setFindValue('userId',(string)$this->di->user->getId());
+            Shopper::setFindValue('userId', (string)$this->di->user->getId());
             $shopper = Shopper::findFirst();
-            if(!$shopper) :
+            if (!$shopper) :
                 $this->di->flash->error('We are missing some addres information. Please fil in this form');
                 $this->di->response->redirect('shop/shopper/edit/');
                 $logMessage .= ' but shopper is missing';

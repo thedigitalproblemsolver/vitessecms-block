@@ -14,7 +14,7 @@ class BlockRepository
 
         /** @var Block $block */
         $block = Block::findById($id);
-        if(is_object($block)):
+        if (is_object($block)):
             return $block;
         endif;
 
@@ -24,7 +24,8 @@ class BlockRepository
     public function findAll(
         ?FindValueIterator $findValues = null,
         bool $hideUnpublished = true
-    ): BlockIterator {
+    ): BlockIterator
+    {
         Block::setFindPublished($hideUnpublished);
         Block::addFindOrder('name');
         $this->parsefindValues($findValues);

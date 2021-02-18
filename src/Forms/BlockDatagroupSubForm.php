@@ -34,7 +34,7 @@ class BlockDatagroupSubForm implements BlockSubFormInterface
                         endif;
                     endif;
                 endforeach;
-                if($datafieldsIterator->count()) :
+                if ($datafieldsIterator->count()) :
                     $form->addDropdown(
                         '%ADMIN_DATAFIELD%',
                         'datafield',

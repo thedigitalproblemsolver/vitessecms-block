@@ -25,7 +25,8 @@ class AdminblockController extends AbstractAdminController implements Repositori
         string $template = 'editForm',
         string $templatePath = '/form/src/Resources/views/admin/',
         AbstractForm $form = null
-    ): void {
+    ): void
+    {
         if ($itemId === null) :
             parent::editAction($itemId, $template, $templatePath, (new NewBlockForm())->build());
         else :
@@ -39,7 +40,8 @@ class AdminblockController extends AbstractAdminController implements Repositori
         ?string $itemId = null,
         AbstractCollection $block = null,
         AbstractForm $form = null
-    ): void {
+    ): void
+    {
         if ($itemId === null) :
             parent::saveAction($itemId, null, (new NewBlockForm())->build());
         else :

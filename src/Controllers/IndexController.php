@@ -14,7 +14,7 @@ class IndexController extends AbstractAdminController implements RepositoriesInt
     {
         if ($this->request->isAjax()) :
             $block = $this->repositories->block->getById($this->request->get('blockId'));
-            if($block instanceof Block) :
+            if ($block instanceof Block) :
                 $this->prepareJson(BlockHelper::renderAjax($block, $this->view));
             endif;
         endif;
@@ -24,7 +24,7 @@ class IndexController extends AbstractAdminController implements RepositoriesInt
     {
         if ($this->request->isAjax()) :
             $block = $this->repositories->block->getById($this->request->get('blockId'));
-            if($block instanceof Block) :
+            if ($block instanceof Block) :
                 $object = $block->getBlock();
 
                 /** @var AbstractBlockModel $item */

@@ -107,40 +107,6 @@ class BlockItemlist extends AbstractBlockModel
         endif;
     }
 
-    public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void
-    {
-        parent::buildBlockForm($form, $item, $repositories);
-
-        switch ($item->_('listMode')) :
-            case ItemListEnum::LISTMODE_HANDPICKED:
-                BlockItemlistHandpickedSubForm::getBlockForm($form, $item, $this->di->repositories);
-                break;
-            case ItemListEnum::LISTMODE_CHILDREN_OF_ITEM:
-                BlockItemlistChildrenOfItemSubForm::getBlockForm($form, $item, $this->di->repositories);
-                break;
-            case ItemListEnum::LISTMODE_DATAGROUPS:
-                BlockItemlistDatagroupSubForm::getBlockForm($form, $item, $this->di->repositories);
-                break;
-        endswitch;
-
-        if (
-            substr_count($item->_('template'), 'card_two_columns')
-            || substr_count($item->_('template'), 'card_three_columns')
-            || substr_count($item->_('template'), 'card_four_columns')
-        ):
-            $form->addToggle('Image fullwidth', 'imageFullWidth')
-                ->addToggle('Hide intro text', 'hideIntroText');
-        endif;
-    }
-
-    protected function parseReadmore(Block $block): void
-    {
-        if ($block->_('readmoreItem')) :
-            $item = Item::findById($block->_('readmoreItem'));
-            $block->set('readmoreItem', $item);
-        endif;
-    }
-
     protected function setItemDefaults(Block $block): void
     {
         if (!empty($block->_('displayOrdering'))) :
@@ -201,6 +167,40 @@ class BlockItemlist extends AbstractBlockModel
                     endif;
                 endif;
             endforeach;
+        endif;
+    }
+
+    protected function parseReadmore(Block $block): void
+    {
+        if ($block->_('readmoreItem')) :
+            $item = Item::findById($block->_('readmoreItem'));
+            $block->set('readmoreItem', $item);
+        endif;
+    }
+
+    public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void
+    {
+        parent::buildBlockForm($form, $item, $repositories);
+
+        switch ($item->_('listMode')) :
+            case ItemListEnum::LISTMODE_HANDPICKED:
+                BlockItemlistHandpickedSubForm::getBlockForm($form, $item, $this->di->repositories);
+                break;
+            case ItemListEnum::LISTMODE_CHILDREN_OF_ITEM:
+                BlockItemlistChildrenOfItemSubForm::getBlockForm($form, $item, $this->di->repositories);
+                break;
+            case ItemListEnum::LISTMODE_DATAGROUPS:
+                BlockItemlistDatagroupSubForm::getBlockForm($form, $item, $this->di->repositories);
+                break;
+        endswitch;
+
+        if (
+            substr_count($item->_('template'), 'card_two_columns')
+            || substr_count($item->_('template'), 'card_three_columns')
+            || substr_count($item->_('template'), 'card_four_columns')
+        ):
+            $form->addToggle('Image fullwidth', 'imageFullWidth')
+                ->addToggle('Hide intro text', 'hideIntroText');
         endif;
     }
 

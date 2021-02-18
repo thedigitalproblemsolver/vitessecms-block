@@ -17,7 +17,7 @@ class BlockPositionRepository
 
         /** @var BlockPosition $blockPosition */
         $blockPosition = BlockPosition::findById($id);
-        if(is_object($blockPosition)):
+        if (is_object($blockPosition)):
             return $blockPosition;
         endif;
 
@@ -33,7 +33,7 @@ class BlockPositionRepository
             ]),
             true,
             null,
-            new FindOrderIterator([new FindOrder('ordering',1)])
+            new FindOrderIterator([new FindOrder('ordering', 1)])
         );
     }
 
@@ -42,13 +42,14 @@ class BlockPositionRepository
         bool $hideUnpublished = true,
         ?int $limit = null,
         ?FindOrderIterator $findOrders = null
-    ): BlockPositionIterator {
+    ): BlockPositionIterator
+    {
         BlockPosition::setFindPublished($hideUnpublished);
-        if($limit !== null) :
+        if ($limit !== null) :
             BlockPosition::setFindLimit($limit);
         endif;
-        if($findOrders === null):
-            $findOrders = new FindOrderIterator([new FindOrder('name',1)]);
+        if ($findOrders === null):
+            $findOrders = new FindOrderIterator([new FindOrder('name', 1)]);
         endif;
 
         $this->parseFindValues($findValues);

@@ -39,7 +39,7 @@ class BlockPositionForm extends AbstractFormWithRepository
                 (new Attributes())
                     ->setRequired(true)
                     ->setOptions(ElementHelper::modelIteratorToOptions($this->repositories->block->findAll())
-                )
+                    )
             )->addDropdown(
                 '%ADMIN_POSITION%',
                 'position',
@@ -55,7 +55,7 @@ class BlockPositionForm extends AbstractFormWithRepository
             !is_array($this->item->_('datagroup'))
             && substr_count($this->item->_('datagroup'), 'page:') === 0
         ) :
-            $datagroups = $this->repositories->datagroup->findAll(null,false);
+            $datagroups = $this->repositories->datagroup->findAll(null, false);
             $dataGroupOptions = ['all' => 'All'];
             while ($datagroups->valid()) :
                 $datagroup = $datagroups->current();

@@ -21,8 +21,8 @@ class BlockHelper
         $files = $types = [];
 
         $directories = [
-            $rootDir.'../block/src/Models/',
-            $accountDir.'src/block/Models/',
+            $rootDir . '../block/src/Models/',
+            $accountDir . 'src/block/Models/',
         ];
 
         foreach ($directories as $directory) :
@@ -45,7 +45,8 @@ class BlockHelper
         Block $block,
         ViewService $view,
         CacheService $cacheService
-    ): string {
+    ): string
+    {
         $object = $block->getBlock();
         /** @var AbstractBlockModel $item */
         $item = new $object($view);
@@ -65,21 +66,12 @@ class BlockHelper
         return $rendering;
     }
 
-    public static function renderAjax(Block $block, ViewService $view): array
-    {
-        $object = $block->getBlock();
-        /** @var AbstractBlockModel $item */
-        $item = new $object($view);
-        $item->parse($block);
-
-        return $block->_('return');
-    }
-
     public static function performRendering(
         Block $block,
         AbstractBlockModel $item,
         ViewService $view
-    ): string {
+    ): string
+    {
         $item->parse($block);
         $return = $view->renderTemplate($item->getTemplate(), '', ['block' => $block]);
 
@@ -92,5 +84,15 @@ class BlockHelper
         endif;
 
         return $return;
+    }
+
+    public static function renderAjax(Block $block, ViewService $view): array
+    {
+        $object = $block->getBlock();
+        /** @var AbstractBlockModel $item */
+        $item = new $object($view);
+        $item->parse($block);
+
+        return $block->_('return');
     }
 }

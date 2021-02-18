@@ -20,13 +20,13 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             'name',
             (new Attributes())->setRequired(true)->setMultilang(true)
         )
-        ->addText('%ADMIN_CSS_CLASS%', 'class');
+            ->addText('%ADMIN_CSS_CLASS%', 'class');
 
         $object = $block->getBlock();
         $type = str_replace(
             [
                 Block::class,
-                'VitesseCms\\'.ucwords(Di::getDefault()->get('config')->get('account')).'\\Block\\Models\\Block',
+                'VitesseCms\\' . ucwords(Di::getDefault()->get('config')->get('account')) . '\\Block\\Models\\Block',
                 '\\',
             ],
             ''
@@ -42,8 +42,8 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
                 $selected = true;
             endif;
             $options[] = [
-                'value'    => $key,
-                'label'    => $label,
+                'value' => $key,
+                'label' => $label,
                 'selected' => $selected,
             ];
         endforeach;

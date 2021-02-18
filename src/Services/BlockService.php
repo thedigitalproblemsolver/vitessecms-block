@@ -44,14 +44,15 @@ class BlockService
      */
     protected $configuration;
 
-    public function __construct (
+    public function __construct(
         ViewService $viewService,
         User $user,
         BlockPositionRepository $blockPositionRepository,
         BlockRepository $blockRepository,
         CacheService $cacheService,
         ConfigService $configService
-    ){
+    )
+    {
         $this->view = $viewService;
         $this->user = $user;
         $this->blockPositionRepository = $blockPositionRepository;
@@ -60,18 +61,18 @@ class BlockService
         $this->configuration = $configService;
     }
 
-    public function parseTemplatePosition( string $templatePosition, $templateLayoutClass): string
+    public function parseTemplatePosition(string $templatePosition, $templateLayoutClass): string
     {
         $content = '';
 
         $dataGroups = ['all'];
         if ($this->view->hasCurrentItem()) :
-            $dataGroups[] = 'page:'.$this->view->getCurrentItem()->getId();
+            $dataGroups[] = 'page:' . $this->view->getCurrentItem()->getId();
             $dataGroups[] = $this->view->getCurrentItem()->getDatagroup();
         endif;
 
         $blockPositions = $this->blockPositionRepository->getByPositionNameAndDatagroup($templatePosition, $dataGroups);
-        while ($blockPositions->valid() ) :
+        while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
 
             $content .= $blockPosition->render(
@@ -84,7 +85,7 @@ class BlockService
             $blockPositions->next();
         endwhile;
 
-        $classes = ['container-'.$templatePosition];
+        $classes = ['container-' . $templatePosition];
         if (!empty($templateLayoutClass)):
             if (is_string($templateLayoutClass)):
                 $classes[] = $templateLayoutClass;
@@ -108,14 +109,14 @@ class BlockService
             ) :
                 $contentExtra = $this->view->renderTemplate(
                     'block_position_toolbar',
-                    $this->configuration->getVendorNameDir().'block/src/Resources/views/admin/',
+                    $this->configuration->getVendorNameDir() . 'block/src/Resources/views/admin/',
                     ['templatePosition' => $templatePosition]
                 );
             endif;
 
-            return '<div '.HtmlHelper::makeAttribute($classes, 'class').' >'
-                .$contentExtra.$content.
-            '</div>';
+            return '<div ' . HtmlHelper::makeAttribute($classes, 'class') . ' >'
+                . $contentExtra . $content .
+                '</div>';
         endif;
     }
 }
