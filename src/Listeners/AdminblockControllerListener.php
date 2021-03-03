@@ -4,6 +4,7 @@ namespace VitesseCms\Block\Listeners;
 
 use Phalcon\Events\Event;
 use VitesseCms\Admin\AbstractAdminController;
+use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Models\BlockLogo;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
@@ -13,7 +14,7 @@ use VitesseCms\Setting\Factory\SettingFactory;
 
 class AdminblockControllerListener
 {
-    public function beforeModelSave(Event $event, Block $block): void
+    public function beforeModelSave(Event $event, AdminblockController $controller, Block $block): void
     {
         switch ($block->getBlock()) :
             case BlockLogo::class:

@@ -25,6 +25,11 @@ class BlockPosition extends AbstractCollection
      */
     public $class;
 
+    /**
+     * @var int
+     */
+    public $ordering;
+
     public function getBlock(): string
     {
         return $this->block;
@@ -132,8 +137,15 @@ class BlockPosition extends AbstractCollection
         return $return;
     }
 
-    public function beforeSave(): void
+    public function getOrdering(): int
     {
-        $this->set('ordering', (int)$this->_('ordering'));
+        return (int)$this->ordering;
+    }
+
+    public function setOrdering(int $ordering): BlockPosition
+    {
+        $this->ordering = $ordering;
+
+        return $this;
     }
 }
