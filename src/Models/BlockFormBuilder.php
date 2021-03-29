@@ -73,16 +73,16 @@ class BlockFormBuilder extends AbstractBlockModel
                 endif;
 
                 $datagroup->buildItemForm($form);
-                $form->_('hidden', '', 'block', ['value' => $block->getId()]);
+                $form->addHidden('block', (string) $block->getId());
 
                 $submitText = 'Submit';
                 if ($block->_('submitText')) :
                     $submitText = $block->_('submitText');
                 endif;
-                $form->_('submit', $submitText, '', [
-                    'disabled',
-                    'useRecaptcha' => $block->_('useRecaptcha'),
-                ]);
+                $form->addSubmitButton($submitText);
+                //TODO handle recaptcha
+                //'useRecaptcha' => $block->_('useRecaptcha'),
+                //]);
 
                 $postUrl = 'form/index/submit/';
                 if ($block->_('postUrl')) :
