@@ -32,7 +32,7 @@ class BlockShopUserOrders extends AbstractBlockModel
 
             $orderList = $this->view->renderTemplate(
                 'affiliate_orderlist',
-                $this->di->configuration->getRootDir() . 'template/core/Views/partials/shop',
+                $this->di->configuration->getRootDir() . 'Template/core/Views/partials/shop',
                 [
                     'orderlistOrders' => $pagination->items,
                     'pagination' => $pagination
