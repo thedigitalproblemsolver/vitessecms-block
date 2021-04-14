@@ -6,10 +6,8 @@ use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Utils\BlockUtil;
-use VitesseCms\Core\Utils\SystemUtil;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Models\Attributes;
-use Phalcon\Di;
 
 class BlockForm extends AbstractForm implements RepositoriesInterface
 {
@@ -19,14 +17,13 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             '%CORE_NAME%',
             'name',
             (new Attributes())->setRequired(true)->setMultilang(true)
-        )
-            ->addText('%ADMIN_CSS_CLASS%', 'class');
+        )->addText('%ADMIN_CSS_CLASS%', 'class');
 
         $object = $block->getBlock();
         $type = str_replace(
             [
                 Block::class,
-                'VitesseCms\\' . ucwords(Di::getDefault()->get('config')->get('account')) . '\\Block\\Models\\Block',
+                'VitesseCms\\' . ucwords($this->configuration->getAccount()) . '\\Block\\Models\\Block',
                 '\\',
             ],
             ''
@@ -38,7 +35,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
         $options = [];
         foreach ($files as $key => $label) :
             $selected = false;
-            if ($block->_('template') === $key) :
+            if ($block->getTemplate() === $key) :
                 $selected = true;
             endif;
             $options[] = [
@@ -54,7 +51,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             (new Attributes())->setRequired(true)->setOptions($options)
         );
 
-        if ((bool)$block->_('maincontentWrapper')) :
+        if ((bool)$block->getMaincontentWrapper()) :
             $this->addToggle('Maincontent wrapper', 'maincontentWrapper');
         endif;
 

@@ -26,7 +26,12 @@ class BlockUtil
         $return = [];
         foreach ($files as $directory => $file) :
             $return[str_replace(
-                ['.mustache', $configuration->getRootDir()],
+                [
+                    '.mustache',
+                    $configuration->getCoreTemplateDir(),
+                    $configuration->getTemplateDir(),
+                    $configuration->getAccountDir()
+                ],
                 '',
                 $directory)] = ucfirst(str_replace('_', ' ', FileUtil::getName($file))
             );
