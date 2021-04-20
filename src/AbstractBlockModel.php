@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block;
 
+use ReflectionClass;
 use VitesseCms\Block\Forms\BlockForm;
 use VitesseCms\Block\Interfaces\BlockModelInterface;
 use VitesseCms\Block\Interfaces\BlockSubFormInterface;
@@ -12,6 +13,7 @@ use VitesseCms\Core\Traits\BaseObjectTrait;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Core\Helpers\InjectableHelper;
 use VitesseCms\Core\Interfaces\InjectableInterface;
+use function is_object;
 
 abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInterface
 {
@@ -49,7 +51,7 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
         $this->excludeFromCache = false;
         $this->template = 'core';
 
-        if (!\is_object($this->di)) :
+        if (!is_object($this->di)) :
             $this->di = new InjectableHelper();
         endif;
     }
@@ -63,7 +65,7 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
 
     public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void
     {
-        $reflect = new \ReflectionClass($this);
+        $reflect = new ReflectionClass($this);
         /** @var BlockSubFormInterface $class */
         $class = 'VitesseCms\\Block\\Forms\\' . $reflect->getShortName() . 'SubForm';
         if (class_exists($class)) :

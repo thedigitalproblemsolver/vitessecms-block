@@ -12,6 +12,7 @@ use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\User\Models\User;
 use VitesseCms\User\Utils\PermissionUtils;
+use function in_array;
 
 class BlockPosition extends AbstractCollection
 {
@@ -97,7 +98,7 @@ class BlockPosition extends AbstractCollection
             $datagroups = Datagroup::findAll();
 
             $selected = '';
-            if (\in_array('all', (array)$this->_('datagroup'))) :
+            if (in_array('all', (array)$this->_('datagroup'))) :
                 $selected = ' selected="selected" ';
             endif;
 
@@ -110,7 +111,7 @@ class BlockPosition extends AbstractCollection
                         <option value="all" ' . $selected . ' >All</option>';
             if ($view->getVar('currentId')) :
                 $selectedPage = '';
-                if (\in_array('page:' . $view->getVar('currentId'), (array)$this->_('datagroup'))) :
+                if (in_array('page:' . $view->getVar('currentId'), (array)$this->_('datagroup'))) :
                     $selectedPage = ' selected="selected" ';
                 endif;
                 $return .= '<option value="page:' . $view->getVar('currentId') . '" ' . $selectedPage . ' >Only on current page</option>';
@@ -118,7 +119,7 @@ class BlockPosition extends AbstractCollection
             /** @var Datagroup $datagroup */
             foreach ($datagroups as $datagroup) :
                 $selected = '';
-                if (\in_array($datagroup->getId(), (array)$this->_('datagroup'))) :
+                if (in_array($datagroup->getId(), (array)$this->_('datagroup'))) :
                     $selected = ' selected="selected" ';
                 endif;
                 $return .= '<option 

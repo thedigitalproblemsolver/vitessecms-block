@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
+use Phalcon\Mvc\Collection\Exception;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Shop\Enum\OrderStateEnum;
 use VitesseCms\Shop\Models\Order;
@@ -40,7 +41,7 @@ class BlockShopPaymentResult extends AbstractBlockModel
 
     /**
      * {@inheritdoc}
-     * @throws \Phalcon\Mvc\Collection\Exception
+     * @throws Exception
      */
     public function parse(Block $block): void
     {

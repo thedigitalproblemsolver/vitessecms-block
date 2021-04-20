@@ -7,6 +7,7 @@ use VitesseCms\Content\Models\Item;
 use VitesseCms\Core\Helpers\ItemHelper;
 use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Media\Enums\AssetsEnum;
+use function count;
 
 class BlockMainContent extends AbstractBlockModel
 {
@@ -105,7 +106,7 @@ class BlockMainContent extends AbstractBlockModel
                 foreach ($designMapper as $designId => $itemKey) :
                     if (
                         isset($items[$itemKey]->designItems)
-                        && \count($items[$itemKey]->designItems) === 1
+                        && count($items[$itemKey]->designItems) === 1
                     ) :
                         unset($items[$itemKey]->designItems);
                     else :

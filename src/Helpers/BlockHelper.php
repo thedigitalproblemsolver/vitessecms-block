@@ -9,6 +9,7 @@ use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Utils\DirectoryUtil;
 use VitesseCms\Core\Utils\FileUtil;
 use VitesseCms\Core\Utils\SystemUtil;
+use function in_array;
 
 /**
  * @deprecated move to BlockUtil
@@ -31,7 +32,7 @@ class BlockHelper
         ksort($files);
 
         foreach ($files as $path => $file) :
-            if (!\in_array(FileUtil::getName($file), $exclude, true)) :
+            if (!in_array(FileUtil::getName($file), $exclude, true)) :
                 $name = FileUtil::getName($file);
                 $className = SystemUtil::createNamespaceFromPath($path);
                 $types[$className] = substr($name, 5, strlen($name));

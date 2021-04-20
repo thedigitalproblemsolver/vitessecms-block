@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
+use Phalcon\Mvc\Collection\Exception;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Communication\Helpers\NewsletterHelper;
 use VitesseCms\Communication\Models\Newsletter;
@@ -16,7 +17,7 @@ class BlockNewsletterSubscribe extends AbstractBlockModel
     }
 
     /**
-     * @throws \Phalcon\Mvc\Collection\Exception
+     * @throws Exception
      */
     public function parse(Block $block): void
     {
