@@ -36,6 +36,12 @@ class Block extends AbstractCollection
         return $this->maincontentWrapper ?? '';
     }
 
+    public function setTemplate(string $template): Block
+    {
+        $this->template = $template;
+        return $this;
+    }
+
     public function getTemplate(): string
     {
         return $this->template ?? '';
