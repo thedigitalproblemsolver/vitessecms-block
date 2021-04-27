@@ -12,9 +12,9 @@ class BlockFormBuilderFactory
     {
         return (new BlockFormBuilder($view))
             ->setDatagroup($block->_('datagroup'))
-            ->setNewsletters($block->_('newsletters'))
+            ->setNewsletters((array)$block->_('newsletters'))
             ->setUseRecaptcha((bool)$block->_('useRecaptcha'))
             ->setName($block->getRaw('name'))
-            ->setSystemThankyou($block->getRaw('systemThankyou'));
+            ->setSystemThankyou((array)$block->getRaw('systemThankyou'));
     }
 }

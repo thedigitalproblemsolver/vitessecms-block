@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
+use ArrayIterator;
 use VitesseCms\Block\Helpers\BlockHelper;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
@@ -14,7 +15,7 @@ use VitesseCms\User\Models\User;
 use VitesseCms\User\Utils\PermissionUtils;
 use Phalcon\Http\Request;
 
-class BlockPositionIterator extends \ArrayIterator
+class BlockPositionIterator extends ArrayIterator
 {
     public function __construct(array $blockPositions)
     {

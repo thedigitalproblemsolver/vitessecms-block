@@ -9,6 +9,7 @@ use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Form\Forms\BaseForm;
 use VitesseCms\Media\Enums\AssetsEnum;
 use MongoDB\BSON\ObjectID;
+use function is_object;
 
 class BlockFilter extends AbstractBlockModel
 {
@@ -44,7 +45,7 @@ class BlockFilter extends AbstractBlockModel
                 if (!empty($field['filterable'])) :
                     $datafield = Datafield::findById($field['id']);
                     /** @var Datafield $datafield */
-                    if (\is_object($datafield) && $datafield->_('published')) :
+                    if (is_object($datafield) && $datafield->_('published')) :
                         $datafield->renderFilter($filter);
                     endif;
                 endif;

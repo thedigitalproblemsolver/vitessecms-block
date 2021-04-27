@@ -14,6 +14,9 @@ use VitesseCms\Core\Helpers\ItemHelper;
 use VitesseCms\Database\Utils\MongoUtil;
 use VitesseCms\Media\Enums\AssetsEnum;
 use MongoDB\BSON\ObjectID;
+use function count;
+use function in_array;
+use function is_array;
 
 //TODO refactor om hem overzichtelijk te maken
 class BlockItemlist extends AbstractBlockModel
@@ -42,7 +45,7 @@ class BlockItemlist extends AbstractBlockModel
         endswitch;
 
         if ($parseList) :
-            if (\is_array($list) && \count($list) > 0) :
+            if (is_array($list) && count($list) > 0) :
                 $ids = [];
                 foreach ($list as $id) :
                     if (MongoUtil::isObjectId($id)) :
@@ -63,7 +66,7 @@ class BlockItemlist extends AbstractBlockModel
                     $items = Item::findAll();
                     break;
                 case ItemListEnum::LISTMODE_CURRENT_PARENT_CHILDREN:
-                    if (\count($items) === 0) :
+                    if (count($items) === 0) :
                         $currentItem = $this->view->getVar('currentItem');
                         Item::setFindValue('parentId', $currentItem->_('parentId'));
                         $this->setItemDefaults($block);
@@ -134,11 +137,11 @@ class BlockItemlist extends AbstractBlockModel
     protected function parseDatafieldValues(Block $block): void
     {
         if (
-            \is_array($block->_('datafieldValue'))
-            && \count($block->_('datafieldValue')) > 0
+            is_array($block->_('datafieldValue'))
+            && count($block->_('datafieldValue')) > 0
         ) :
             foreach ($block->_('datafieldValue') as $name => $value):
-                if (\in_array($value, ['both', 'selected', 'notSelected'], true)) :
+                if (in_array($value, ['both', 'selected', 'notSelected'], true)) :
                     switch ($value) :
                         case 'selected':
                             Item::setFindValue($name, true);
@@ -147,7 +150,7 @@ class BlockItemlist extends AbstractBlockModel
                             Item::setFindValue($name, ['$in' => ['', false, null]]);
                             break;
                     endswitch;
-                elseif (\in_array($value, ['bothEmpty', 'empty', 'notEmpty'], true)):
+                elseif (in_array($value, ['bothEmpty', 'empty', 'notEmpty'], true)):
                     switch ($value) :
                         case 'empty':
                             Item::setFindValue($name, null);

@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
+use Phalcon\Mvc\Collection\Exception;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Content\Models\Item;
 
@@ -17,7 +18,7 @@ class BlockShopCart extends AbstractBlockModel
     /**
      * @param Block $block
      *
-     * @throws \Phalcon\Mvc\Collection\Exception
+     * @throws Exception
      */
     public function parse(Block $block): void
     {

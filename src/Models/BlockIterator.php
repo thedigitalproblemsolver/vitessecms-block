@@ -2,7 +2,9 @@
 
 namespace VitesseCms\Block\Models;
 
-class BlockIterator extends \ArrayIterator
+use ArrayIterator;
+
+class BlockIterator extends ArrayIterator
 {
     public function __construct(array $blocks)
     {

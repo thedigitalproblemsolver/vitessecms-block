@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
+use MongoDB\Driver\Exception\InvalidArgumentException;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Content\Models\Item;
@@ -9,6 +10,7 @@ use VitesseCms\Core\Helpers\ItemHelper;
 use VitesseCms\Search\Models\Elasticsearch;
 use VitesseCms\Sef\Helpers\SefHelper;
 use MongoDB\BSON\ObjectID;
+use function count;
 
 /**
  * Class BlockFilterResult
@@ -18,7 +20,7 @@ class BlockFilterResult extends AbstractBlockModel
 
     /**
      * {@inheritdoc}
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function parse(Block $block): void
     {
@@ -43,7 +45,7 @@ class BlockFilterResult extends AbstractBlockModel
                 endif;
 
                 $return['results'] = $items;
-                if (\count($return['results']) === 0) :
+                if (count($return['results']) === 0) :
                     $return['noresultText'] = SefHelper::parsePlaceholders(
                         $block->_('noresultText'),
                         $this->view->getVar('currentId')
@@ -63,7 +65,7 @@ class BlockFilterResult extends AbstractBlockModel
 
     /**
      * @return AbstractCollection[]
-     * @throws \MongoDB\Driver\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function getItems(): array
     {

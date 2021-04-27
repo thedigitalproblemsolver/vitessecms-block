@@ -5,6 +5,7 @@ namespace VitesseCms\Block\Models;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Core\Helpers\ItemHelper;
 use VitesseCms\Admin\Utils\AdminUtil;
+use function is_object;
 
 class BlockBreadcrumbs extends AbstractBlockModel
 {
@@ -15,7 +16,7 @@ class BlockBreadcrumbs extends AbstractBlockModel
         if (
             !AdminUtil::isAdminPage()
             && !$this->di->shop->checkout->isCurrentItemCheckout()
-            && \is_object($this->view->getVar('currentItem'))
+            && is_object($this->view->getVar('currentItem'))
         ) {
             $block->set('items', ItemHelper::getPathFromRoot($this->view->getVar('currentItem')));
             $block->set('hasItems', true);
