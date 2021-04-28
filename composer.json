@@ -19,15 +19,15 @@
   },
   "require": {
     "vitessecms/admin": "~0.0.23",
-    "vitessecms/configuration": "~0.0.9",
+    "vitessecms/configuration": "~0.0.13",
     "vitessecms/language": "~0.0.2",
-    "vitessecms/media": "~0.0.3",
+    "vitessecms/media": "~0.0.6",
     "vitessecms/sef": "~0.0.2",
     "vitessecms/setting": "~0.0.7",
     "vitessecms/user": "~0.0.7",
-    "vitessecms/core": "~0.0.10",
+    "vitessecms/core": "~0.0.16",
     "vitessecms/form": "~0.0.10",
-    "vitessecms/datafield": "~0.0.7",
-    "vitessecms/datagroup": "~0.0.3"
+    "vitessecms/datafield": "~0.0.10",
+    "vitessecms/datagroup": "~0.0.6"
   }
 }
