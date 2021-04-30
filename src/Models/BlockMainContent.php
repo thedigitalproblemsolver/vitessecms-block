@@ -13,14 +13,13 @@ class BlockMainContent extends AbstractBlockModel
 {
     public function parse(Block $block): void
     {
-        $this->fixBloembollen();
         parent::parse($block);
 
         /** @var Item $item */
-        $item = $this->view->getVar('currentItem');
+        $item = $this->view->getCurrentItem();
         if ($item) :
             /** @var Datagroup $datagroup */
-            $datagroup = Datagroup::findById($item->_('datagroup'));
+            $datagroup = Datagroup::findById($item->getDatagroup());
             if ($datagroup->_('template')) :
                 $this->extendBlock($datagroup, $block);
                 $this->template = $datagroup->_('template');
@@ -37,40 +36,10 @@ class BlockMainContent extends AbstractBlockModel
         endif;
     }
 
-    //TODO verplaaten naar??
-
-    /**
-     * @TODO hoe dit flexibel op te lossen? ? accoutn evente listener
-     */
-    protected function fixBloembollen(): void
-    {
-        if (
-            $this->view->getVar('currentItem')
-            && substr_count($this->view->getVar('currentItem')->_('bodytext'), 'bloembollenkopen') > 0
-        ) :
-            $bodyText = $this->view->getVar('currentItem')->_('bodytext');
-            $bodyText = str_replace(
-                ['href=http://www.bloembollenkopen.nl', '.html>'],
-                [
-                    'href="http://www.bloembollenkopen.nl/bol/?tt=4889_253953_258885_&r=http://www.bloembollenkopen.nl',
-                    '.html" target="_blank" rel="nofollow" >',
-                ],
-                $bodyText
-            );
-
-            $this->view->getVar('currentItem')->set(
-                'bodytext',
-                $bodyText,
-                true,
-                $this->di->configuration->getLanguageShort()
-            );
-        endif;
-    }
-
     protected function extendBlock(Datagroup $datagroup, Block $block): void
     {
         if (substr_count($datagroup->_('template'), 'overview')) :
-            Item::setFindValue('parentId', (string)$this->view->getVar('currentItem')->getId());
+            Item::setFindValue('parentId', (string)$this->view->getCurrentItem()->getId());
             Item::addFindOrder('name', 1);
             Item::setFindLimit(9999);
             $items = Item::findAll();
@@ -131,7 +100,7 @@ class BlockMainContent extends AbstractBlockModel
         parent::parse($block);
 
         /** @var Item $item */
-        $item = $this->view->getVar('currentItem');
+        $item = $this->view->getCurrentItem();
         if ($item) :
             $datagroup = Datagroup::findById($item->getDatagroup());
             if (substr_count($datagroup->_('template'), 'address')) :
@@ -146,6 +115,6 @@ class BlockMainContent extends AbstractBlockModel
 
     public function getCacheKey(Block $block): string
     {
-        return parent::getCacheKey($block) . $this->view->getVar('currentItem')->_('updatedOn');
+        return parent::getCacheKey($block) . $this->view->getCurrentItem()->getUpdatedOn()->getTimestamp();
     }
 }
