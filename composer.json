@@ -21,13 +21,13 @@
     "vitessecms/admin": "~0.0.26",
     "vitessecms/configuration": "~0.0.13",
     "vitessecms/language": "~0.0.2",
-    "vitessecms/media": "~0.0.6",
-    "vitessecms/sef": "~0.0.2",
+    "vitessecms/media": "~0.0.7",
+    "vitessecms/sef": "~0.0.3",
     "vitessecms/setting": "~0.0.7",
     "vitessecms/user": "~0.0.7",
-    "vitessecms/core": "~0.0.17",
+    "vitessecms/core": "~0.0.18",
     "vitessecms/form": "~0.0.10",
     "vitessecms/datafield": "~0.0.10",
-    "vitessecms/datagroup": "~0.0.6"
+    "vitessecms/datagroup": "~0.0.7"
   }
 }
