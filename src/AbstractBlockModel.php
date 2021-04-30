@@ -83,11 +83,13 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
         endif;
     }
 
+    //TODO move to listeners
     public function loadAssets(Block $block): void
     {
-        if (substr_count($block->_('template'), 'lazyload')) :
-            $this->di->assets->load('lazyload');
+        if (substr_count($block->getTemplate(), 'lazyload')) :
+            $this->di->assets->loadLazyLoading();
         endif;
+        $this->di->eventsManager->fire(get_class($this) . ':loadAssets', $this, $block);
     }
 
     public function getCacheKey(Block $block): string
@@ -105,5 +107,10 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     public function getTemplate(): string
     {
         return $this->template ?? 'core';
+    }
+
+    public function getDi(): InjectableInterface
+    {
+        return $this->di;
     }
 }
