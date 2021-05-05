@@ -8,6 +8,9 @@ use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Models\BlockLogo;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
+use VitesseCms\Block\Utils\BlockUtil;
+use VitesseCms\Form\Helpers\ElementHelper;
+use VitesseCms\Form\Models\Attributes;
 use VitesseCms\Setting\Enum\CallingNameEnum;
 use VitesseCms\Setting\Enum\TypeEnum;
 use VitesseCms\Setting\Factory\SettingFactory;
@@ -75,6 +78,16 @@ class AdminblockControllerListener
     ): string
     {
         $form->addNameField($form);
+        $types = BlockUtil::getTypes(
+            $controller->configuration->getRootDir(),
+            $controller->configuration->getAccountDir()
+        );
+        $types = array_combine($types, $types);
+        $form->addDropdown(
+            '%ADMIN_BLOCK%',
+            'filter[block]',
+            (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions($types))
+        );
         $form->addPublishedField($form);
 
         return $form->renderForm(

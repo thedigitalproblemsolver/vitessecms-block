@@ -5,6 +5,7 @@ namespace VitesseCms\Block\Utils;
 use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Utils\DirectoryUtil;
 use VitesseCms\Core\Utils\FileUtil;
+use VitesseCms\Core\Utils\SystemUtil;
 
 class BlockUtil
 {
@@ -38,5 +39,31 @@ class BlockUtil
         endforeach;
 
         return $return;
+    }
+
+    public static function getTypes(string $rootDir, string $accountDir): array
+    {
+        $exclude = ['Block', 'BlockPosition'];
+        $files = $types = [];
+
+        $directories = [
+            $rootDir . '../block/src/Models/',
+            $accountDir . 'src/block/Models/',
+        ];
+
+        foreach ($directories as $directory) :
+            $files = array_merge($files, DirectoryUtil::getFilelist($directory));
+        endforeach;
+        ksort($files);
+
+        foreach ($files as $path => $file) :
+            if (!in_array(FileUtil::getName($file), $exclude, true)) :
+                $name = FileUtil::getName($file);
+                $className = SystemUtil::createNamespaceFromPath($path);
+                $types[$className] = substr($name, 5, strlen($name));
+            endif;
+        endforeach;
+
+        return $types;
     }
 }

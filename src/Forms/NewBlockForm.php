@@ -2,8 +2,7 @@
 
 namespace VitesseCms\Block\Forms;
 
-use VitesseCms\Block\Helpers\BlockHelper;
-use VitesseCms\Block\Interfaces\RepositoriesInterface;
+use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
@@ -24,7 +23,7 @@ class NewBlockForm extends AbstractForm
                 (new Attributes())->setRequired(true)
                     ->setOptions(
                         ElementHelper::arrayToSelectOptions(
-                            BlockHelper::getTypes(
+                            BlockUtil::getTypes(
                                 $this->configuration->getRootDir(),
                                 $this->configuration->getAccountDir()
                             )
