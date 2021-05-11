@@ -27,4 +27,12 @@ class BlockMainContent extends AbstractBlockModel
     {
         return parent::getCacheKey($block) . $this->view->getCurrentItem()->getUpdatedOn()->getTimestamp();
     }
+
+    public function getTemplateParams(Block $block): array
+    {
+        return [
+            'block' => $block,
+            'pagination' => $block->_('pagination')
+        ];
+    }
 }

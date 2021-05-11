@@ -118,4 +118,9 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     {
         return $this->di;
     }
+
+    public function getTemplateParams(Block $block): array
+    {
+        return ['block' => $block];
+    }
 }

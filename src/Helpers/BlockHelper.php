@@ -44,7 +44,7 @@ class BlockHelper
     ): string
     {
         $item->parse($block);
-        $return = $view->renderTemplate($item->getTemplate(), '', ['block' => $block]);
+        $return = $view->renderTemplate($item->getTemplate(), '', $item->getTemplateParams($block));
 
         if (!empty($block->getMaincontentWrapper())) :
             $return = $view->renderTemplate(
