@@ -66,7 +66,12 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void
     {
         $reflect = new ReflectionClass($this);
-        /** @var BlockSubFormInterface $class */
+        $this->di->eventsManager->fire($reflect->getName().':buildBlockForm', $form);
+
+        /**
+         * @var BlockSubFormInterface $class
+         *
+         */
         $class = 'VitesseCms\\Block\\Forms\\' . $reflect->getShortName() . 'SubForm';
         if (class_exists($class)) :
             $class::getBlockForm($form, $item, $repositories);
@@ -112,5 +117,10 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     public function getDi(): InjectableInterface
     {
         return $this->di;
+    }
+
+    public function getTemplateParams(Block $block): array
+    {
+        return ['block' => $block];
     }
 }
