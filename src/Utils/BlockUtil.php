@@ -41,28 +41,29 @@ class BlockUtil
         return $return;
     }
 
-    public static function getTypes(string $rootDir, string $accountDir): array
+    public static function getTypes(string $rootDir, string $accountDir, array $modules): array
     {
-        $exclude = ['Block', 'BlockPosition'];
         $files = $types = [];
 
-        $directories = [
-            $rootDir . '../block/src/Models/',
-            $accountDir . 'src/block/Models/',
-        ];
+        $modules['rootdir'] = $rootDir . '../block/src/Models/';
+        $modules['accountdir'] = $accountDir . 'src/block/Blocks/';
 
-        foreach ($directories as $directory) :
+        foreach ($modules as $key => $directory) :
+            if($key !== 'rootdir' && $key !== 'accountdir' ) :
+                $directory .= '/Blocks/';
+            endif;
             $files = array_merge($files, DirectoryUtil::getFilelist($directory));
         endforeach;
-        ksort($files);
 
         foreach ($files as $path => $file) :
-            if (!in_array(FileUtil::getName($file), $exclude, true)) :
-                $name = FileUtil::getName($file);
-                $className = SystemUtil::createNamespaceFromPath($path);
-                $types[$className] = substr($name, 5, strlen($name));
-            endif;
+            $name = FileUtil::getName($file);
+            $className = SystemUtil::createNamespaceFromPath($path);
+            $types[$className] = $name;
         endforeach;
+
+        $types = array_flip($types);
+        ksort($types);
+        $types = array_flip($types);
 
         return $types;
     }
