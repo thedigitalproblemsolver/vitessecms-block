@@ -8,7 +8,7 @@ use VitesseCms\Cli\Services\TerminalServiceInterface;
 use VitesseCms\Configuration\Services\ConfigServiceInterface;
 use VitesseCms\Install\Interfaces\MigrationInterface;
 
-class Migration_20210512 implements MigrationInterface
+class Migration_20210513 implements MigrationInterface
 {
     /**
      * @var AdminRepositoryCollection
@@ -39,8 +39,8 @@ class Migration_20210512 implements MigrationInterface
     {
         $result = true;
         $blocks = $this->repository->block->findAll(null, false);
-        $search = ['VitesseCms\Block\Models\BlockMainContent'];
-        $replace = ['VitesseCms\Content\Blocks\MainContent'];
+        $search = ['VitesseCms\Block\Models\BlockItemlist'];
+        $replace = ['VitesseCms\Content\Blocks\Itemlist'];
         while ($blocks->valid()):
             $block = $blocks->current();
             $newBlockType = str_replace($search, $replace, $block->getBlock());
@@ -49,7 +49,7 @@ class Migration_20210512 implements MigrationInterface
             $blocks->next();
         endwhile;
 
-        $terminalService->printMessage('Block MainContent repaired');
+        $terminalService->printMessage('Block Itemlist repaired');
 
         return $result;
     }
