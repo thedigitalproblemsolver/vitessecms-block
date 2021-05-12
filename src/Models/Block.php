@@ -51,4 +51,11 @@ class Block extends AbstractCollection
     {
         return $this->block ? str_replace('Modules', 'VitesseCms', $this->block) : '';
     }
+
+    public function setBlock(string $block): Block
+    {
+        $this->block = $block;
+
+        return $this;
+    }
 }
