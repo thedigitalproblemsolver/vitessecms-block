@@ -19,19 +19,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             (new Attributes())->setRequired(true)->setMultilang(true)
         )->addText('%ADMIN_CSS_CLASS%', 'class');
 
-        $object = $block->getBlock();
-        $type = str_replace(
-            [
-                Block::class,
-                'VitesseCms\\' . ucwords($this->configuration->getAccount()) . '\\Block\\Models\\Block',
-                '\\',
-            ],
-            ''
-            ,
-            $object
-        );
-
-        $files = BlockUtil::getTemplateFiles($type, $this->configuration);
+        $files = BlockUtil::getTemplateFiles($block->getBlock(), $this->configuration);
         $options = [];
         foreach ($files as $key => $label) :
             $selected = false;
@@ -56,6 +44,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
         endif;
 
         /** @var AbstractBlockModel $blockType */
+        $object = $block->getBlock();
         $blockType = new $object($this->view);
         $blockType->buildBlockForm($this, $block, $this->repositories);
 
