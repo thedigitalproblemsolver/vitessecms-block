@@ -47,9 +47,9 @@ class Block extends AbstractCollection
         return $this->template ?? '';
     }
 
-    public function getBlock(): string
+    public function getBlock(): ?string
     {
-        return $this->block ? str_replace('Modules', 'VitesseCms', $this->block) : '';
+        return $this->block;
     }
 
     public function setBlock(string $block): Block
