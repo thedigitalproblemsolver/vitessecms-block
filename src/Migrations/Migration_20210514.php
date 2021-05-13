@@ -45,6 +45,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockAffiliateOrderOverview',
             'VitesseCms\Block\Models\BlockBreadcrumbs',
             'VitesseCms\Block\Models\BlockDatagroup',
+            'VitesseCms\Block\Models\BlockFilter',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
@@ -52,11 +53,17 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Shop\Blocks\AffiliateOrderOverview',
             'VitesseCms\Content\Blocks\Breadcrumbs',
             'VitesseCms\Datagroup\Blocks\Datagroup',
+            'VitesseCms\Content\Blocks\Filter',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
             $newBlockType = str_replace($search, $replace, $block->getBlock());
-            $block->setBlock($newBlockType)->save();
+            if (substr_count($newBlockType, 'VitesseCms\\Block\\Models\\') === 0) :
+                $block->setBlock($newBlockType)->save();
+            else :
+                $terminalService->printError('wrong blockType "' . $newBlockType . '" for block "' . $block->getNameField() . '"');
+                $result = false;
+            endif;
 
             $blocks->next();
         endwhile;
