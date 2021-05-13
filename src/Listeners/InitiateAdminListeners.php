@@ -3,6 +3,7 @@
 namespace VitesseCms\Block\Listeners;
 
 use Phalcon\Events\Manager;
+use VitesseCms\Block\Blocks\Blocks;
 use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Controllers\AdminblockpositionController;
 
@@ -13,5 +14,6 @@ class InitiateAdminListeners
         $eventsManager->attach('adminMenu', new AdminMenuListener());
         $eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
         $eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
+        $eventsManager->attach(Blocks::class, new BlockBlocksListener());
     }
 }

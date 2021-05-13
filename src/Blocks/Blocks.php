@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace VitesseCms\Block\Models;
+namespace VitesseCms\Block\Blocks;
 
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Helpers\BlockHelper;
+use VitesseCms\Block\Models\Block;
 use VitesseCms\Database\Utils\MongoUtil;
 
-class BlockBlocks extends AbstractBlockModel
+class Blocks extends AbstractBlockModel
 {
     public function parse(Block $block): void
     {

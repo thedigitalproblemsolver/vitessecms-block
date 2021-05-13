@@ -12,7 +12,8 @@ class BlockUtil
     public static function getTemplateFiles(string $class, ConfigService $configuration): array
     {
         $files = [];
-        $type = str_replace('Block','',array_reverse(explode( '\\', $class ))[0]);
+        $type = array_reverse(explode( '\\', $class ))[0];
+        $type = implode('', explode('Block', $type, 1));
 
         $directories = [
             $configuration->getCoreTemplateDir() . 'views/blocks/' . $type . '/',
