@@ -66,7 +66,7 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void
     {
         $reflect = new ReflectionClass($this);
-        $this->di->eventsManager->fire($reflect->getName().':buildBlockForm', $form);
+        $this->di->eventsManager->fire($reflect->getName().':buildBlockForm', $form, $item);
 
         /**
          * @var BlockSubFormInterface $class

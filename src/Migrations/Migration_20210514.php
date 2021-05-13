@@ -44,12 +44,14 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockAffiliateInitialize',
             'VitesseCms\Block\Models\BlockAffiliateOrderOverview',
             'VitesseCms\Block\Models\BlockBreadcrumbs',
+            'VitesseCms\Block\Models\BlockDatagroup',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
             'VitesseCms\Shop\Blocks\AffiliateInitialize',
             'VitesseCms\Shop\Blocks\AffiliateOrderOverview',
             'VitesseCms\Content\Blocks\Breadcrumbs',
+            'VitesseCms\Datagroup\Blocks\Datagroup',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
