@@ -9,9 +9,10 @@ use VitesseCms\Core\Utils\SystemUtil;
 
 class BlockUtil
 {
-    public static function getTemplateFiles(string $type, ConfigService $configuration): array
+    public static function getTemplateFiles(string $class, ConfigService $configuration): array
     {
         $files = [];
+        $type = str_replace('Block','',array_reverse(explode( '\\', $class ))[0]);
 
         $directories = [
             $configuration->getCoreTemplateDir() . 'views/blocks/' . $type . '/',
