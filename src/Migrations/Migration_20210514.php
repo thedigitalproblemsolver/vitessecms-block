@@ -40,10 +40,12 @@ class Migration_20210514 implements MigrationInterface
         $result = true;
         $blocks = $this->repository->block->findAll(null, false);
         $search = [
-            'VitesseCms\Block\Models\BlockBlocks'
+            'VitesseCms\Block\Models\BlockBlocks',
+            'VitesseCms\Block\Models\BlockAffiliateInitialize',
         ];
         $replace = [
-            'VitesseCms\Block\Blocks\Blocks'
+            'VitesseCms\Block\Blocks\Blocks',
+            'VitesseCms\Shop\Blocks\AffiliateInitialize',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
@@ -53,7 +55,7 @@ class Migration_20210514 implements MigrationInterface
             $blocks->next();
         endwhile;
 
-        $terminalService->printMessage('Block claasnames repaired');
+        $terminalService->printMessage('Block classnames repaired');
 
         return $result;
     }
