@@ -42,10 +42,14 @@ class Migration_20210514 implements MigrationInterface
         $search = [
             'VitesseCms\Block\Models\BlockBlocks',
             'VitesseCms\Block\Models\BlockAffiliateInitialize',
+            'VitesseCms\Block\Models\BlockAffiliateOrderOverview',
+            'VitesseCms\Block\Models\BlockBreadcrumbs',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
             'VitesseCms\Shop\Blocks\AffiliateInitialize',
+            'VitesseCms\Shop\Blocks\AffiliateOrderOverview',
+            'VitesseCms\Content\Blocks\Breadcrumbs',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
