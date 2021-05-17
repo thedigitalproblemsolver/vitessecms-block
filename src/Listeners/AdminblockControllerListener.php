@@ -6,22 +6,23 @@ use Phalcon\Events\Event;
 use VitesseCms\Admin\AbstractAdminController;
 use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Models\Block;
-use VitesseCms\Block\Models\BlockLogo;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
 use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Core\Utils\SystemUtil;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
+use VitesseCms\Media\Blocks\Logo;
 use VitesseCms\Setting\Enum\CallingNameEnum;
 use VitesseCms\Setting\Enum\TypeEnum;
 use VitesseCms\Setting\Factory\SettingFactory;
 
 class AdminblockControllerListener
 {
+    //TODO move to listenmer
     public function beforeModelSave(Event $event, AdminblockController $controller, Block $block): void
     {
         switch ($block->getBlock()) :
-            case BlockLogo::class:
+            case Logo::class:
                 $this->parseLogo($block);
                 break;
         endswitch;
