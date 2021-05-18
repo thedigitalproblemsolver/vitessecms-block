@@ -50,6 +50,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockFormBuilder',
             'VitesseCms\Block\Models\BlockImage',
             'VitesseCms\Block\Models\BlockLogo',
+            'VitesseCms\Block\Models\BlockLanguageSwitch',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
@@ -62,6 +63,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Form\Blocks\FormBuilder',
             'VitesseCms\Media\Blocks\Image',
             'VitesseCms\Media\Blocks\Logo',
+            'VitesseCms\Language\Blocks\LanguageSwitch',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
