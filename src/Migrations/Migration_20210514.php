@@ -51,6 +51,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockImage',
             'VitesseCms\Block\Models\BlockLogo',
             'VitesseCms\Block\Models\BlockLanguageSwitch',
+            'VitesseCms\Block\Models\BlockMailchimpInitialize',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
@@ -64,6 +65,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Media\Blocks\Image',
             'VitesseCms\Media\Blocks\Logo',
             'VitesseCms\Language\Blocks\LanguageSwitch',
+            'VitesseCms\Communication\Blocks\MailchimpInitialize',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
