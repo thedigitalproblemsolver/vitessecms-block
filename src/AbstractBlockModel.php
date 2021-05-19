@@ -2,11 +2,7 @@
 
 namespace VitesseCms\Block;
 
-use ReflectionClass;
-use VitesseCms\Block\Forms\BlockForm;
 use VitesseCms\Block\Interfaces\BlockModelInterface;
-use VitesseCms\Block\Interfaces\BlockSubFormInterface;
-use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Core\Interfaces\BaseObjectInterface;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Traits\BaseObjectTrait;
@@ -60,31 +56,6 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     {
         if (!empty($block->getTemplate())) :
             $this->template = $block->getTemplate();
-        endif;
-    }
-
-    public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void
-    {
-        $reflect = new ReflectionClass($this);
-        $this->di->eventsManager->fire($reflect->getName().':buildBlockForm', $form, $item);
-
-        /**
-         * @var BlockSubFormInterface $class
-         *
-         */
-        $class = 'VitesseCms\\Block\\Forms\\' . $reflect->getShortName() . 'SubForm';
-        if (class_exists($class)) :
-            $class::getBlockForm($form, $item, $repositories);
-        endif;
-
-        $class = 'VitesseCms\\' .
-            ucwords($form->configuration->getAccount()) .
-            '\\Block\\Forms\\' .
-            $reflect->getShortName() .
-            'SubForm';
-
-        if (class_exists($class)) :
-            $class::getBlockForm($form, $item, $repositories);
         endif;
     }
 

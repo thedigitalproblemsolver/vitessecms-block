@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Block\Forms;
 
-use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Utils\BlockUtil;
@@ -13,11 +12,9 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
 {
     public function build(Block $block): BlockForm
     {
-        $this->addText(
-            '%CORE_NAME%',
-            'name',
-            (new Attributes())->setRequired(true)->setMultilang(true)
-        )->addText('%ADMIN_CSS_CLASS%', 'class');
+        $this->addText('%CORE_NAME%', 'name', (new Attributes())->setRequired()->setMultilang())
+            ->addText('%ADMIN_CSS_CLASS%', 'class')
+        ;
 
         $files = BlockUtil::getTemplateFiles($block->getBlock(), $this->configuration);
         $options = [];
@@ -43,10 +40,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             $this->addToggle('Maincontent wrapper', 'maincontentWrapper');
         endif;
 
-        /** @var AbstractBlockModel $blockType */
-        $object = $block->getBlock();
-        $blockType = new $object($this->view);
-        $blockType->buildBlockForm($this, $block, $this->repositories);
+        $block->getDI()->get('eventsManager')->fire($block->getBlock().':buildBlockForm', $this, $block);
 
         $this->addSubmitButton('%CORE_SAVE%');
 
