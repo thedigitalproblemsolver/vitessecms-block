@@ -62,6 +62,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockShopUserOrders',
             'VitesseCms\Block\Models\BlockTexteditor',
             'VitesseCms\Block\Models\BlockUserChangePassword',
+            'VitesseCms\Block\Models\BlockUserLogin',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
@@ -86,6 +87,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Shop\Blocks\ShopUserOrders',
             'VitesseCms\Content\Blocks\Texteditor',
             'VitesseCms\User\Blocks\UserChangePassword',
+            'VitesseCms\User\Blocks\UserLogin',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
