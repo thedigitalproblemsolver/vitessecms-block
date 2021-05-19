@@ -59,6 +59,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockShopCheckoutSummary',
             'VitesseCms\Block\Models\BlockShopDiscountForm',
             'VitesseCms\Block\Models\BlockShopPaymentResult',
+            'VitesseCms\Block\Models\BlockShopUserOrders',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
@@ -80,6 +81,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Shop\Blocks\ShopCheckoutSummary',
             'VitesseCms\Shop\Blocks\ShopDiscountForm',
             'VitesseCms\Shop\Blocks\ShopPaymentResult',
+            'VitesseCms\Shop\Blocks\ShopUserOrders',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
