@@ -54,6 +54,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Block\Models\BlockMailchimpInitialize',
             'VitesseCms\Block\Models\BlockNewsletterSubscribe',
             'VitesseCms\Block\Models\BlockNewsletterSubscriptions',
+            'VitesseCms\Block\Models\BlockShopCart',
         ];
         $replace = [
             'VitesseCms\Block\Blocks\Blocks',
@@ -70,6 +71,7 @@ class Migration_20210514 implements MigrationInterface
             'VitesseCms\Communication\Blocks\MailchimpInitialize',
             'VitesseCms\Communication\Blocks\NewsletterSubscribe',
             'VitesseCms\Communication\Blocks\NewsletterSubscriptions',
+            'VitesseCms\Shop\Blocks\ShopCart',
         ];
         while ($blocks->valid()):
             $block = $blocks->current();
