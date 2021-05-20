@@ -18,6 +18,8 @@ class BlockHelper
         CacheService $cacheService
     ): string
     {
+        $block->getDI()->eventsManager->fire($block->getBlock() . ':loadAssets');
+
         $object = $block->getBlock();
         /** @var AbstractBlockModel $item */
         $item = new $object($view);

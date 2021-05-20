@@ -65,7 +65,6 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
         if (substr_count($block->getTemplate(), 'lazyload')) :
             $this->di->assets->loadLazyLoading();
         endif;
-        $this->di->eventsManager->fire(get_class($this) . ':loadAssets', $this, $block);
     }
 
     public function getCacheKey(Block $block): string
