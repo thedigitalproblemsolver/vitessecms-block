@@ -3,8 +3,8 @@
 namespace VitesseCms\Block\Repositories;
 
 use VitesseCms\Block\Factories\BlockFormBuilderFactory;
-use VitesseCms\Block\Models\BlockFormBuilder;
 use VitesseCms\Core\Services\ViewService;
+use VitesseCms\Form\Blocks\FormBuilder;
 
 class BlockFormBuilderRepository
 {
@@ -18,7 +18,7 @@ class BlockFormBuilderRepository
         $this->blockRepository = $blockRepository;
     }
 
-    public function getById(string $id, ViewService $view, bool $hideUnpublished = true): ?BlockFormBuilder
+    public function getById(string $id, ViewService $view, bool $hideUnpublished = true): ?FormBuilder
     {
         $block = $this->blockRepository->getById($id, $hideUnpublished);
         if ($block !== null):

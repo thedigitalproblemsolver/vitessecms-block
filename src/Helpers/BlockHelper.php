@@ -12,16 +12,15 @@ use VitesseCms\Core\Services\ViewService;
  */
 class BlockHelper
 {
-    public static function render(
-        Block $block,
-        ViewService $view,
-        CacheService $cacheService
-    ): string
+    public static function render(Block $block, ViewService $view, CacheService $cacheService): string
     {
+        if (substr_count($block->getTemplate(), 'lazyload')) :
+            $block->getDI()->get('assets')->loadLazyLoading();
+        endif;
+
         $object = $block->getBlock();
-        /** @var AbstractBlockModel $item */
         $item = new $object($view);
-        $item->loadAssets($block);
+        $block->getDI()->get('eventsManager')->fire($object . ':loadAssets', $item, $block);
 
         if ($item->_('excludeFromCache')) :
             $rendering = self::performRendering($block, $item, $view);
@@ -37,21 +36,13 @@ class BlockHelper
         return $rendering;
     }
 
-    public static function performRendering(
-        Block $block,
-        AbstractBlockModel $item,
-        ViewService $view
-    ): string
+    public static function performRendering(Block $block, AbstractBlockModel $item, ViewService $view): string
     {
         $item->parse($block);
         $return = $view->renderTemplate($item->getTemplate(), '', $item->getTemplateParams($block));
 
         if (!empty($block->getMaincontentWrapper())) :
-            $return = $view->renderTemplate(
-                'main_content',
-                'partials/block',
-                ['body' => $return]
-            );
+            $return = $view->renderTemplate('main_content', 'partials/block', ['body' => $return]);
         endif;
 
         return $return;

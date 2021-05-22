@@ -24,11 +24,7 @@ class NewBlockForm extends AbstractForm
                 (new Attributes())->setRequired(true)
                     ->setOptions(
                         ElementHelper::arrayToSelectOptions(
-                            BlockUtil::getTypes(
-                                $this->configuration->getRootDir(),
-                                $this->configuration->getAccountDir(),
-                                SystemUtil::getModules($this->configuration)
-                            )
+                            BlockUtil::getTypes(SystemUtil::getModules($this->configuration))
                         )
                     )
             )->addSubmitButton('%CORE_SAVE%');
