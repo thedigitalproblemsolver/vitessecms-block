@@ -18,7 +18,6 @@ use VitesseCms\Setting\Factory\SettingFactory;
 
 class AdminblockControllerListener
 {
-    //TODO move to listenmer
     public function beforeModelSave(Event $event, AdminblockController $controller, Block $block): void
     {
         switch ($block->getBlock()) :
@@ -73,18 +72,10 @@ class AdminblockControllerListener
         unset($block->logo_default, $block->logo_mobile, $block->logo_email, $block->favicon);
     }
 
-    public function adminListFilter(
-        Event $event,
-        AbstractAdminController $controller,
-        AdminlistFormInterface $form
-    ): string
+    public function adminListFilter(Event $event, AbstractAdminController $controller, AdminlistFormInterface $form): string
     {
         $form->addNameField($form);
-        $types = BlockUtil::getTypes(
-            $controller->configuration->getRootDir(),
-            $controller->configuration->getAccountDir(),
-            SystemUtil::getModules($controller->configuration)
-        );
+        $types = BlockUtil::getTypes(SystemUtil::getModules($controller->configuration));
         $types = array_combine($types, $types);
         $form->addDropdown(
             '%ADMIN_BLOCK%',

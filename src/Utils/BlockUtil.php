@@ -43,17 +43,12 @@ class BlockUtil
         return $return;
     }
 
-    public static function getTypes(string $rootDir, string $accountDir, array $modules): array
+    public static function getTypes(array $modules): array
     {
         $files = $types = [];
 
-        $modules['rootdir'] = $rootDir . '../block/src/Models/';
-        $modules['accountdir'] = $accountDir . 'src/block/Blocks/';
-
         foreach ($modules as $key => $directory) :
-            if($key !== 'rootdir' && $key !== 'accountdir' ) :
-                $directory .= '/Blocks/';
-            endif;
+            $directory .= '/Blocks/';
             $files = array_merge($files, DirectoryUtil::getFilelist($directory));
         endforeach;
 
@@ -65,8 +60,7 @@ class BlockUtil
 
         $types = array_flip($types);
         ksort($types);
-        $types = array_flip($types);
 
-        return $types;
+        return array_flip($types);
     }
 }
