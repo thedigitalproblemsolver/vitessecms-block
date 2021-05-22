@@ -3,14 +3,14 @@
 namespace VitesseCms\Block\Factories;
 
 use VitesseCms\Block\Models\Block;
-use VitesseCms\Block\Models\BlockFormBuilder;
 use VitesseCms\Core\Services\ViewService;
+use VitesseCms\Form\Blocks\FormBuilder;
 
 class BlockFormBuilderFactory
 {
-    public static function createFromBlock(Block $block, ViewService $view): BlockFormBuilder
+    public static function createFromBlock(Block $block, ViewService $view): FormBuilder
     {
-        return (new BlockFormBuilder($view))
+        return (new FormBuilder($view))
             ->setDatagroup($block->_('datagroup'))
             ->setNewsletters((array)$block->_('newsletters'))
             ->setUseRecaptcha((bool)$block->_('useRecaptcha'))

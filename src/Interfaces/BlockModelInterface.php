@@ -10,10 +10,6 @@ interface BlockModelInterface
 {
     public function parse(Block $block): void;
 
-    public function buildBlockForm(BlockForm $form, Block $item, RepositoryInterface $repositories): void;
-
-    public function loadAssets(Block $block): void;
-
     public function getCacheKey(Block $block): string;
 
     public function setExcludeFromCache(bool $value): BlockModelInterface;
@@ -21,4 +17,6 @@ interface BlockModelInterface
     public function getTemplate(): string;
 
     public function getDi(): InjectableInterface;
+
+    public function getTemplateParams(Block $block): array;
 }

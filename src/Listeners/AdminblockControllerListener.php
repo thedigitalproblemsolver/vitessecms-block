@@ -6,12 +6,12 @@ use Phalcon\Events\Event;
 use VitesseCms\Admin\AbstractAdminController;
 use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Models\Block;
-use VitesseCms\Block\Models\BlockLogo;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
 use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Core\Utils\SystemUtil;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
+use VitesseCms\Media\Blocks\Logo;
 use VitesseCms\Setting\Enum\CallingNameEnum;
 use VitesseCms\Setting\Enum\TypeEnum;
 use VitesseCms\Setting\Factory\SettingFactory;
@@ -21,7 +21,7 @@ class AdminblockControllerListener
     public function beforeModelSave(Event $event, AdminblockController $controller, Block $block): void
     {
         switch ($block->getBlock()) :
-            case BlockLogo::class:
+            case Logo::class:
                 $this->parseLogo($block);
                 break;
         endswitch;
@@ -72,18 +72,10 @@ class AdminblockControllerListener
         unset($block->logo_default, $block->logo_mobile, $block->logo_email, $block->favicon);
     }
 
-    public function adminListFilter(
-        Event $event,
-        AbstractAdminController $controller,
-        AdminlistFormInterface $form
-    ): string
+    public function adminListFilter(Event $event, AbstractAdminController $controller, AdminlistFormInterface $form): string
     {
         $form->addNameField($form);
-        $types = BlockUtil::getTypes(
-            $controller->configuration->getRootDir(),
-            $controller->configuration->getAccountDir(),
-            SystemUtil::getModules($controller->configuration)
-        );
+        $types = BlockUtil::getTypes(SystemUtil::getModules($controller->configuration));
         $types = array_combine($types, $types);
         $form->addDropdown(
             '%ADMIN_BLOCK%',

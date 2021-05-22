@@ -12,7 +12,8 @@ class BlockUtil
     public static function getTemplateFiles(string $class, ConfigService $configuration): array
     {
         $files = [];
-        $type = str_replace('Block','',array_reverse(explode( '\\', $class ))[0]);
+        $type = array_reverse(explode( '\\', $class ))[0];
+        $type = implode('', explode('Block', $type, 1));
 
         $directories = [
             $configuration->getCoreTemplateDir() . 'views/blocks/' . $type . '/',
@@ -42,17 +43,12 @@ class BlockUtil
         return $return;
     }
 
-    public static function getTypes(string $rootDir, string $accountDir, array $modules): array
+    public static function getTypes(array $modules): array
     {
         $files = $types = [];
 
-        $modules['rootdir'] = $rootDir . '../block/src/Models/';
-        $modules['accountdir'] = $accountDir . 'src/block/Blocks/';
-
         foreach ($modules as $key => $directory) :
-            if($key !== 'rootdir' && $key !== 'accountdir' ) :
-                $directory .= '/Blocks/';
-            endif;
+            $directory .= '/Blocks/';
             $files = array_merge($files, DirectoryUtil::getFilelist($directory));
         endforeach;
 
@@ -64,8 +60,7 @@ class BlockUtil
 
         $types = array_flip($types);
         ksort($types);
-        $types = array_flip($types);
 
-        return $types;
+        return array_flip($types);
     }
 }
