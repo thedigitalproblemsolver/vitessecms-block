@@ -5,7 +5,7 @@
   "keywords": ["php","phalcon","vitessecms"],
   "homepage": "https://github.com/thedigitalproblemsolver/VitesseCMS",
   "license": "GPL-2.0-or-later",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "authors": [
     {
       "name": "Jasper Jaklofsky",
@@ -18,17 +18,17 @@
     }
   },
   "require": {
-    "vitessecms/admin": "~0.1.2",
+    "vitessecms/admin": "~0.2.0",
     "vitessecms/configuration": "~0.1.0",
-    "vitessecms/language": "~0.1.0",
+    "vitessecms/language": "~0.2.0",
     "vitessecms/media": "~0.2.2",
     "vitessecms/sef": "~0.1.0",
     "vitessecms/setting": "~0.2.0",
     "vitessecms/user": "~0.2.1",
-    "vitessecms/core": "~0.1.7",
+    "vitessecms/core": "~0.2.0",
     "vitessecms/form": "~0.2.1",
     "vitessecms/datafield": "~0.2.2",
     "vitessecms/datagroup": "~0.2.2",
-    "vitessecms/communication": "~0.2.1"
+    "vitessecms/communication": "~0.2.2"
   }
 }
