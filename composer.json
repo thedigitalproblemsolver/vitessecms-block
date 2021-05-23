@@ -21,14 +21,14 @@
     "vitessecms/admin": "~0.1.2",
     "vitessecms/configuration": "~0.1.0",
     "vitessecms/language": "~0.1.0",
-    "vitessecms/media": "~0.1.1",
+    "vitessecms/media": "~0.2.0",
     "vitessecms/sef": "~0.1.0",
     "vitessecms/setting": "~0.1.0",
     "vitessecms/user": "~0.1.0",
     "vitessecms/core": "~0.1.7",
     "vitessecms/form": "~0.1.1",
-    "vitessecms/datafield": "~0.1.2",
-    "vitessecms/datagroup": "~0.1.2",
+    "vitessecms/datafield": "~0.2.0",
+    "vitessecms/datagroup": "~0.2.0",
     "vitessecms/communication": "~0.1.3"
   }
 }
