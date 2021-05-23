@@ -20,7 +20,7 @@ class BlockHelper
 
         $object = $block->getBlock();
         $item = new $object($view);
-        $block->getDI()->get('eventsManager')->fire($object . ':loadAssets', $item, $block);
+        $block->getDi()->eventsManager->fire($object . ':loadAssets', $item, $block);
 
         if ($item->_('excludeFromCache')) :
             $rendering = self::performRendering($block, $item, $view);
