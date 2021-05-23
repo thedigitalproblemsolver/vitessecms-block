@@ -43,6 +43,7 @@ class BlockUtil
         return $return;
     }
 
+    //TODO merge with datafieldUtils ?
     public static function getTypes(array $modules): array
     {
         $files = $types = [];
