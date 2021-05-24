@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace VitesseCms\Block\Listeners;
+namespace VitesseCms\Block\Listeners\Admin;
 
 use Phalcon\Events\Event;
 use VitesseCms\Admin\AbstractAdminController;
@@ -27,6 +27,7 @@ class AdminblockControllerListener
         endswitch;
     }
 
+    //TODO move to block listener
     protected function parseLogo(Block $block)
     {
         if ($block->logo_default !== null) :
