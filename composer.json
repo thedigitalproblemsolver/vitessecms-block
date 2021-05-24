@@ -27,8 +27,8 @@
     "vitessecms/user": "~0.2.2",
     "vitessecms/core": "~0.2.5",
     "vitessecms/form": "~0.2.2",
-    "vitessecms/datafield": "~0.2.7",
-    "vitessecms/datagroup": "~0.2.3",
+    "vitessecms/datafield": "~0.2.8",
+    "vitessecms/datagroup": "~0.2.4",
     "vitessecms/communication": "~0.2.4"
   }
 }
