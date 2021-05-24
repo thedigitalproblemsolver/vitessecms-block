@@ -40,7 +40,7 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             $this->addToggle('Maincontent wrapper', 'maincontentWrapper');
         endif;
 
-        $block->getDI()->get('eventsManager')->fire($block->getBlock().':buildBlockForm', $this, $block);
+        $block->getDi()->eventsManager->fire($block->getBlock().':buildBlockForm', $this, $block);
 
         $this->addSubmitButton('%CORE_SAVE%');
 
