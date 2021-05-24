@@ -1,16 +1,26 @@
 <?php declare(strict_types=1);
 
-namespace VitesseCms\Block\Listeners;
+namespace VitesseCms\Block\Listeners\Blocks;
 
 use Phalcon\Events\Event;
 use VitesseCms\Block\Forms\BlockForm;
-use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
 class BlockBlocksListener
 {
-    public function buildBlockForm(Event $event, BlockForm $form, Block $block): void
+    /**
+     * @var BlockRepository
+     */
+    private $blockRepository;
+
+    public function __construct(BlockRepository $blockRepository)
+    {
+        $this->blockRepository = $blockRepository;
+    }
+
+    public function buildBlockForm(Event $event, BlockForm $form): void
     {
         $form->addDropdown(
             '%ADMIN_BLOCKS%',
@@ -18,7 +28,7 @@ class BlockBlocksListener
             (new Attributes())
                 ->setMultiple(true)
                 ->setInputClass('select2-sortable')
-                ->setOptions(ElementHelper::modelIteratorToOptions($block->getDi()->repositories->block->findAll()))
+                ->setOptions(ElementHelper::modelIteratorToOptions($this->blockRepository->findAll()))
         );
     }
 }
