@@ -18,17 +18,16 @@ class BlockHelper
             $block->getDI()->get('assets')->loadLazyLoading();
         endif;
 
-        $object = $block->getBlock();
-        $item = new $object($view);
-        $block->getDi()->eventsManager->fire($object . ':loadAssets', $item, $block);
+        $blockType = $block->getBlockTypeInstance();
+        $block->getDi()->eventsManager->fire($block->getBlock() . ':loadAssets', $blockType, $block);
 
-        if ($item->_('excludeFromCache')) :
-            $rendering = self::performRendering($block, $item, $view);
+        if ($blockType->_('excludeFromCache')) :
+            $rendering = self::performRendering($block, $blockType, $view);
         else :
-            $cacheKey = $cacheService->getCacheKey($item->getCacheKey($block));
+            $cacheKey = $cacheService->getCacheKey($blockType->getCacheKey($block));
             $rendering = $cacheService->get($cacheKey);
             if (!$rendering) :
-                $rendering = self::performRendering($block, $item, $view);
+                $rendering = self::performRendering($block, $blockType, $view);
                 $cacheService->save($cacheKey, $rendering);
             endif;
         endif;
@@ -50,10 +49,8 @@ class BlockHelper
 
     public static function renderAjax(Block $block, ViewService $view): array
     {
-        $object = $block->getBlock();
-        /** @var AbstractBlockModel $item */
-        $item = new $object($view);
-        $item->parse($block);
+        $blockType = $block->getBlockTypeInstance();
+        $blockType->parse($block);
 
         return $block->_('return');
     }
