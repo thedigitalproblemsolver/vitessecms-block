@@ -61,7 +61,7 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
 
     public function getCacheKey(Block $block): string
     {
-        return $block->getId() . $block->_('updatedOn') . $_SERVER['REQUEST_URI'];
+        return $block->getId() . $block->getUpdatedOn()->getTimestamp() . $_SERVER['REQUEST_URI'];
     }
 
     public function setExcludeFromCache(bool $value): BlockModelInterface
