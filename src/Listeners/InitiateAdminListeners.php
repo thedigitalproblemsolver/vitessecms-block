@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Block\Listeners;
 
-use VitesseCms\Block\Blocks\Blocks;
+use VitesseCms\Block\Blocks\Blocks as BlockBlocks;
 use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Controllers\AdminblockpositionController;
 use VitesseCms\Block\Listeners\Admin\AdminblockControllerListener;
@@ -20,6 +20,6 @@ class InitiateAdminListeners implements InitiateListenersInterface
         $di->eventsManager->attach('adminMenu', new AdminMenuListener());
         $di->eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
         $di->eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
-        $di->eventsManager->attach(Blocks::class, new BlockBlocksListener(new BlockRepository()));
+        $di->eventsManager->attach(BlockBlocks::class, new BlockBlocksListener(new BlockRepository()));
     }
 }
