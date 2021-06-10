@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
+use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Database\AbstractCollection;
 
 class Block extends AbstractCollection
@@ -39,6 +40,7 @@ class Block extends AbstractCollection
     public function setTemplate(string $template): Block
     {
         $this->template = $template;
+
         return $this;
     }
 
@@ -57,5 +59,21 @@ class Block extends AbstractCollection
         $this->block = $block;
 
         return $this;
+    }
+
+    public function getBlockTypeInstance(): AbstractBlockModel
+    {
+        $class = $this->getBlock();
+        $object = (new $class($this->di->view));
+        $object->bind($this->toArray());
+
+        return $object;
+    }
+
+    public function beforeSave(): void
+    {
+        if($this->block !== null):
+            $this->di->eventsManager->fire($this->block.':beforeBlockSave', $this->getBlockTypeInstance());
+        endif;
     }
 }
