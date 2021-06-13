@@ -2,7 +2,6 @@
 
 namespace VitesseCms\Block\Services;
 
-use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Configuration\Services\ConfigService;
