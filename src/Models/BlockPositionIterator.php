@@ -3,17 +3,6 @@
 namespace VitesseCms\Block\Models;
 
 use ArrayIterator;
-use VitesseCms\Block\Helpers\BlockHelper;
-use VitesseCms\Block\Repositories\BlockRepository;
-use VitesseCms\Core\Helpers\HtmlHelper;
-use VitesseCms\Core\Helpers\ItemHelper;
-use VitesseCms\Datagroup\Models\Datagroup;
-use VitesseCms\Core\Services\CacheService;
-use VitesseCms\Core\Services\ViewService;
-use VitesseCms\Database\AbstractCollection;
-use VitesseCms\User\Models\User;
-use VitesseCms\User\Utils\PermissionUtils;
-use Phalcon\Http\Request;
 
 class BlockPositionIterator extends ArrayIterator
 {
