@@ -3,9 +3,6 @@
 namespace VitesseCms\Block\Repositories;
 
 use VitesseCms\Block\Interfaces\RepositoryInterface;
-use VitesseCms\Communication\Repositories\NewsletterRepository;
-use VitesseCms\Content\Repositories\ItemRepository;
-use VitesseCms\Datafield\Repositories\DatafieldRepository;
 use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 
 class RepositoryCollection implements RepositoryInterface
@@ -21,39 +18,18 @@ class RepositoryCollection implements RepositoryInterface
     public $block;
 
     /**
-     * @var NewsletterRepository
-     */
-    public $newsletter;
-
-    /**
      * @var DatagroupRepository
      */
     public $datagroup;
 
-    /**
-     * @var ItemRepository
-     */
-    public $item;
-
-    /**
-     * @var DatafieldRepository
-     */
-    public $datafield;
-
     public function __construct(
         BlockPositionRepository $blockPositionRepository,
         BlockRepository $blockRepository,
-        NewsletterRepository $newsletterRepository,
-        DatagroupRepository $datagroupRepository,
-        ItemRepository $itemRepository,
-        DatafieldRepository $datafieldRepository
+        DatagroupRepository $datagroupRepository
     )
     {
         $this->blockPosition = $blockPositionRepository;
         $this->block = $blockRepository;
-        $this->newsletter = $newsletterRepository;
         $this->datagroup = $datagroupRepository;
-        $this->item = $itemRepository;
-        $this->datafield = $datafieldRepository;
     }
 }
