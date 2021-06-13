@@ -5,7 +5,6 @@ namespace VitesseCms\Block;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Block\Repositories\RepositoryCollection;
-use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Core\AbstractModule;
 use VitesseCms\Datafield\Repositories\DatafieldRepository;
 use VitesseCms\Datagroup\Repositories\DatagroupRepository;
@@ -20,7 +19,6 @@ class Module extends AbstractModule
             new BlockPositionRepository(),
             new BlockRepository(),
             new DatagroupRepository(),
-            new ItemRepository(),
             new DatafieldRepository()
         ));
     }
