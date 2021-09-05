@@ -31,16 +31,26 @@ class BlockPosition extends AbstractCollection
      */
     public $ordering;
 
+    /**
+     * @var array
+     */
+    public $datagroup;
+
+    public function onConstruct()
+    {
+        $this->datagroup = [];
+    }
+
     public function getBlock(): string
     {
         return $this->block;
     }
 
     public function render(
-        ViewService $view,
-        User $user,
+        ViewService     $view,
+        User            $user,
         BlockRepository $blockRepository,
-        CacheService $cacheService
+        CacheService    $cacheService
     ): string
     {
         $return = '';
@@ -146,6 +156,13 @@ class BlockPosition extends AbstractCollection
     public function setOrdering(int $ordering): BlockPosition
     {
         $this->ordering = $ordering;
+
+        return $this;
+    }
+
+    public function setDatagroup(array $datagroup): BlockPosition
+    {
+        $this->datagroup = $datagroup;
 
         return $this;
     }
