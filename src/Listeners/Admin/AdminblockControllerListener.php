@@ -3,8 +3,8 @@
 namespace VitesseCms\Block\Listeners\Admin;
 
 use Phalcon\Events\Event;
-use VitesseCms\Admin\AbstractAdminController;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
+use VitesseCms\Block\Controllers\AdminblockController;
 use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Core\Utils\SystemUtil;
 use VitesseCms\Form\Helpers\ElementHelper;
@@ -12,7 +12,7 @@ use VitesseCms\Form\Models\Attributes;
 
 class AdminblockControllerListener
 {
-    public function adminListFilter(Event $event, AbstractAdminController $controller, AdminlistFormInterface $form): string
+    public function adminListFilter(Event $event, AdminblockController $controller, AdminlistFormInterface $form): string
     {
         $form->addNameField($form);
         $types = BlockUtil::getTypes(SystemUtil::getModules($controller->configuration));

@@ -3,13 +3,33 @@
 namespace VitesseCms\Block\Controllers;
 
 use VitesseCms\Block\AbstractBlockModel;
-use VitesseCms\Admin\AbstractAdminController;
 use VitesseCms\Block\Helpers\BlockHelper;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Content\Enum\ContentEnum;
+use VitesseCms\Content\Services\ContentService;
+use VitesseCms\Core\AbstractEventController;
+use VitesseCms\Core\Enum\CacheEnum;
+use VitesseCms\Core\Services\CacheService;
 
-class IndexController extends AbstractAdminController implements RepositoriesInterface
+class IndexController extends AbstractEventController implements RepositoriesInterface
 {
+    /**
+     * @var CacheService
+     */
+    private $cache;
+
+    /**
+     * @var ContentService
+     */
+    private $content;
+
+    public function __construct()
+    {
+        $this->cache = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+        $this->content = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+    }
+
     public function renderAction(): void
     {
         if ($this->request->isAjax()) :
