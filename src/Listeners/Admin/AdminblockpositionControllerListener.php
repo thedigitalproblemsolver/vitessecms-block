@@ -5,6 +5,7 @@ namespace VitesseCms\Block\Listeners\Admin;
 use Phalcon\Events\Event;
 use VitesseCms\Admin\AbstractAdminController;
 use VitesseCms\Admin\Forms\AdminlistFormInterface;
+use VitesseCms\Block\Controllers\AdminblockpositionController;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
@@ -12,7 +13,7 @@ class AdminblockpositionControllerListener
 {
     public function adminListFilter(
         Event $event,
-        AbstractAdminController $controller,
+        AdminblockpositionController $controller,
         AdminlistFormInterface $form
     ): string
     {
