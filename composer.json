@@ -5,7 +5,7 @@
   "keywords": ["php","phalcon","vitessecms"],
   "homepage": "https://github.com/thedigitalproblemsolver/VitesseCMS",
   "license": "GPL-2.0-or-later",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "authors": [
     {
       "name": "Jasper Jaklofsky",
@@ -24,6 +24,7 @@
     "vitessecms/core": "~0.2.14",
     "vitessecms/form": "~0.2.7",
     "vitessecms/datagroup": "~0.2.10",
+    "vitessecms/datafield": "~0.2.12",
     "vitessecms/content": "~0.2.13"
   }
 }
