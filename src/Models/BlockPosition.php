@@ -173,4 +173,9 @@ class BlockPosition extends AbstractCollection
 
         return $this;
     }
+
+    public function getDatagroup()
+    {
+        return $this->datagroup;
+    }
 }

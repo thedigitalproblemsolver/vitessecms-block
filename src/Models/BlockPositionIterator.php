@@ -6,7 +6,7 @@ use ArrayIterator;
 
 class BlockPositionIterator extends ArrayIterator
 {
-    public function __construct(array $blockPositions)
+    public function __construct(array $blockPositions = [])
     {
         parent::__construct($blockPositions);
     }
@@ -14,5 +14,10 @@ class BlockPositionIterator extends ArrayIterator
     public function current(): BlockPosition
     {
         return parent::current();
+    }
+
+    public function add(BlockPosition $blockPosition)
+    {
+        parent::append($blockPosition);
     }
 }
