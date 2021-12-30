@@ -36,6 +36,11 @@ class BlockPosition extends AbstractCollection
      */
     public $datagroup;
 
+    /**
+     * @var string
+     */
+    public $layout;
+
     public function onConstruct()
     {
         $this->datagroup = [];
@@ -177,5 +182,10 @@ class BlockPosition extends AbstractCollection
     public function getDatagroup()
     {
         return $this->datagroup;
+    }
+
+    public function getLayout(): string
+    {
+        return $this->layout;
     }
 }

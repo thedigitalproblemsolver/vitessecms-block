@@ -3,6 +3,7 @@
 namespace VitesseCms\Block\Repositories;
 
 use VitesseCms\Block\Interfaces\RepositoryInterface;
+use VitesseCms\Mustache\Repositories\LayoutRepository;
 
 class AdminRepositoryCollection implements RepositoryInterface
 {
@@ -11,10 +12,17 @@ class AdminRepositoryCollection implements RepositoryInterface
      */
     public $block;
 
+    /**
+     * @var LayoutRepository
+     */
+    public $layout;
+
     public function __construct(
-        BlockRepository $blockRepository
+        BlockRepository $blockRepository,
+        LayoutRepository $layoutRepository
     )
     {
         $this->block = $blockRepository;
+        $this->layout = $layoutRepository;
     }
 }
