@@ -22,7 +22,9 @@ class Module extends AbstractModule
         if(AdminUtil::isAdminPage()) :
             $di->setShared(DatabaseEnum::REPOSITORIES, new AdminRepositoryCollection(
                 new BlockRepository(),
-                new LayoutRepository()
+                new LayoutRepository(),
+                new DatagroupRepository(),
+                new BlockPositionRepository(),
             ));
         else :
             $di->setShared(DatabaseEnum::REPOSITORIES, new RepositoryCollection(

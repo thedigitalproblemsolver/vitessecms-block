@@ -71,7 +71,10 @@ class BlockService
             $dataGroups[] = $this->view->getCurrentItem()->getDatagroup();
         endif;
 
-        $blockPositions = $this->blockPositionRepository->getByPositionNameAndDatagroup($templatePosition, $dataGroups);
+        $blockPositions = $this->blockPositionRepository->getByPositionNameAndDatagroup(
+            $templatePosition,
+            $dataGroups
+        );
         while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
 
