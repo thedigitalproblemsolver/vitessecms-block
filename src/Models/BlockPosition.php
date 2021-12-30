@@ -184,7 +184,7 @@ class BlockPosition extends AbstractCollection
         return $this->datagroup;
     }
 
-    public function getLayout(): string
+    public function getLayout(): ?string
     {
         return $this->layout;
     }

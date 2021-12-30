@@ -8,6 +8,7 @@ use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Core\Services\CacheService;
 use VitesseCms\Core\Services\ViewService;
+use VitesseCms\Mustache\Enum\ViewEnum;
 use VitesseCms\User\Models\User;
 use VitesseCms\User\Utils\PermissionUtils;
 
@@ -74,12 +75,19 @@ class BlockService
         while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
 
-            $content .= $blockPosition->render(
-                $this->view,
-                $this->user,
-                $this->blockRepository,
-                $this->cache
-            );
+            if($blockPosition->getLayout() !== null):
+                $content .= $blockPosition->getDi()->eventsManager->fire(
+                    ViewEnum::RENDER_LAYOUT_EVENT,
+                    $blockPosition->getLayout()
+                );
+            else :
+                $content .= $blockPosition->render(
+                    $this->view,
+                    $this->user,
+                    $this->blockRepository,
+                    $this->cache
+                );
+            endif;
 
             $blockPositions->next();
         endwhile;
