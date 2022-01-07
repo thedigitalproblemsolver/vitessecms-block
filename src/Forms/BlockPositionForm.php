@@ -2,9 +2,9 @@
 
 namespace VitesseCms\Block\Forms;
 
-use VitesseCms\Block\Interfaces\RepositoryInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Models\BlockPosition;
+use VitesseCms\Block\Repositories\AdminRepositoryCollection;
 use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Database\Interfaces\BaseRepositoriesInterface;
@@ -22,7 +22,7 @@ class BlockPositionForm extends AbstractFormWithRepository
     protected $item;
 
     /**
-     * @var RepositoryInterface
+     * @var AdminRepositoryCollection
      */
     protected $repositories;
 
@@ -51,9 +51,23 @@ class BlockPositionForm extends AbstractFormWithRepository
                     )
             );
 
-        if (
-            !is_array($this->item->_('datagroup'))
-            && substr_count($this->item->_('datagroup'), 'page:') === 0
+        if(
+            is_array($this->item->getDatagroup())
+            && count($this->item->getDatagroup()) === 1
+            && $this->item->getDatagroup()[0] !== 'all'
+        ) :
+            $this->addDropdown(
+                '%BLOCK_LAYOUT%',
+                'layout',
+                (new Attributes())->setOptions(
+                    ElementHelper::modelIteratorToOptions(
+                        $this->repositories->layout->findByDatagroup($this->item->getDatagroup()[0])
+                    )
+                )
+            );
+        elseif (
+            !is_array($this->item->getDatagroup())
+            && substr_count($this->item->getDatagroup(), 'page:') === 0
         ) :
             $datagroups = $this->repositories->datagroup->findAll(null, false);
             $dataGroupOptions = ['all' => 'All'];

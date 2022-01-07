@@ -5,12 +5,13 @@ namespace VitesseCms\Block\Controllers;
 use VitesseCms\Admin\AbstractAdminEventController;
 use VitesseCms\Block\Forms\BlockForm;
 use VitesseCms\Block\Forms\NewBlockForm;
+use VitesseCms\Block\Interfaces\AdminRepositoryInterface;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Database\AbstractCollection;
 use VitesseCms\Form\AbstractForm;
 
-class AdminblockController extends AbstractAdminEventController implements RepositoriesInterface
+class AdminblockController extends AbstractAdminEventController implements AdminRepositoryInterface
 {
     public function onConstruct()
     {
