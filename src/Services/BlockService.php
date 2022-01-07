@@ -77,21 +77,25 @@ class BlockService
         );
         while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
-
             if($blockPosition->getLayout() !== null):
-                $content .= $blockPosition->getDi()->eventsManager->fire(
+                $layout = $blockPosition->getDi()->eventsManager->fire(
                     ViewEnum::RENDER_LAYOUT_EVENT,
                     $blockPosition->getLayout()
                 );
-            else :
+            endif;
+
+            if(empty($layout)) :
                 $content .= $blockPosition->render(
                     $this->view,
                     $this->user,
                     $this->blockRepository,
                     $this->cache
                 );
+            else :
+                $content .= $layout;
             endif;
 
+            $layout = '';
             $blockPositions->next();
         endwhile;
 
