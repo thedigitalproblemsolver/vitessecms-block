@@ -4,13 +4,14 @@ namespace VitesseCms\Block\Controllers;
 
 use VitesseCms\Admin\AbstractAdminEventController;
 use VitesseCms\Block\Forms\BlockPositionForm;
+use VitesseCms\Block\Interfaces\AdminRepositoryInterface;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Core\Enum\FlashEnum;
 use VitesseCms\Core\Services\FlashService;
 use \stdClass;
 
-class AdminblockpositionController extends AbstractAdminEventController implements RepositoriesInterface
+class AdminblockpositionController extends AbstractAdminEventController implements AdminRepositoryInterface
 {
     /**
      * @var FlashService

@@ -8,6 +8,7 @@ use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Core\Services\CacheService;
 use VitesseCms\Core\Services\ViewService;
+use VitesseCms\Mustache\Enum\ViewEnum;
 use VitesseCms\User\Models\User;
 use VitesseCms\User\Utils\PermissionUtils;
 
@@ -70,17 +71,31 @@ class BlockService
             $dataGroups[] = $this->view->getCurrentItem()->getDatagroup();
         endif;
 
-        $blockPositions = $this->blockPositionRepository->getByPositionNameAndDatagroup($templatePosition, $dataGroups);
+        $blockPositions = $this->blockPositionRepository->getByPositionNameAndDatagroup(
+            $templatePosition,
+            $dataGroups
+        );
         while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
+            if($blockPosition->getLayout() !== null):
+                $layout = $blockPosition->getDi()->eventsManager->fire(
+                    ViewEnum::RENDER_LAYOUT_EVENT,
+                    $blockPosition->getLayout()
+                );
+            endif;
 
-            $content .= $blockPosition->render(
-                $this->view,
-                $this->user,
-                $this->blockRepository,
-                $this->cache
-            );
+            if(empty($layout)) :
+                $content .= $blockPosition->render(
+                    $this->view,
+                    $this->user,
+                    $this->blockRepository,
+                    $this->cache
+                );
+            else :
+                $content .= $layout;
+            endif;
 
+            $layout = '';
             $blockPositions->next();
         endwhile;
 
