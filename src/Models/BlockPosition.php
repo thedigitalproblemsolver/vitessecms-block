@@ -165,9 +165,13 @@ class BlockPosition extends AbstractCollection
         return $this;
     }
 
-    public function setDatagroup(string $datagroup): BlockPosition
+    public function setDatagroup($datagroup): BlockPosition
     {
-        $this->datagroup = [$datagroup];
+        if (is_array($datagroup)) :
+            $this->datagroup = $datagroup;
+        else :
+            $this->datagroup = [$datagroup];
+        endif;
 
         return $this;
     }
