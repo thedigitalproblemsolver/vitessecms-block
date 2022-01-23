@@ -7,6 +7,7 @@ use VitesseCms\Block\Repositories\AdminRepositoryCollection;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Block\Repositories\RepositoryCollection;
+use VitesseCms\Content\Repositories\ItemRepository;
 use VitesseCms\Core\AbstractModule;
 use VitesseCms\Database\Enums\DatabaseEnum;
 use VitesseCms\Datafield\Repositories\DatafieldRepository;
@@ -25,6 +26,7 @@ class Module extends AbstractModule
                 new LayoutRepository(),
                 new DatagroupRepository(),
                 new BlockPositionRepository(),
+                new ItemRepository()
             ));
         else :
             $di->setShared(DatabaseEnum::REPOSITORIES, new RepositoryCollection(
