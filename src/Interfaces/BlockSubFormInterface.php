@@ -4,8 +4,9 @@ namespace VitesseCms\Block\Interfaces;
 
 use VitesseCms\Block\Forms\BlockForm;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Repositories\AdminRepositoryCollection;
 
 interface BlockSubFormInterface
 {
-    public static function getBlockForm(BlockForm $form, Block $block, RepositoryInterface $repositories): void;
+    public static function getBlockForm(BlockForm $form, Block $block, AdminRepositoryCollection $repositories): void;
 }
