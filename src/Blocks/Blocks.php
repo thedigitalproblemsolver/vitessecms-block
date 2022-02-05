@@ -3,7 +3,7 @@
 namespace VitesseCms\Block\Blocks;
 
 use VitesseCms\Block\AbstractBlockModel;
-use VitesseCms\Block\Helpers\BlockHelper;
+use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Database\Utils\MongoUtil;
 
@@ -22,11 +22,7 @@ class Blocks extends AbstractBlockModel
                     $content[] = [
                         'id' => $tmpBlock->getId(),
                         'name' => $tmpBlock->_('name'),
-                        'content' => BlockHelper::render(
-                            $tmpBlock,
-                            $this->di->view,
-                            $this->di->cache
-                        ),
+                        'content' => $this->di->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $tmpBlock)
                     ];
                 endif;
             endif;
