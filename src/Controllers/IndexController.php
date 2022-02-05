@@ -3,6 +3,7 @@
 namespace VitesseCms\Block\Controllers;
 
 use VitesseCms\Block\AbstractBlockModel;
+use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Helpers\BlockHelper;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
@@ -53,7 +54,7 @@ class IndexController extends AbstractEventController implements RepositoriesInt
                 $cacheKey = $this->cache->getCacheKey($item->getCacheKey($block));
                 $rendering = $this->cache->get($cacheKey);
                 if (!$rendering) :
-                    $rendering = BlockHelper::performRendering($block, $item, $this->view);
+                    $rendering = $this->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
                     $this->cache->save($cacheKey, $rendering);
                 endif;
 
