@@ -22,6 +22,13 @@ class BlockListeners
 
     public function renderBlock(Event $event, Block $block): string
     {
+        $this->eventsManager->fire($block->getBlock() . ':loadAssets', $block->getBlockTypeInstance(), $block);
+
+        return $this->render($block);
+    }
+
+    private function render(Block $block): string
+    {
         $blockType = $block->getBlockTypeInstance();
         $blockType->parse($block);
         $return = $this->eventsManager->fire(ViewEnum::RENDER_TEMPLATE_EVENT, new RenderTemplateDTO(
