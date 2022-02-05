@@ -2,7 +2,7 @@
 
 namespace VitesseCms\Block\Models;
 
-use VitesseCms\Block\Helpers\BlockHelper;
+use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Core\Helpers\ItemHelper;
@@ -62,7 +62,7 @@ class BlockPosition extends AbstractCollection
 
         $block = $blockRepository->getById($this->block);
         if ($block !== null) :
-            $return = BlockHelper::render($block, $view, $cacheService);
+            $return = $this->di->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
             if (
                 !empty($return)
                 && (

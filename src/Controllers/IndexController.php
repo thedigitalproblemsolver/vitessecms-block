@@ -4,7 +4,6 @@ namespace VitesseCms\Block\Controllers;
 
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Enum\BlockEnum;
-use VitesseCms\Block\Helpers\BlockHelper;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Content\Enum\ContentEnum;
@@ -36,7 +35,9 @@ class IndexController extends AbstractEventController implements RepositoriesInt
         if ($this->request->isAjax()) :
             $block = $this->repositories->block->getById($this->request->get('blockId'));
             if ($block instanceof Block) :
-                $this->prepareJson(BlockHelper::renderAjax($block, $this->view));
+                $blockType = $block->getBlockTypeInstance();
+                $blockType->parse($block);
+                $this->prepareJson($block->_('return'));
             endif;
         endif;
     }
