@@ -3,12 +3,13 @@
 namespace VitesseCms\Block\Helpers;
 
 use VitesseCms\Block\AbstractBlockModel;
+use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Core\Services\CacheService;
 use VitesseCms\Core\Services\ViewService;
 
 /**
- * @deprecated move to BlockUtil
+ * @deprecated move to listeners adn take a look at BlockEnum
  */
 class BlockHelper
 {
@@ -22,29 +23,17 @@ class BlockHelper
         $block->getDi()->eventsManager->fire($block->getBlock() . ':loadAssets', $blockType, $block);
 
         if ($blockType->_('excludeFromCache')) :
-            $rendering = self::performRendering($block, $blockType, $view);
+            $rendering = $block->getDi()->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
         else :
             $cacheKey = $cacheService->getCacheKey($blockType->getCacheKey($block));
             $rendering = $cacheService->get($cacheKey);
             if (!$rendering) :
-                $rendering = self::performRendering($block, $blockType, $view);
+                $rendering = $block->getDi()->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
                 $cacheService->save($cacheKey, $rendering);
             endif;
         endif;
 
         return $rendering;
-    }
-
-    public static function performRendering(Block $block, AbstractBlockModel $item, ViewService $view): string
-    {
-        $item->parse($block);
-        $return = $view->renderTemplate($item->getTemplate(), '', $item->getTemplateParams($block));
-
-        if (!empty($block->getMaincontentWrapper())) :
-            $return = $view->renderTemplate('main_content', 'partials/block', ['body' => $return]);
-        endif;
-
-        return $return;
     }
 
     public static function renderAjax(Block $block, ViewService $view): array
