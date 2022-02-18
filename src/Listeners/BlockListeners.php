@@ -22,6 +22,8 @@ class BlockListeners
 
     public function renderBlock(Event $event, Block $block): string
     {
+        var_dump($block->getBlock() . ':loadAssets');
+        die();
         $this->eventsManager->fire($block->getBlock() . ':loadAssets', $block->getBlockTypeInstance(), $block);
 
         return $this->render($block);
