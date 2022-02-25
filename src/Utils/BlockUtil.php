@@ -50,7 +50,9 @@ class BlockUtil
 
         foreach ($modules as $key => $directory) :
             $directory .= '/Blocks/';
-            $files = array_merge($files, DirectoryUtil::getFilelist($directory));
+            if(is_dir($directory)) :
+                $files = array_merge($files, DirectoryUtil::getFilelist($directory));
+            endif;
         endforeach;
 
         foreach ($files as $path => $file) :
