@@ -18,7 +18,7 @@ class BlockUtil
         $directories = [
             $configuration->getCoreTemplateDir() . 'views/blocks/' . $type . '/',
             $configuration->getTemplateDir() . 'views/blocks/' . $type . '/',
-            $configuration->getAccountDir() . 'views/blocks/' . $type . '/',
+            $configuration->getAccountDir() . 'Template/views/blocks/' . $type . '/',
         ];
 
         foreach ($directories as $directory) :
@@ -33,7 +33,7 @@ class BlockUtil
                     '.mustache',
                     $configuration->getCoreTemplateDir(),
                     $configuration->getTemplateDir(),
-                    $configuration->getAccountDir()
+                    $configuration->getAccountDir().'Template/'
                 ],
                 '',
                 $directory)] = ucfirst(str_replace('_', ' ', FileUtil::getName($file))
