@@ -18,8 +18,12 @@ class BlockUtil
         $directories = [
             $configuration->getCoreTemplateDir() . 'views/blocks/' . $type . '/',
             $configuration->getTemplateDir() . 'views/blocks/' . $type . '/',
-            $configuration->getAccountDir() . 'views/blocks/' . $type . '/',
+            $configuration->getAccountDir() . 'Template/views/blocks/' . $type . '/',
         ];
+
+        foreach ( SystemUtil::getModules($configuration) as $key => $moduleDir ) :
+            $directories[] = $moduleDir.'/Template/views/blocks/'.$type.'/';
+        endforeach;
 
         foreach ($directories as $directory) :
             $files = array_merge($files, DirectoryUtil::getFilelist($directory));
@@ -28,16 +32,21 @@ class BlockUtil
 
         $return = [];
         foreach ($files as $directory => $file) :
-            $return[str_replace(
+            $parsedDir = str_replace(
                 [
                     '.mustache',
                     $configuration->getCoreTemplateDir(),
                     $configuration->getTemplateDir(),
-                    $configuration->getAccountDir()
+                    $configuration->getAccountDir().'Template/'
                 ],
                 '',
-                $directory)] = ucfirst(str_replace('_', ' ', FileUtil::getName($file))
+                $directory
             );
+
+            foreach ( SystemUtil::getModules($configuration) as $key => $moduleDir ) :
+                $parsedDir = str_replace($moduleDir.'/Template/','',$parsedDir);
+            endforeach;
+            $return[$parsedDir] = ucfirst(str_replace('_', ' ', FileUtil::getName($file)));
         endforeach;
 
         return $return;
@@ -50,7 +59,9 @@ class BlockUtil
 
         foreach ($modules as $key => $directory) :
             $directory .= '/Blocks/';
-            $files = array_merge($files, DirectoryUtil::getFilelist($directory));
+            if(is_dir($directory)) :
+                $files = array_merge($files, DirectoryUtil::getFilelist($directory));
+            endif;
         endforeach;
 
         foreach ($files as $path => $file) :
