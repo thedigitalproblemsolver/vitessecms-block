@@ -46,7 +46,7 @@ class BlockPosition extends AbstractCollection
         $this->datagroup = [];
     }
 
-    public function getBlock(): string
+    public function getBlock(): ?string
     {
         return $this->block;
     }
