@@ -32,6 +32,11 @@ class Block extends AbstractCollection
         return $this->class ?? '';
     }
 
+    public function hasClass(): bool
+    {
+        return $this->class !== null;
+    }
+
     public function getMaincontentWrapper(): string
     {
         return $this->maincontentWrapper ?? '';
