@@ -62,7 +62,7 @@ class BlockPosition extends AbstractCollection
 
         $block = $blockRepository->getById($this->block);
         if ($block !== null) :
-            $return = $this->di->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
+            $return = $this->getDI()->get('eventsManager')->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
             if (
                 !empty($return)
                 && (
