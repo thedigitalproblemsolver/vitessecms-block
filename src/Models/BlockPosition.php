@@ -100,11 +100,11 @@ class BlockPosition extends AbstractCollection
             $return .= '<a
                             id="publish-toggle-' . $this->getId() . '"
                             class="' . $publishedIcon . '"
-                            href="' . $this->di->url->getBaseUri() . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
+                            href="' . $this->getDI()->get('url')->getBaseUri() . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
                         ></a>
                         <a
                             class="fa fa-trash btn btn-danger"
-                            href="' . $this->di->url->getBaseUri() . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
+                            href="' . $this->getDI()->get('url')->getBaseUri() . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
                         ></a>';
         endif;
         $return .= '</div>';
