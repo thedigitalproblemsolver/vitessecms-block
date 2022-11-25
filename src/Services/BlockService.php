@@ -8,6 +8,7 @@ use VitesseCms\Configuration\Services\ConfigService;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Core\Services\CacheService;
 use VitesseCms\Core\Services\ViewService;
+use VitesseCms\Mustache\DTO\RenderLayoutDTO;
 use VitesseCms\Mustache\Enum\ViewEnum;
 use VitesseCms\User\Models\User;
 use VitesseCms\User\Utils\PermissionUtils;
@@ -64,6 +65,7 @@ class BlockService
     public function parseTemplatePosition(string $templatePosition, $templateLayoutClass): string
     {
         $content = '';
+        $layout ='';
 
         $dataGroups = ['all'];
         if ($this->view->hasCurrentItem()) :
@@ -77,10 +79,11 @@ class BlockService
         );
         while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
-            if($blockPosition->getLayout() !== null):
-                $layout = $blockPosition->getDi()->eventsManager->fire(
+            if($blockPosition->hasLayout()):
+                echo 'a';
+                $layout = $blockPosition->getDi()->get('eventsManager')->fire(
                     ViewEnum::RENDER_LAYOUT_EVENT,
-                    $blockPosition->getLayout()
+                    new RenderLayoutDTO($blockPosition->getLayout())
                 );
             endif;
 

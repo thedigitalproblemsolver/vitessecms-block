@@ -188,6 +188,11 @@ class BlockPosition extends AbstractCollection
         return $this->datagroup;
     }
 
+    public function hasLayout(): bool
+    {
+        return $this->layout !== null;
+    }
+
     public function getLayout(): ?string
     {
         return $this->layout;
