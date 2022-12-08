@@ -23,7 +23,7 @@ class AdminblockpositionControllerListener
             '%ADMIN_POSITION%',
             'filter[position]',
             (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions(
-                (array)$form->config->get('template')->get('positions')
+                $form->configuration->getTemplatePositions()
             ))
         );
 
