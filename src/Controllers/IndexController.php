@@ -14,22 +14,6 @@ use VitesseCms\Core\Services\CacheService;
 
 class IndexController extends AbstractEventController implements RepositoriesInterface
 {
-    /**
-     * @var CacheService
-     */
-    private $cache;
-
-    /**
-     * @var ContentService
-     */
-    private $content;
-
-    public function __construct()
-    {
-        $this->cache = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER,new stdClass());
-        $this->content = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER,new stdClass());
-    }
-
     public function renderAction(): void
     {
         if ($this->request->isAjax()) :
@@ -45,6 +29,8 @@ class IndexController extends AbstractEventController implements RepositoriesInt
     public function renderHtmlAction(): void
     {
         if ($this->request->isAjax()) :
+            $cache = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+            $content = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER,new stdClass());
             $block = $this->repositories->block->getById($this->request->get('blockId'));
             if ($block instanceof Block) :
                 $object = $block->getBlock();
@@ -52,14 +38,14 @@ class IndexController extends AbstractEventController implements RepositoriesInt
                 /** @var AbstractBlockModel $item */
                 $item = new $object($this->view);
 
-                $cacheKey = $this->cache->getCacheKey($item->getCacheKey($block));
-                $rendering = $this->cache->get($cacheKey);
+                $cacheKey = $cache->getCacheKey($item->getCacheKey($block));
+                $rendering = $cache->get($cacheKey);
                 if (!$rendering) :
                     $rendering = $this->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
-                    $this->cache->save($cacheKey, $rendering);
+                    $cache->save($cacheKey, $rendering);
                 endif;
 
-                echo $this->content->parseContent((string)$rendering);
+                echo $content->parseContent((string)$rendering);
             endif;
             die();
         endif;

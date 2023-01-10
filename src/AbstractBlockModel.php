@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block;
 
+use Phalcon\Di\Di;
 use VitesseCms\Block\Interfaces\BlockModelInterface;
 use VitesseCms\Core\Interfaces\BaseObjectInterface;
 use VitesseCms\Core\Services\ViewService;
@@ -35,9 +36,10 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
      */
     protected $view;
 
-    public function __construct(ViewService $view)
+    public function __construct(ViewService $view, Di $di)
     {
         $this->view = $view;
+        $this->di = $di;
         $this->initialize();
     }
 
@@ -46,10 +48,6 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     {
         $this->excludeFromCache = false;
         $this->template = 'core';
-
-        if (!is_object($this->di)) :
-            $this->di = new InjectableHelper();
-        endif;
     }
 
     public function parse(Block $block): void

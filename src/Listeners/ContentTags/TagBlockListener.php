@@ -6,6 +6,7 @@ use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Repositories\BlockRepository;
+use VitesseCms\Content\DTO\TagListenerDTO;
 use VitesseCms\Content\Helpers\EventVehicleHelper;
 use VitesseCms\Content\Listeners\ContentTags\AbstractTagListener;
 use VitesseCms\Mustache\DTO\RenderTemplateDTO;
@@ -34,25 +35,22 @@ class TagBlockListener extends AbstractTagListener
      */
     private $eventManager;
 
-    public function __construct(
-        BlockRepository $blockRepository,
-        Manager         $eventManager
-    )
+    public function __construct(BlockRepository $blockRepository, Manager $eventManager)
     {
         $this->name = 'BLOCK';
         $this->blockRepository = $blockRepository;
         $this->eventsManager = $eventManager;
     }
 
-    protected function parse(EventVehicleHelper $contentVehicle, string $tagString): void
+    protected function parse(EventVehicleHelper $contentVehicle, TagListenerDTO $tagListenerDTO): void
     {
-        $tagOptions = explode(';', $tagString);
+        $tagOptions = explode(';', $tagListenerDTO->getTagString());
         $block = $this->blockRepository->getById($tagOptions[1]);
         $replace = $this->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
 
         $contentVehicle->setContent(
             str_replace(
-                '{' . $this->name . $tagString . '}',
+                '{' . $this->name . $tagListenerDTO->getTagString() . '}',
                 $replace,
                 $contentVehicle->getContent()
             )

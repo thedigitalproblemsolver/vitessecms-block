@@ -2,6 +2,7 @@
 
 namespace VitesseCms\Block\Forms;
 
+use Phalcon\Forms\Form;
 use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Block\Repositories\AdminRepositoryCollection;
 use VitesseCms\Datagroup\Models\DatagroupIterator;
@@ -12,16 +13,6 @@ use VitesseCms\Form\Models\Attributes;
 
 class BlockPositionForm extends AbstractFormWithRepository
 {
-    /**
-     * @var BlockPosition
-     */
-    protected $item;
-
-    /**
-     * @var AdminRepositoryCollection
-     */
-    protected $repositories;
-
     public function buildForm(): FormWithRepositoryInterface
     {
         $this->addText(
@@ -48,22 +39,22 @@ class BlockPositionForm extends AbstractFormWithRepository
             );
 
         if(
-            is_array($this->item->getDatagroup())
-            && count($this->item->getDatagroup()) === 1
-            && $this->item->getDatagroup()[0] !== 'all'
-            && $this->item->getDatagroup()[0] !== ''
+            is_array($this->entity->getDatagroup())
+            && count($this->entity->getDatagroup()) === 1
+            && $this->entity->getDatagroup()[0] !== 'all'
+            && $this->entity->getDatagroup()[0] !== ''
         ) :
             $this->addDropdown(
                 '%BLOCK_LAYOUT%',
                 'layout',
                 (new Attributes())->setOptions(
                     ElementHelper::modelIteratorToOptions(
-                        $this->repositories->layout->findByDatagroup($this->item->getDatagroup()[0],null, false)
+                        $this->repositories->layout->findByDatagroup($this->entity->getDatagroup()[0],null, false)
                     )
                 )
             );
 
-            $datagroup = $this->repositories->datagroup->getById($this->item->getDatagroup()[0]);
+            $datagroup = $this->repositories->datagroup->getById($this->entity->getDatagroup()[0]);
             $this->addDropdown(
                 '%ADMIN_DATAGROUP%',
                 'datagroup',
@@ -73,10 +64,10 @@ class BlockPositionForm extends AbstractFormWithRepository
             );
         elseif (
             (
-                !is_array($this->item->getDatagroup())
-                && substr_count($this->item->getDatagroup(), 'page:') === 0
+                !is_array($this->entity->getDatagroup())
+                && substr_count($this->entity->getDatagroup(), 'page:') === 0
             ) ||
-            is_array($this->item->getDatagroup())
+            is_array($this->entity->getDatagroup())
 
         ) :
             $datagroups = $this->repositories->datagroup->findAll(null, false);
@@ -99,12 +90,5 @@ class BlockPositionForm extends AbstractFormWithRepository
             ->addSubmitButton('%CORE_SAVE%');
 
         return $this;
-    }
-
-    public function setEntity($entity)
-    {
-        parent::setEntity($entity);
-
-        $this->item = $entity;
     }
 }
