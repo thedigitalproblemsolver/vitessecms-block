@@ -62,7 +62,7 @@ class BlockPosition extends AbstractCollection
 
         $block = $blockRepository->getById($this->block);
         if ($block !== null) :
-            $return = $this->di->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
+            $return = $this->getDI()->get('eventsManager')->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
             if (
                 !empty($return)
                 && (
@@ -100,11 +100,11 @@ class BlockPosition extends AbstractCollection
             $return .= '<a
                             id="publish-toggle-' . $this->getId() . '"
                             class="' . $publishedIcon . '"
-                            href="' . $this->di->url->getBaseUri() . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
+                            href="' . $this->getDI()->get('url')->getBaseUri() . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
                         ></a>
                         <a
                             class="fa fa-trash btn btn-danger"
-                            href="' . $this->di->url->getBaseUri() . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
+                            href="' . $this->getDI()->get('url')->getBaseUri() . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
                         ></a>';
         endif;
         $return .= '</div>';
@@ -186,6 +186,11 @@ class BlockPosition extends AbstractCollection
     public function getDatagroup()
     {
         return $this->datagroup;
+    }
+
+    public function hasLayout(): bool
+    {
+        return $this->layout !== null;
     }
 
     public function getLayout(): ?string

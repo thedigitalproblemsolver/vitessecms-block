@@ -13,11 +13,6 @@ use \stdClass;
 
 class AdminblockpositionController extends AbstractAdminEventController implements AdminRepositoryInterface
 {
-    /**
-     * @var FlashService
-     */
-    private $flash;
-
     public function onConstruct()
     {
         parent::onConstruct();

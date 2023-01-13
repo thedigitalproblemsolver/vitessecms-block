@@ -32,6 +32,11 @@ class Block extends AbstractCollection
         return $this->class ?? '';
     }
 
+    public function hasClass(): bool
+    {
+        return $this->class !== null;
+    }
+
     public function getMaincontentWrapper(): string
     {
         return $this->maincontentWrapper ?? '';
@@ -64,7 +69,7 @@ class Block extends AbstractCollection
     public function getBlockTypeInstance(): AbstractBlockModel
     {
         $class = $this->getBlock();
-        $object = (new $class($this->di->view));
+        $object = (new $class($this->getDI()->get('view'), $this->getDI()));
         $object->bind($this->toArray());
 
         return $object;
@@ -73,7 +78,7 @@ class Block extends AbstractCollection
     public function beforeSave(): void
     {
         if($this->block !== null):
-            $this->di->eventsManager->fire($this->block.':beforeBlockSave', $this->getBlockTypeInstance());
+            $this->getDI()->get('eventsManager')->fire($this->block.':beforeBlockSave', $this->getBlockTypeInstance());
         endif;
     }
 }

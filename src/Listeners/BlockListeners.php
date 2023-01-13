@@ -5,8 +5,10 @@ namespace VitesseCms\Block\Listeners;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Mustache\DTO\RenderTemplateDTO;
 use VitesseCms\Mustache\Enum\ViewEnum;
+use VitesseCms\User\Blocks\UserLogin;
 
 class BlockListeners
 {
@@ -36,6 +38,12 @@ class BlockListeners
             'mustache/src/Template/core/',
             $blockType->getTemplateParams($block)
         ));
+
+        if ($block->hasClass()) :
+            $return = '<div ' . HtmlHelper::makeAttribute([$block->getClass()], 'class') . '>' .
+                $return .
+                '</div>';
+        endif;
 
         if (!empty($block->getMaincontentWrapper())) :
             $return = $this->eventsManager->fire(ViewEnum::RENDER_TEMPLATE_EVENT, new RenderTemplateDTO(

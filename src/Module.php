@@ -12,7 +12,7 @@ use VitesseCms\Core\AbstractModule;
 use VitesseCms\Database\Enums\DatabaseEnum;
 use VitesseCms\Datafield\Repositories\DatafieldRepository;
 use VitesseCms\Datagroup\Repositories\DatagroupRepository;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use VitesseCms\Mustache\Repositories\LayoutRepository;
 
 class Module extends AbstractModule

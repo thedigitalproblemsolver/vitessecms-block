@@ -10,7 +10,7 @@ class BlockFormBuilderFactory
 {
     public static function createFromBlock(Block $block, ViewService $view): FormBuilder
     {
-        return (new FormBuilder($view))
+        return (new FormBuilder($view,$block->getDI()))
             ->setDatagroup($block->_('datagroup'))
             ->setNewsletters((array)$block->_('newsletters'))
             ->setUseRecaptcha((bool)$block->_('useRecaptcha'))
