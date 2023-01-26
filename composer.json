@@ -21,11 +21,11 @@
     "vitessecms/admin": "~0.3.0",
     "vitessecms/configuration": "~0.3.0",
     "vitessecms/user": "~0.3.1",
-    "vitessecms/core": "~0.3.3",
+    "vitessecms/core": "~0.3.5",
     "vitessecms/form": "~0.3.0",
     "vitessecms/datagroup": "~0.3.0",
     "vitessecms/datafield": "~0.3.0",
-    "vitessecms/content": "~0.3.1",
+    "vitessecms/content": "~0.3.2",
     "vitessecms/mustache": "~0.3.0"
   }
 }
