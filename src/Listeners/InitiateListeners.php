@@ -6,10 +6,10 @@ use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Enum\BlockPositionEnum;
 use VitesseCms\Block\Listeners\Admin\AdminMenuListener;
 use VitesseCms\Block\Listeners\ContentTags\TagBlockListener;
+use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Interfaces\InitiateListenersInterface;
 use VitesseCms\Core\Interfaces\InjectableInterface;
-use VitesseCms\User\Repositories\BlockPositionRepository;
 
 class InitiateListeners implements InitiateListenersInterface
 {
@@ -28,7 +28,8 @@ class InitiateListeners implements InitiateListenersInterface
         ));
         $di->eventsManager->attach(BlockPositionEnum::BLOCKPOSITION_LISTENER, new BlockPositionListener(
             new BlockPositionRepository(),
-            new BlockRepository()
+            new BlockRepository(),
+            $di->eventsManager
         ));
     }
 }

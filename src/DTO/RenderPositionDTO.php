@@ -7,11 +7,17 @@ use Phalcon\Events\Event;
 
 class RenderPositionDTO {
     readonly string $position;
-    readonly string $role;
+    readonly array $roles;
+    readonly array $datagroups;
 
-    final public function __construct(string $position, string $role)
+    final public function __construct(
+        string $position,
+        array $roles = [],
+        array $datagroups = []
+    )
     {
         $this->position = $position;
-        $this->role = $role;
+        $this->roles = $roles;
+        $this->datagroups = $datagroups;
     }
 }

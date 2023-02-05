@@ -3,6 +3,7 @@
 namespace VitesseCms\Block\Listeners;
 
 use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use VitesseCms\Block\DTO\RenderPositionDTO;
 use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
@@ -16,14 +17,17 @@ class BlockPositionListener
 {
     private BlockPositionRepository $blockPositionRepository;
     private BlockRepository $blockRepository;
+    private Manager $eventsManager;
 
     public function __construct(
         BlockPositionRepository $blockPositionRepository,
-        BlockRepository $blockRepository
+        BlockRepository $blockRepository,
+        Manager $eventsManager
     )
     {
         $this->blockPositionRepository = $blockPositionRepository;
         $this->blockRepository = $blockRepository;
+        $this->eventsManager = $eventsManager;
     }
 
     public function getRepository(): BlockPositionRepository
@@ -33,19 +37,25 @@ class BlockPositionListener
 
     public function renderPosition(Event $event, RenderPositionDTO $renderPositionDTO): string
     {
-        $blockPositions  = $this->blockPositionRepository->findAll(
-            new FindValueIterator([
-                new FindValue('position', $renderPositionDTO->position),
-                new FindValue('roles', ['$in' => [null, $renderPositionDTO->role]])
-            ])
-        );
+        $findValueIterator = new FindValueIterator([new FindValue('position', $renderPositionDTO->position)]);
+        if(count($renderPositionDTO->roles) > 0 ) {
+            $findValueIterator->append(new FindValue('roles', ['$in' => $renderPositionDTO->roles]));
+        }
+
+        if(count($renderPositionDTO->datagroups) > 0 ) {
+            $findValueIterator->append(new FindValue('datagroup', ['$in' => $renderPositionDTO->datagroups]));
+        }
+
+        $blockPositions  = $this->blockPositionRepository->findAll($findValueIterator);
 
         $return = '';
         while ($blockPositions->valid()) {
             $blockPosition = $blockPositions->current();
 
             $block = $this->blockRepository->getById($blockPosition->getBlock());
-            $return .= $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK, $block);
+            if( $block !== null ) {
+                $return .= $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK, $block);
+            }
 
             $blockPositions->next();
         }
