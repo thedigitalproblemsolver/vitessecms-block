@@ -5,6 +5,7 @@ namespace VitesseCms\Block\Listeners;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Mustache\DTO\RenderTemplateDTO;
 use VitesseCms\Mustache\Enum\ViewEnum;
@@ -12,14 +13,17 @@ use VitesseCms\User\Blocks\UserLogin;
 
 class BlockListeners
 {
-    /**
-     * @var Manager
-     */
-    private $eventManager;
+    private Manager $eventManager;
+    private BlockRepository $blockRepository;
 
-    public function __construct(Manager $eventManager)
+    public function __construct(Manager $eventManager, BlockRepository $blockRepository)
     {
         $this->eventsManager = $eventManager;
+        $this->blockRepository = $blockRepository;
+    }
+    public function getRepository(): BlockRepository
+    {
+        return $this->blockRepository;
     }
 
     public function renderBlock(Event $event, Block $block): string
