@@ -22,6 +22,6 @@ class InitiateAdminListeners implements InitiateListenersInterface
         $di->eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
         $di->eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
         $di->eventsManager->attach(BlockBlocks::class, new BlockBlocksListener(new BlockRepository()));
-        $di->eventsManager->attach(BlockEnum::BLOCK_LISTENER, new BlockListeners($di->eventsManager, new BlockRepository()));
+        $di->eventsManager->attach(BlockEnum::BLOCK_LISTENER->value, new BlockListeners($di->eventsManager, new BlockRepository()));
     }
 }

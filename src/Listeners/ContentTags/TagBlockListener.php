@@ -46,7 +46,7 @@ class TagBlockListener extends AbstractTagListener
     {
         $tagOptions = explode(';', $tagListenerDTO->getTagString());
         $block = $this->blockRepository->getById($tagOptions[1]);
-        $replace = $this->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
+        $replace = $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $block);
 
         $contentVehicle->setContent(
             str_replace(

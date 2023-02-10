@@ -22,7 +22,7 @@ class Blocks extends AbstractBlockModel
                     $content[] = [
                         'id' => $tmpBlock->getId(),
                         'name' => $tmpBlock->_('name'),
-                        'content' => $this->di->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $tmpBlock)
+                        'content' => $this->di->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $tmpBlock)
                     ];
                 endif;
             endif;

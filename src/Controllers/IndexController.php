@@ -6,48 +6,59 @@ use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Content\Enum\ContentEnum;
 use VitesseCms\Content\Services\ContentService;
+use VitesseCms\Core\AbstractControllerFrontend;
 use VitesseCms\Core\AbstractEventController;
 use VitesseCms\Core\Enum\CacheEnum;
 use VitesseCms\Core\Services\CacheService;
 
-class IndexController extends AbstractEventController implements RepositoriesInterface
+class IndexController extends AbstractControllerFrontend
 {
-    public function renderAction(): void
+    private BlockRepository $blockRepository;
+    private CacheService $cacheService;
+    private ContentService $contentService;
+
+    public function onConstruct()
+    {
+        parent::onConstruct();
+
+        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
+        $this->cacheService = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+        $this->contentService = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+    }
+
+    public function renderAction(string $blockId): void
     {
         if ($this->request->isAjax()) :
-            $block = $this->repositories->block->getById($this->request->get('blockId'));
-            if ($block instanceof Block) :
+            $block = $this->blockRepository->getById($blockId);
+            if ($block !== null) {
                 $blockType = $block->getBlockTypeInstance();
                 $blockType->parse($block);
-                $this->prepareJson($block->_('return'));
-            endif;
+                $this->jsonResponse($block->_('return'));
+            }
         endif;
     }
 
-    public function renderHtmlAction(): void
+    public function renderHtmlAction(string $blockId): void
     {
-        if ($this->request->isAjax()) :
-            $cache = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER,new stdClass());
-            $content = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER,new stdClass());
-            $block = $this->repositories->block->getById($this->request->get('blockId'));
-            if ($block instanceof Block) :
-                $object = $block->getBlock();
+        if ($this->request->isAjax()) {
+            $block = $this->blockRepository->getById($blockId);
+            if ($block !== null) {
+                $blockType = $block->getBlockTypeInstance();
 
-                /** @var AbstractBlockModel $item */
-                $item = new $object($this->view);
-
-                $cacheKey = $cache->getCacheKey($item->getCacheKey($block));
-                $rendering = $cache->get($cacheKey);
+                $cacheKey = $this->cacheService->getCacheKey($blockType->getCacheKey($block));
+                $rendering = $this->cacheService->get($cacheKey);
                 if (!$rendering) :
-                    $rendering = $this->eventsManager->fire(BlockEnum::BLOCK_LISTENER . ':renderBlock', $block);
-                    $cache->save($cacheKey, $rendering);
+                    $rendering = $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $block);
+                    $this->cacheService->save($cacheKey, $rendering);
                 endif;
 
-                echo $content->parseContent((string)$rendering);
-            endif;
-            die();
-        endif;
+                echo $this->contentService->parseContent((string)$rendering);
+            }
+        }
+
+        $this->viewService->disable();
     }
 }

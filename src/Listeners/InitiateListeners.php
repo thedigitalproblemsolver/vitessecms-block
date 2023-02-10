@@ -22,7 +22,7 @@ class InitiateListeners implements InitiateListenersInterface
             new BlockRepository(),
             $di->eventsManager
         ));
-        $di->eventsManager->attach(BlockEnum::BLOCK_LISTENER, new BlockListeners(
+        $di->eventsManager->attach(BlockEnum::BLOCK_LISTENER->value, new BlockListeners(
             $di->eventsManager,
             new BlockRepository()
         ));
