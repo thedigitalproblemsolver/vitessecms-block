@@ -80,7 +80,6 @@ class BlockService
         while ($blockPositions->valid()) :
             $blockPosition = $blockPositions->current();
             if($blockPosition->hasLayout()):
-                echo 'a';
                 $layout = $blockPosition->getDi()->get('eventsManager')->fire(
                     ViewEnum::RENDER_LAYOUT_EVENT,
                     new RenderLayoutDTO($blockPosition->getLayout())
