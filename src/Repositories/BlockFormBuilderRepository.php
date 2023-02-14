@@ -8,23 +8,15 @@ use VitesseCms\Form\Blocks\FormBuilder;
 
 class BlockFormBuilderRepository
 {
-    /**
-     * @var BlockRepository
-     */
-    protected $blockRepository;
+    public function __construct(private BlockRepository $blockRepository, private ViewService $viewService){}
 
-    public function __construct(BlockRepository $blockRepository)
+    public function getById(string $id): ?FormBuilder
     {
-        $this->blockRepository = $blockRepository;
-    }
-
-    public function getById(string $id, ViewService $view, bool $hideUnpublished = true): ?FormBuilder
-    {
-        $block = $this->blockRepository->getById($id, $hideUnpublished);
+        $block = $this->blockRepository->getById($id);
         if ($block !== null):
             $objectClass = $block->getBlock();
             if (class_exists($objectClass)) :
-                return BlockFormBuilderFactory::createFromBlock($block, $view);
+                return BlockFormBuilderFactory::createFromBlock($block, $this->viewService);
             endif;
         endif;
 

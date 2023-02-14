@@ -54,7 +54,7 @@ class BlockPositionListener
 
             $block = $this->blockRepository->getById($blockPosition->getBlock());
             if( $block !== null ) {
-                $return .= $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK, $block);
+                $return .= $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $block);
             }
 
             $blockPositions->next();
