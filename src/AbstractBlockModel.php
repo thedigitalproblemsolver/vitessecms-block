@@ -83,7 +83,9 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
     {
         return [
             'block' => $block,
-            'currentItem' => $this->view->getCurrentItem()
+            'currentItem' => $this->view->getCurrentItem(),
+            'BASE_URI' => $this->getDi()->get('url')->getBaseUri(),
+            'uploads_uri' => $this->getDi()->get('configuration')->getUploadUri()
         ];
     }
 }
