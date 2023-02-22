@@ -81,6 +81,9 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
 
     public function getTemplateParams(Block $block): array
     {
-        return ['block' => $block];
+        return [
+            'block' => $block,
+            'currentItem' => $this->view->getCurrentItem()
+        ];
     }
 }
