@@ -15,20 +15,11 @@ use VitesseCms\Database\Models\FindValueIterator;
 
 class BlockPositionListener
 {
-    private BlockPositionRepository $blockPositionRepository;
-    private BlockRepository $blockRepository;
-    private Manager $eventsManager;
-
     public function __construct(
-        BlockPositionRepository $blockPositionRepository,
-        BlockRepository $blockRepository,
-        Manager $eventsManager
-    )
-    {
-        $this->blockPositionRepository = $blockPositionRepository;
-        $this->blockRepository = $blockRepository;
-        $this->eventsManager = $eventsManager;
-    }
+        private readonly BlockPositionRepository $blockPositionRepository,
+        private readonly BlockRepository $blockRepository,
+        private readonly Manager $eventsManager
+    ){}
 
     public function getRepository(): BlockPositionRepository
     {

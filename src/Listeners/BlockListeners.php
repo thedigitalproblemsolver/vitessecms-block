@@ -13,14 +13,9 @@ use VitesseCms\User\Blocks\UserLogin;
 
 class BlockListeners
 {
-    private Manager $eventManager;
-    private BlockRepository $blockRepository;
 
-    public function __construct(Manager $eventManager, BlockRepository $blockRepository)
-    {
-        $this->eventsManager = $eventManager;
-        $this->blockRepository = $blockRepository;
-    }
+    public function __construct(private readonly Manager $eventsManager, private readonly BlockRepository $blockRepository){}
+
     public function getRepository(): BlockRepository
     {
         return $this->blockRepository;
@@ -44,9 +39,7 @@ class BlockListeners
         ));
 
         if ($block->hasClass()) :
-            $return = '<div ' . HtmlHelper::makeAttribute([$block->getClass()], 'class') . '>' .
-                $return .
-                '</div>';
+            $return = '<div ' . HtmlHelper::makeAttribute([$block->getClass()], 'class') . '>' . $return . '</div>';
         endif;
 
         if (!empty($block->getMaincontentWrapper())) :

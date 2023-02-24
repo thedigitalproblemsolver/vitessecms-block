@@ -34,7 +34,7 @@ class Block extends AbstractCollection
 
     public function hasClass(): bool
     {
-        return $this->class !== null;
+        return $this->class !== null && !empty($this->class);
     }
 
     public function getMaincontentWrapper(): string
