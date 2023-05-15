@@ -21,7 +21,7 @@
     "php": ">=8.1",
     "ext-phalcon": "5.1.4",
     "vitessecms/admin": "~0.5.1",
-    "vitessecms/configuration": "~0.5.0",
+    "vitessecms/configuration": "~0.5.1",
     "vitessecms/user": "~0.5.1",
     "vitessecms/core": "~0.5.1",
     "vitessecms/form": "~0.4.5",
