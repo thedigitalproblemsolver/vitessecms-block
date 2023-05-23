@@ -20,14 +20,14 @@
   "require": {
     "php": ">=8.1",
     "ext-phalcon": "5.1.4",
-    "vitessecms/admin": "~0.5.1",
+    "vitessecms/admin": "^1.0.0",
     "vitessecms/configuration": "~0.5.1",
     "vitessecms/user": "~0.5.1",
-    "vitessecms/core": "~0.5.1",
+    "vitessecms/core": "^1.0.0",
     "vitessecms/form": "~0.4.5",
     "vitessecms/datagroup": "~0.4.2",
     "vitessecms/datafield": "~0.3.4",
-    "vitessecms/content": "~0.5.1",
+    "vitessecms/content": "^1.0.0",
     "vitessecms/mustache": "~0.5.0"
   }
 }
