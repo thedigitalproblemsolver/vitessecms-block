@@ -2,6 +2,10 @@
 
 namespace VitesseCms\Block\Forms;
 
+use VitesseCms\Block\DTO\TemplateFileDTO;
+use VitesseCms\Block\DTO\TemplateFileListDTO;
+use VitesseCms\Block\DTO\TemplateFilesDTO;
+use VitesseCms\Block\Enum\BlockFormEnum;
 use VitesseCms\Block\Interfaces\RepositoriesInterface;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Utils\BlockUtil;
@@ -18,23 +22,17 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
         ;
 
         $files = BlockUtil::getTemplateFiles($block->getBlock(), $this->configuration);
-        $options = [];
+        $templateFileListDTO = new TemplateFileListDTO($block->getTemplate());
         foreach ($files as $key => $label) :
-            $selected = false;
-            if ($block->getTemplate() === $key) :
-                $selected = true;
-            endif;
-            $options[] = [
-                'value' => $key,
-                'label' => $label,
-                'selected' => $selected,
-            ];
+            $templateFileListDTO->addOption(new TemplateFileDTO($key, $label));
         endforeach;
+
+        $this->eventsManager->fire(BlockFormEnum::LISTENER_GET_TEMPLATE_FILES->value,$templateFileListDTO);
 
         $this->addDropdown(
             '%ADMIN_CHOOSE_A_TEMPLATE%',
             'template',
-            (new Attributes())->setRequired(true)->setOptions($options)
+            (new Attributes())->setRequired(true)->setOptions($templateFileListDTO->options)
         );
 
         if ((bool)$block->getMaincontentWrapper()) :
