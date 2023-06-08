@@ -21,8 +21,13 @@ class BlockForm extends AbstractForm implements RepositoriesInterface
             ->addText('%ADMIN_CSS_CLASS%', 'class')
         ;
 
+
+        $blockName = array_reverse(explode( '\\', $block->getBlock() ))[0];
+        $blockName = implode('', explode('Block', $blockName, 1));
+
         $files = BlockUtil::getTemplateFiles($block->getBlock(), $this->configuration);
-        $templateFileListDTO = new TemplateFileListDTO($block->getTemplate());
+
+        $templateFileListDTO = new TemplateFileListDTO($blockName, $block->getTemplate());
         foreach ($files as $key => $label) :
             $templateFileListDTO->addOption(new TemplateFileDTO($key, $label));
         endforeach;

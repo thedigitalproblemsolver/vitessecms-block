@@ -8,6 +8,8 @@ use VitesseCms\Block\DTO\RenderPositionDTO;
 use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
+use VitesseCms\Database\Models\FindOrder;
+use VitesseCms\Database\Models\FindOrderIterator;
 use VitesseCms\Database\Models\FindValue;
 use VitesseCms\Database\Models\FindValueIterator;
 use VitesseCms\Mustache\DTO\RenderLayoutDTO;
@@ -37,7 +39,12 @@ class BlockPositionListener
             $findValueIterator->append(new FindValue('datagroup', ['$in' => $renderPositionDTO->datagroups]));
         }
 
-        $blockPositions  = $this->blockPositionRepository->findAll($findValueIterator);
+        $blockPositions = $this->blockPositionRepository->findAll(
+            $findValueIterator,
+            true,
+            null,
+            new FindOrderIterator([new FindOrder('ordering', 1)])
+        );
         $return = '';
         while ($blockPositions->valid()) {
             $blockPosition = $blockPositions->current();

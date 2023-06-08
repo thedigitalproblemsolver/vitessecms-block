@@ -4,7 +4,11 @@ namespace VitesseCms\Block\DTO;
 
 class TemplateFileListDTO
 {
-    public function __construct(readonly string $selectedValue, public array $options = []){}
+    public function __construct(
+        readonly string $blockName,
+        readonly string $selectedValue,
+        public array $options = []
+    ){}
 
     public function addOption(TemplateFileDTO $templateFileDTO):void
     {

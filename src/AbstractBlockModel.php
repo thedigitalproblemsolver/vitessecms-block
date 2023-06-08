@@ -3,6 +3,7 @@
 namespace VitesseCms\Block;
 
 use Phalcon\Di\Di;
+use Phalcon\Events\Manager;
 use VitesseCms\Block\Interfaces\BlockModelInterface;
 use VitesseCms\Core\Interfaces\BaseObjectInterface;
 use VitesseCms\Core\Services\ViewService;
@@ -10,6 +11,7 @@ use VitesseCms\Core\Traits\BaseObjectTrait;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Core\Helpers\InjectableHelper;
 use VitesseCms\Core\Interfaces\InjectableInterface;
+use VitesseCms\Setting\Services\SettingService;
 use function is_object;
 
 abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInterface
@@ -36,10 +38,13 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
      */
     protected $view;
 
+    protected Manager $eventsManager;
+
     public function __construct(ViewService $view, Di $di)
     {
         $this->view = $view;
         $this->di = $di;
+        $this->eventsManager = $this->getDi()->get('eventsManager');
         $this->initialize();
     }
 
