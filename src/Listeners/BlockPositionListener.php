@@ -46,9 +46,9 @@ class BlockPositionListener
             new FindOrderIterator([new FindOrder('ordering', 1)])
         );
         $return = '';
+
         while ($blockPositions->valid()) {
             $blockPosition = $blockPositions->current();
-
             $block = $this->blockRepository->getById($blockPosition->getBlock());
             if( $block !== null ) {
                 if($blockPosition->hasLayout()) {
