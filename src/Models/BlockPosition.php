@@ -190,7 +190,7 @@ class BlockPosition extends AbstractCollection
 
     public function hasLayout(): bool
     {
-        return $this->layout !== null;
+        return $this->layout !== null && $this->layout !== '';
     }
 
     public function getLayout(): ?string

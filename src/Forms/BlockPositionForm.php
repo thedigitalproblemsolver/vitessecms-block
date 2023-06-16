@@ -60,7 +60,7 @@ class BlockPositionForm extends AbstractFormWithRepository
                 'datagroup',
                 (new Attributes())->setOptions(ElementHelper::modelIteratorToOptions(
                     new DatagroupIterator($datagroup?[$datagroup]:[])
-                ))
+                ))->setRequired()
             );
         elseif (
             (
@@ -81,7 +81,7 @@ class BlockPositionForm extends AbstractFormWithRepository
             $this->addDropdown(
                 '%ADMIN_DATAGROUP%',
                 'datagroup',
-                (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions($dataGroupOptions))->setMultiple()
+                (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions($dataGroupOptions))->setMultiple()->setRequired()
             );
         endif;
 
