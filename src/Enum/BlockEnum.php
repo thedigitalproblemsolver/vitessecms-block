@@ -6,7 +6,7 @@ use VitesseCms\Core\AbstractEnum;
 
 enum BlockEnum : string
 {
-    case BLOCK_LISTENER = 'blockListener';
-    case LISTENER_GET_REPOSITORY = 'blockListener:getRepository';
-    case LISTENER_RENDER_BLOCK = 'blockListener:renderBlock';
+    case BLOCK_LISTENER = 'BlockListener';
+    case LISTENER_GET_REPOSITORY = 'BlockListener:getRepository';
+    case LISTENER_RENDER_BLOCK = 'BlockListener:renderBlock';
 }
