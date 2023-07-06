@@ -12,7 +12,7 @@ use VitesseCms\Form\Models\Attributes;
 
 class AdminblockControllerListener
 {
-    public function adminListFilter(Event $event, AdminblockController $controller, AdminlistFormInterface $form): string
+    public function adminListFilter(Event $event, AdminblockController $controller, AdminlistFormInterface $form): void
     {
         $form->addNameField($form);
         $types = BlockUtil::getTypes(SystemUtil::getModules($controller->configuration));
@@ -23,10 +23,5 @@ class AdminblockControllerListener
             (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions($types))
         );
         $form->addPublishedField($form);
-
-        return $form->renderForm(
-            $controller->getLink() . '/' . $controller->router->getActionName(),
-            'adminFilter'
-        );
     }
 }
