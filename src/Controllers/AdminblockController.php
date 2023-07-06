@@ -3,6 +3,7 @@
 namespace VitesseCms\Block\Controllers;
 
 use VitesseCms\Admin\Interfaces\AdminModelAddableInterface;
+use VitesseCms\Admin\Interfaces\AdminModelCopyableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelDeletableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelEditableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
@@ -10,6 +11,7 @@ use VitesseCms\Admin\Interfaces\AdminModelListInterface;
 use VitesseCms\Admin\Interfaces\AdminModelPublishableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelSaveInterface;
 use VitesseCms\Admin\Traits\TraitAdminModelAddable;
+use VitesseCms\Admin\Traits\TraitAdminModelCopyable;
 use VitesseCms\Admin\Traits\TraitAdminModelDeletable;
 use VitesseCms\Admin\Traits\TraitAdminModelEditable;
 use VitesseCms\Admin\Traits\TraitAdminModelList;
@@ -31,16 +33,17 @@ class AdminblockController extends AbstractControllerAdmin implements
     AdminModelEditableInterface,
     AdminModelSaveInterface,
     AdminModelDeletableInterface,
-    AdminModelAddableInterface
+    AdminModelAddableInterface,
+    AdminModelCopyableInterface
 {
     use TraitAdminModelPublishable,
         TraitAdminModelList,
         TraitAdminModelEditable,
         TraitAdminModelSave,
         TraitAdminModelDeletable,
-        TraitAdminModelAddable
+        TraitAdminModelAddable,
+        TraitAdminModelCopyable
         ;
-
 
     private readonly BlockRepository $blockRepository;
 
@@ -73,51 +76,4 @@ class AdminblockController extends AbstractControllerAdmin implements
     {
         return new BlockForm();
     }
-
-    /*public function onConstruct()
-    {
-        parent::onConstruct();
-
-        $this->class = Block::class;
-        $this->classForm = BlockForm::class;
-    }
-
-    public function editAction(
-        string $itemId = null,
-        string $template = 'editForm',
-        string $templatePath = '/form/src/Resources/views/admin/',
-        AbstractForm $form = null
-    ): void
-    {
-        if ($itemId === null) :
-            parent::editAction($itemId, $template, $templatePath, (new NewBlockForm())->build());
-        else :
-            parent::editAction($itemId, $template, $templatePath, (new BlockForm())->build(
-                $this->repositories->block->getById($itemId, false)
-            ));
-        endif;
-    }*/
-
-    /**
-     * verwerken
-     */
-    /*public function saveAction(
-        ?string $itemId = null,
-        AbstractCollection $block = null,
-        AbstractForm $form = null
-    ): void
-    {
-        if ($itemId === null) :
-            parent::saveAction($itemId, null, (new NewBlockForm())->build());
-        else :
-            $block = $this->repositories->block->getById($itemId, false);
-            if ($block !== null) :
-                parent::saveAction(
-                    $itemId,
-                    null,
-                    (new BlockForm())->build($block)
-                );
-            endif;
-        endif;
-    }*/
 }
