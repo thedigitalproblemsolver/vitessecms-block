@@ -4,6 +4,7 @@ namespace VitesseCms\Block\Listeners;
 
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
+use VitesseCms\Block\DTO\RenderedBlockDTO;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
@@ -25,7 +26,11 @@ class BlockListeners
     {
         $this->eventsManager->fire($block->getBlock() . ':loadAssets', $block->getBlockTypeInstance(), $block);
 
-        return $this->render($block);
+        $renderedBlock = $this->render($block);
+
+        $this->eventsManager->fire($block->getBlock() . ':afterRenderBlock', new RenderedBlockDTO($block, $renderedBlock));
+
+        return $renderedBlock;
     }
 
     private function render(Block $block): string
