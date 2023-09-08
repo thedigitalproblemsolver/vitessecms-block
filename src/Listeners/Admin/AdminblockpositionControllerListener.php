@@ -15,7 +15,7 @@ class AdminblockpositionControllerListener
         Event $event,
         AdminblockpositionController $controller,
         AdminlistFormInterface $form
-    ): string
+    ): void
     {
         $form->addNameField($form);
         $form->addPublishedField($form);
@@ -25,11 +25,6 @@ class AdminblockpositionControllerListener
             (new Attributes())->setOptions(ElementHelper::arrayToSelectOptions(
                 $form->configuration->getTemplatePositions()
             ))
-        );
-
-        return $form->renderForm(
-            $controller->getLink() . '/' . $controller->router->getActionName(),
-            'adminFilter'
         );
     }
 }

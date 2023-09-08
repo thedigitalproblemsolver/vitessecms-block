@@ -1,25 +1,79 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Controllers;
 
-use VitesseCms\Admin\AbstractAdminEventController;
+use VitesseCms\Admin\Interfaces\AdminModelAddableInterface;
+use VitesseCms\Admin\Interfaces\AdminModelCopyableInterface;
+use VitesseCms\Admin\Interfaces\AdminModelDeletableInterface;
+use VitesseCms\Admin\Interfaces\AdminModelEditableInterface;
+use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
+use VitesseCms\Admin\Interfaces\AdminModelListInterface;
+use VitesseCms\Admin\Interfaces\AdminModelPublishableInterface;
+use VitesseCms\Admin\Traits\TraitAdminModelAddable;
+use VitesseCms\Admin\Traits\TraitAdminModelCopyable;
+use VitesseCms\Admin\Traits\TraitAdminModelDeletable;
+use VitesseCms\Admin\Traits\TraitAdminModelEditable;
+use VitesseCms\Admin\Traits\TraitAdminModelList;
+use VitesseCms\Admin\Traits\TraitAdminModelPublishable;
+use VitesseCms\Admin\Traits\TraitAdminModelSave;
+use VitesseCms\Block\Enum\BlockEnum;
+use VitesseCms\Block\Enum\BlockPositionEnum;
 use VitesseCms\Block\Forms\BlockPositionForm;
-use VitesseCms\Block\Interfaces\AdminRepositoryInterface;
-use VitesseCms\Block\Interfaces\RepositoriesInterface;
-use VitesseCms\Block\Models\BlockPosition;
-use VitesseCms\Core\Enum\FlashEnum;
-use VitesseCms\Core\Services\FlashService;
-use \stdClass;
+use VitesseCms\Block\Repositories\BlockPositionRepository;
+use VitesseCms\Core\AbstractControllerAdmin;
+use VitesseCms\Database\AbstractCollection;
+use VitesseCms\Database\Models\FindOrder;
+use VitesseCms\Database\Models\FindOrderIterator;
+use VitesseCms\Database\Models\FindValueIterator;
 
-class AdminblockpositionController extends AbstractAdminEventController implements AdminRepositoryInterface
+class AdminblockpositionController extends AbstractControllerAdmin implements
+    AdminModelPublishableInterface,
+    AdminModelListInterface,
+    AdminModelEditableInterface,
+    AdminModelDeletableInterface,
+    AdminModelAddableInterface,
+    AdminModelCopyableInterface
 {
+    use TraitAdminModelPublishable,
+        TraitAdminModelList,
+        TraitAdminModelEditable,
+        TraitAdminModelSave,
+        TraitAdminModelDeletable,
+        TraitAdminModelAddable,
+        TraitAdminModelCopyable
+        ;
+
+    private readonly BlockPositionRepository $blockPositionRepository;
+
     public function onConstruct()
     {
         parent::onConstruct();
 
-        $this->class = BlockPosition::class;
-        $this->classForm = BlockPositionForm::class;
-        $this->flash = $this->eventsManager->fire(FlashEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+        $this->blockPositionRepository = $this->eventsManager->fire(BlockPositionEnum::GET_REPOSITORY,new \stdClass());
+    }
+
+    public function getModel(string $id): ?AbstractCollection
+    {
+        return match ($id) {
+            'new' => new BlockPosition(),
+            default => $this->blockPositionRepository->getById($id,false)
+        };
+    }
+
+    public function getModelForm(): AdminModelFormInterface
+    {
+        return new BlockPositionForm();
+    }
+
+    public function getModelList(?FindValueIterator $findValueIterator): \ArrayIterator
+    {
+        return $this->blockPositionRepository->findAll(
+            $findValueIterator,
+            false,
+            99999,
+            new FindOrderIterator([new FindOrder('createdAt', -1)])
+        );
     }
 
     public function setDatagroupAction(string $id): void
@@ -34,7 +88,7 @@ class AdminblockpositionController extends AbstractAdminEventController implemen
             endif;
         endforeach;
 
-        $blockPosition = $this->repositories->blockPosition->getById($id, false);
+        $blockPosition = $this->blockPositionRepository->getById($id, false);
         if ($blockPosition !== null):
             $blockPosition->setDatagroups($datagroups)->save();
             $message = 'ADMIN_BLOCKPOSITION_UPDATED';
