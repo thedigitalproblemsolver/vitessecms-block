@@ -9,7 +9,6 @@ use VitesseCms\Admin\Interfaces\AdminModelEditableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
 use VitesseCms\Admin\Interfaces\AdminModelListInterface;
 use VitesseCms\Admin\Interfaces\AdminModelPublishableInterface;
-use VitesseCms\Admin\Interfaces\AdminModelSaveInterface;
 use VitesseCms\Admin\Traits\TraitAdminModelAddable;
 use VitesseCms\Admin\Traits\TraitAdminModelCopyable;
 use VitesseCms\Admin\Traits\TraitAdminModelDeletable;
@@ -31,7 +30,6 @@ class AdminblockController extends AbstractControllerAdmin implements
     AdminModelPublishableInterface,
     AdminModelListInterface,
     AdminModelEditableInterface,
-    AdminModelSaveInterface,
     AdminModelDeletableInterface,
     AdminModelAddableInterface,
     AdminModelCopyableInterface

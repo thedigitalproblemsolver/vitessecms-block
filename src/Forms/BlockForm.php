@@ -15,9 +15,6 @@ use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
 
-/**
- * @property Block $entity
- */
 class BlockForm extends AbstractForm implements AdminModelFormInterface
 {
     public function buildForm(): void

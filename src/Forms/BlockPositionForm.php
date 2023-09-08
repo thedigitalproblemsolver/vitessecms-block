@@ -3,17 +3,19 @@
 namespace VitesseCms\Block\Forms;
 
 use Phalcon\Forms\Form;
+use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
 use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Block\Repositories\AdminRepositoryCollection;
 use VitesseCms\Datagroup\Models\DatagroupIterator;
+use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\AbstractFormWithRepository;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Interfaces\FormWithRepositoryInterface;
 use VitesseCms\Form\Models\Attributes;
 
-class BlockPositionForm extends AbstractFormWithRepository
+class BlockPositionForm extends AbstractForm implements AdminModelFormInterface
 {
-    public function buildForm(): FormWithRepositoryInterface
+    public function buildForm(): void
     {
         $this->addText(
             '%CORE_NAME%',
@@ -86,9 +88,7 @@ class BlockPositionForm extends AbstractFormWithRepository
         endif;
 
         $this->addAcl('%ADMIN_PERMISSION_ROLES%', 'roles')
-            ->addNumber('%ADMIN_ORDERING%', 'ordering')
+            ->addNumber('%ADMIN_ORDERING%', 'ordering', (new Attributes())->setRequired())
             ->addSubmitButton('%CORE_SAVE%');
-
-        return $this;
     }
 }
