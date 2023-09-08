@@ -17,7 +17,6 @@ use VitesseCms\Admin\Traits\TraitAdminModelEditable;
 use VitesseCms\Admin\Traits\TraitAdminModelList;
 use VitesseCms\Admin\Traits\TraitAdminModelPublishable;
 use VitesseCms\Admin\Traits\TraitAdminModelSave;
-use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Enum\BlockPositionEnum;
 use VitesseCms\Block\Forms\BlockPositionForm;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
@@ -41,8 +40,7 @@ class AdminblockpositionController extends AbstractControllerAdmin implements
         TraitAdminModelSave,
         TraitAdminModelDeletable,
         TraitAdminModelAddable,
-        TraitAdminModelCopyable
-        ;
+        TraitAdminModelCopyable;
 
     private readonly BlockPositionRepository $blockPositionRepository;
 
@@ -50,14 +48,14 @@ class AdminblockpositionController extends AbstractControllerAdmin implements
     {
         parent::onConstruct();
 
-        $this->blockPositionRepository = $this->eventsManager->fire(BlockPositionEnum::GET_REPOSITORY,new \stdClass());
+        $this->blockPositionRepository = $this->eventsManager->fire(BlockPositionEnum::GET_REPOSITORY, new \stdClass());
     }
 
     public function getModel(string $id): ?AbstractCollection
     {
         return match ($id) {
             'new' => new BlockPosition(),
-            default => $this->blockPositionRepository->getById($id,false)
+            default => $this->blockPositionRepository->getById($id, false)
         };
     }
 
@@ -96,6 +94,6 @@ class AdminblockpositionController extends AbstractControllerAdmin implements
 
         $this->flash->setSucces($message);
 
-        $this->redirect();
+        $this->redirect($this->request->getHTTPReferer());
     }
 }
