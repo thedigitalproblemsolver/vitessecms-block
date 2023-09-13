@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Controllers;
 
+use ArrayIterator;
+use stdClass;
 use VitesseCms\Admin\Interfaces\AdminModelAddableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelCopyableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelDeletableInterface;
@@ -34,14 +37,13 @@ class AdminblockController extends AbstractControllerAdmin implements
     AdminModelAddableInterface,
     AdminModelCopyableInterface
 {
-    use TraitAdminModelPublishable,
-        TraitAdminModelList,
-        TraitAdminModelEditable,
-        TraitAdminModelSave,
-        TraitAdminModelDeletable,
-        TraitAdminModelAddable,
-        TraitAdminModelCopyable
-        ;
+    use TraitAdminModelAddable;
+    use TraitAdminModelCopyable;
+    use TraitAdminModelDeletable;
+    use TraitAdminModelEditable;
+    use TraitAdminModelList;
+    use TraitAdminModelPublishable;
+    use TraitAdminModelSave;
 
     private readonly BlockRepository $blockRepository;
 
@@ -49,7 +51,7 @@ class AdminblockController extends AbstractControllerAdmin implements
     {
         parent::OnConstruct();
 
-        $this->blockRepository = $this->eventsManager->fire(BlockEnum::LISTENER_GET_REPOSITORY->value,new \stdClass());
+        $this->blockRepository = $this->eventsManager->fire(BlockEnum::LISTENER_GET_REPOSITORY->value, new stdClass());
     }
 
     public function getModel(string $id): ?AbstractCollection
@@ -60,7 +62,7 @@ class AdminblockController extends AbstractControllerAdmin implements
         };
     }
 
-    public function getModelList( ?FindValueIterator $findValueIterator): \ArrayIterator
+    public function getModelList(?FindValueIterator $findValueIterator): ArrayIterator
     {
         return $this->blockRepository->findAll(
             $findValueIterator,
