@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Listeners;
 
@@ -8,6 +9,7 @@ use VitesseCms\Block\DTO\RenderPositionDTO;
 use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
+use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Database\Models\FindOrder;
 use VitesseCms\Database\Models\FindOrderIterator;
 use VitesseCms\Database\Models\FindValue;
@@ -21,7 +23,8 @@ class BlockPositionListener
         private readonly BlockPositionRepository $blockPositionRepository,
         private readonly BlockRepository $blockRepository,
         private readonly Manager $eventsManager
-    ){}
+    ) {
+    }
 
     public function getRepository(): BlockPositionRepository
     {
@@ -31,11 +34,11 @@ class BlockPositionListener
     public function renderPosition(Event $event, RenderPositionDTO $renderPositionDTO): string
     {
         $findValueIterator = new FindValueIterator([new FindValue('position', $renderPositionDTO->position)]);
-        if(count($renderPositionDTO->roles) > 0 ) {
+        if (count($renderPositionDTO->roles) > 0) {
             $findValueIterator->append(new FindValue('roles', ['$in' => $renderPositionDTO->roles]));
         }
 
-        if(count($renderPositionDTO->datagroups) > 0 ) {
+        if (count($renderPositionDTO->datagroups) > 0) {
             $findValueIterator->append(new FindValue('datagroup', ['$in' => $renderPositionDTO->datagroups]));
         }
 
@@ -50,14 +53,21 @@ class BlockPositionListener
         while ($blockPositions->valid()) {
             $blockPosition = $blockPositions->current();
             $block = $this->blockRepository->getById($blockPosition->getBlock());
-            if( $block !== null ) {
-                if($blockPosition->hasLayout()) {
+            if ($block !== null) {
+                if ($blockPosition->hasLayout()) {
                     $return .= $this->eventsManager->fire(
                         ViewEnum::RENDER_LAYOUT_EVENT,
                         new RenderLayoutDTO($blockPosition->getLayout())
                     );
                 } else {
-                    $return .= $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $block);
+                    $renderedBlock = $this->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $block);
+
+                    if ($blockPosition->hasCssClass()) {
+                        $return .= '<div ' . HtmlHelper::makeAttribute([$blockPosition->getCssClass()],
+                                'class') . '>' . $renderedBlock . '</div>';
+                    } else {
+                        $return .= $renderedBlock;
+                    }
                 }
             }
 

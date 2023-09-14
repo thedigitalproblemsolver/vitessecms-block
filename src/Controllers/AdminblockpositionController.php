@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace VitesseCms\Block\Controllers;
 
+use ArrayIterator;
+use stdClass;
 use VitesseCms\Admin\Interfaces\AdminModelAddableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelCopyableInterface;
 use VitesseCms\Admin\Interfaces\AdminModelDeletableInterface;
@@ -19,6 +22,7 @@ use VitesseCms\Admin\Traits\TraitAdminModelPublishable;
 use VitesseCms\Admin\Traits\TraitAdminModelSave;
 use VitesseCms\Block\Enum\BlockPositionEnum;
 use VitesseCms\Block\Forms\BlockPositionForm;
+use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Core\AbstractControllerAdmin;
 use VitesseCms\Database\AbstractCollection;
@@ -34,13 +38,13 @@ class AdminblockpositionController extends AbstractControllerAdmin implements
     AdminModelAddableInterface,
     AdminModelCopyableInterface
 {
-    use TraitAdminModelPublishable,
-        TraitAdminModelList,
-        TraitAdminModelEditable,
-        TraitAdminModelSave,
-        TraitAdminModelDeletable,
-        TraitAdminModelAddable,
-        TraitAdminModelCopyable;
+    use TraitAdminModelAddable;
+    use TraitAdminModelCopyable;
+    use TraitAdminModelDeletable;
+    use TraitAdminModelEditable;
+    use TraitAdminModelList;
+    use TraitAdminModelPublishable;
+    use TraitAdminModelSave;
 
     private readonly BlockPositionRepository $blockPositionRepository;
 
@@ -48,7 +52,7 @@ class AdminblockpositionController extends AbstractControllerAdmin implements
     {
         parent::onConstruct();
 
-        $this->blockPositionRepository = $this->eventsManager->fire(BlockPositionEnum::GET_REPOSITORY, new \stdClass());
+        $this->blockPositionRepository = $this->eventsManager->fire(BlockPositionEnum::GET_REPOSITORY, new stdClass());
     }
 
     public function getModel(string $id): ?AbstractCollection
@@ -64,7 +68,7 @@ class AdminblockpositionController extends AbstractControllerAdmin implements
         return new BlockPositionForm();
     }
 
-    public function getModelList(?FindValueIterator $findValueIterator): \ArrayIterator
+    public function getModelList(?FindValueIterator $findValueIterator): ArrayIterator
     {
         return $this->blockPositionRepository->findAll(
             $findValueIterator,

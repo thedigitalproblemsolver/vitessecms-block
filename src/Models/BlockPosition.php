@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Models;
 
@@ -6,12 +8,13 @@ use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Core\Helpers\ItemHelper;
-use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\Core\Services\CacheService;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Database\AbstractCollection;
+use VitesseCms\Datagroup\Models\Datagroup;
 use VitesseCms\User\Models\User;
 use VitesseCms\User\Utils\PermissionUtils;
+
 use function in_array;
 
 class BlockPosition extends AbstractCollection
@@ -52,12 +55,11 @@ class BlockPosition extends AbstractCollection
     }
 
     public function render(
-        ViewService     $view,
-        User            $user,
+        ViewService $view,
+        User $user,
         BlockRepository $blockRepository,
-        CacheService    $cacheService
-    ): string
-    {
+        CacheService $cacheService
+    ): string {
         $return = '';
 
         $block = $blockRepository->getById($this->block);
@@ -100,11 +102,13 @@ class BlockPosition extends AbstractCollection
             $return .= '<a
                             id="publish-toggle-' . $this->getId() . '"
                             class="' . $publishedIcon . '"
-                            href="' . $this->getDI()->get('url')->getBaseUri() . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
+                            href="' . $this->getDI()->get('url')->getBaseUri(
+                ) . 'admin/block/adminblockposition/togglepublish/' . $this->getId() . '"
                         ></a>
                         <a
                             class="fa fa-trash btn btn-danger"
-                            href="' . $this->getDI()->get('url')->getBaseUri() . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
+                            href="' . $this->getDI()->get('url')->getBaseUri(
+                ) . 'admin/block/adminblockposition/delete/' . $this->getId() . '"
                         ></a>';
         endif;
         $return .= '</div>';
@@ -129,7 +133,9 @@ class BlockPosition extends AbstractCollection
                 if (in_array('page:' . $view->getVar('currentId'), (array)$this->_('datagroup'))) :
                     $selectedPage = ' selected="selected" ';
                 endif;
-                $return .= '<option value="page:' . $view->getVar('currentId') . '" ' . $selectedPage . ' >Only on current page</option>';
+                $return .= '<option value="page:' . $view->getVar(
+                        'currentId'
+                    ) . '" ' . $selectedPage . ' >Only on current page</option>';
             endif;
             /** @var Datagroup $datagroup */
             foreach ($datagroups as $datagroup) :
@@ -165,17 +171,6 @@ class BlockPosition extends AbstractCollection
         return $this;
     }
 
-    public function setDatagroup($datagroup): BlockPosition
-    {
-        if (is_array($datagroup)) :
-            $this->datagroup = $datagroup;
-        else :
-            $this->datagroup = [$datagroup];
-        endif;
-
-        return $this;
-    }
-
     public function setDatagroups(array $datagroups): BlockPosition
     {
         $this->datagroup = $datagroups;
@@ -188,6 +183,17 @@ class BlockPosition extends AbstractCollection
         return $this->datagroup;
     }
 
+    public function setDatagroup($datagroup): BlockPosition
+    {
+        if (is_array($datagroup)) :
+            $this->datagroup = $datagroup;
+        else :
+            $this->datagroup = [$datagroup];
+        endif;
+
+        return $this;
+    }
+
     public function hasLayout(): bool
     {
         return $this->layout !== null && $this->layout !== '';
@@ -196,5 +202,15 @@ class BlockPosition extends AbstractCollection
     public function getLayout(): ?string
     {
         return $this->layout;
+    }
+
+    public function hasCssClass(): bool
+    {
+        return !empty($this->class);
+    }
+
+    public function getCssClass(): string
+    {
+        return $this->class;
     }
 }
