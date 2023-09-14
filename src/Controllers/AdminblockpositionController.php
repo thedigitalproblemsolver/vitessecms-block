@@ -22,6 +22,7 @@ use VitesseCms\Admin\Traits\TraitAdminModelPublishable;
 use VitesseCms\Admin\Traits\TraitAdminModelSave;
 use VitesseCms\Block\Enum\BlockPositionEnum;
 use VitesseCms\Block\Forms\BlockPositionForm;
+use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Core\AbstractControllerAdmin;
 use VitesseCms\Database\AbstractCollection;
