@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Models;
 
@@ -42,6 +43,11 @@ class Block extends AbstractCollection
         return $this->maincontentWrapper ?? '';
     }
 
+    public function getTemplate(): string
+    {
+        return $this->template ?? '';
+    }
+
     public function setTemplate(string $template): Block
     {
         $this->template = $template;
@@ -49,9 +55,23 @@ class Block extends AbstractCollection
         return $this;
     }
 
-    public function getTemplate(): string
+    public function beforeSave(): void
     {
-        return $this->template ?? '';
+        if ($this->block !== null && class_exists($this->block)):
+            $this->getDI()->get('eventsManager')->fire(
+                $this->block . ':beforeBlockSave',
+                $this->getBlockTypeInstance()
+            );
+        endif;
+    }
+
+    public function getBlockTypeInstance(): AbstractBlockModel
+    {
+        $class = $this->getBlock();
+        $object = (new $class($this->getDI()->get('view'), $this->getDI()));
+        $object->bind($this->toArray());
+
+        return $object;
     }
 
     public function getBlock(): ?string
@@ -64,21 +84,5 @@ class Block extends AbstractCollection
         $this->block = $block;
 
         return $this;
-    }
-
-    public function getBlockTypeInstance(): AbstractBlockModel
-    {
-        $class = $this->getBlock();
-        $object = (new $class($this->getDI()->get('view'), $this->getDI()));
-        $object->bind($this->toArray());
-
-        return $object;
-    }
-
-    public function beforeSave(): void
-    {
-        if($this->block !== null):
-            $this->getDI()->get('eventsManager')->fire($this->block.':beforeBlockSave', $this->getBlockTypeInstance());
-        endif;
     }
 }
