@@ -6,7 +6,6 @@ namespace VitesseCms\Block\Migrations;
 
 use stdClass;
 use VitesseCms\Block\Enum\BlockEnum;
-use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Database\AbstractMigration;
 
 class Migration_20210417 extends AbstractMigration
@@ -23,7 +22,6 @@ class Migration_20210417 extends AbstractMigration
 
     private function parseBlocks(): bool
     {
-        /** @var BlockRepository $blockRepository */
         $blockRepository = $this->eventsManager->fire(
             BlockEnum::LISTENER_GET_REPOSITORY->value,
             source: new stdClass()
