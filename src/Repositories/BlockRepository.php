@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Repositories;
 
@@ -24,10 +25,10 @@ class BlockRepository
     public function findAll(
         ?FindValueIterator $findValues = null,
         bool $hideUnpublished = true
-    ): BlockIterator
-    {
+    ): BlockIterator {
         Block::setFindPublished($hideUnpublished);
         Block::addFindOrder('name');
+        Block::setFindLimit(999);
         $this->parsefindValues($findValues);
 
         return new BlockIterator(Block::findAll());
