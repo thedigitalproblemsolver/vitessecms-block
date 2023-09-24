@@ -1,14 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Forms;
 
 use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
 use VitesseCms\Block\DTO\TemplateFileDTO;
 use VitesseCms\Block\DTO\TemplateFileListDTO;
-use VitesseCms\Block\DTO\TemplateFilesDTO;
 use VitesseCms\Block\Enum\BlockFormEnum;
-use VitesseCms\Block\Interfaces\RepositoriesInterface;
-use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Core\Utils\SystemUtil;
 use VitesseCms\Form\AbstractForm;
@@ -20,10 +19,9 @@ class BlockForm extends AbstractForm implements AdminModelFormInterface
     public function buildForm(): void
     {
         $this->addText('%CORE_NAME%', 'name', (new Attributes())->setRequired()->setMultilang())
-            ->addText('%ADMIN_CSS_CLASS%', 'class')
-        ;
+            ->addText('%ADMIN_CSS_CLASS%', 'class');
 
-        if($this->entity !== null && $this->entity->getBlock() !== null) {
+        if ($this->entity !== null && $this->entity->getBlock() !== null) {
             $blockName = array_reverse(explode('\\', $this->entity->getBlock()))[0];
             $blockName = implode('', explode('Block', $blockName, 1));
 
