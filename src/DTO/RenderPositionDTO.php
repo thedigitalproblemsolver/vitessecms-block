@@ -1,11 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\DTO;
 
-use Dialogflow\Action\User;
-use Phalcon\Events\Event;
-
-class RenderPositionDTO {
+final class RenderPositionDTO
+{
     readonly string $position;
     readonly array $roles;
     readonly array $datagroups;
@@ -14,8 +14,7 @@ class RenderPositionDTO {
         string $position,
         array $roles = [],
         array $datagroups = []
-    )
-    {
+    ) {
         $this->position = $position;
         $this->roles = $roles;
         $this->datagroups = $datagroups;

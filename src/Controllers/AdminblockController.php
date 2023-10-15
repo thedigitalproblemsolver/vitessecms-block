@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace VitesseCms\Block\Controllers;
@@ -25,8 +26,6 @@ use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\AbstractControllerAdmin;
 use VitesseCms\Database\AbstractCollection;
-use VitesseCms\Database\Models\FindOrder;
-use VitesseCms\Database\Models\FindOrderIterator;
 use VitesseCms\Database\Models\FindValueIterator;
 
 class AdminblockController extends AbstractControllerAdmin implements
@@ -66,9 +65,7 @@ class AdminblockController extends AbstractControllerAdmin implements
     {
         return $this->blockRepository->findAll(
             $findValueIterator,
-            false,
-            99999,
-            new FindOrderIterator([new FindOrder('createdAt', -1)])
+            false
         );
     }
 
