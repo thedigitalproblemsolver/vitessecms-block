@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace VitesseCms\Block\Listeners;
@@ -48,6 +49,7 @@ class BlockPositionListener
             null,
             new FindOrderIterator([new FindOrder('ordering', 1)])
         );
+
         $return = '';
 
         while ($blockPositions->valid()) {

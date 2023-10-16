@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Blocks;
 
@@ -22,7 +24,10 @@ class Blocks extends AbstractBlockModel
                     $content[] = [
                         'id' => $tmpBlock->getId(),
                         'name' => $tmpBlock->_('name'),
-                        'content' => $this->di->eventsManager->fire(BlockEnum::LISTENER_RENDER_BLOCK->value, $tmpBlock)
+                        'content' => $this->getDi()->get('eventsManager')->fire(
+                            BlockEnum::LISTENER_RENDER_BLOCK->value,
+                            $tmpBlock
+                        )
                     ];
                 endif;
             endif;

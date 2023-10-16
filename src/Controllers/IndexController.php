@@ -1,16 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Controllers;
 
-use VitesseCms\Block\AbstractBlockModel;
+use stdClass;
 use VitesseCms\Block\Enum\BlockEnum;
-use VitesseCms\Block\Interfaces\RepositoriesInterface;
-use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Content\Enum\ContentEnum;
 use VitesseCms\Content\Services\ContentService;
 use VitesseCms\Core\AbstractControllerFrontend;
-use VitesseCms\Core\AbstractEventController;
 use VitesseCms\Core\Enum\CacheEnum;
 use VitesseCms\Core\Services\CacheService;
 
@@ -24,9 +23,9 @@ class IndexController extends AbstractControllerFrontend
     {
         parent::onConstruct();
 
-        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
-        $this->cacheService = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER,new stdClass());
-        $this->contentService = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER,new stdClass());
+        $this->blockRepository = $this->eventsManager->fire(BlockEnum::LISTENER_GET_REPOSITORY->value, new stdClass());
+        $this->cacheService = $this->eventsManager->fire(CacheEnum::ATTACH_SERVICE_LISTENER, new stdClass());
+        $this->contentService = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER, new stdClass());
     }
 
     public function renderAction(string $blockId): void
