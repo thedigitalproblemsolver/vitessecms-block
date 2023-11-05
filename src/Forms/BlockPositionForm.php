@@ -4,21 +4,38 @@ declare(strict_types=1);
 
 namespace VitesseCms\Block\Forms;
 
+use stdClass;
 use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
+use VitesseCms\Block\Enum\BlockEnum;
+use VitesseCms\Block\Repositories\BlockRepository;
+use VitesseCms\Datagroup\Enums\DatagroupEnum;
 use VitesseCms\Datagroup\Models\DatagroupIterator;
+use VitesseCms\Datagroup\Repositories\DatagroupRepository;
 use VitesseCms\Form\AbstractForm;
 use VitesseCms\Form\Helpers\ElementHelper;
 use VitesseCms\Form\Models\Attributes;
+use VitesseCms\Mustache\Enum\LayoutEnum;
+use VitesseCms\Mustache\Repositories\LayoutRepository;
 
 class BlockPositionForm extends AbstractForm implements AdminModelFormInterface
 {
+    private readonly BlockRepository $blockRepository;
+    private readonly LayoutRepository $layoutRepository;
+    private readonly DatagroupRepository $datagroupRepository;
+
+
+    public function __construct($entity = null, array $userOptions = [])
+    {
+        parent::__construct($entity, $userOptions);
+
+        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
+        $this->layoutRepository = $this->eventsManager->fire(LayoutEnum::GET_REPOSITORY->value, new stdClass());
+        $this->datagroupRepository = $this->eventsManager->fire(DatagroupEnum::GET_REPOSITORY->value, new stdClass());
+    }
+
     public function buildForm(): void
     {
-        $this->addText(
-            '%CORE_NAME%',
-            'name',
-            (new Attributes())->setRequired()->setMultilang()
-        )
+        $this->addText('%CORE_NAME%', 'name', (new Attributes())->setRequired()->setMultilang())
             ->addText('%ADMIN_CSS_CLASS%', 'class')
             ->addDropdown(
                 '%ADMIN_BLOCK%',
@@ -26,7 +43,7 @@ class BlockPositionForm extends AbstractForm implements AdminModelFormInterface
                 (new Attributes())
                     ->setRequired()
                     ->setOptions(
-                        ElementHelper::modelIteratorToOptions($this->repositories->block->findAll())
+                        ElementHelper::modelIteratorToOptions($this->blockRepository->findAll())
                     )
             )->addDropdown(
                 '%ADMIN_POSITION%',
@@ -52,12 +69,12 @@ class BlockPositionForm extends AbstractForm implements AdminModelFormInterface
                 'layout',
                 (new Attributes())->setOptions(
                     ElementHelper::modelIteratorToOptions(
-                        $this->repositories->layout->findByDatagroup($this->entity->getDatagroup()[0], null, false)
+                        $this->layoutRepository->findByDatagroup($this->entity->getDatagroup()[0], null, false)
                     )
                 )
             );
 
-            $datagroup = $this->repositories->datagroup->getById($this->entity->getDatagroup()[0]);
+            $datagroup = $this->datagroupRepository->getById($this->entity->getDatagroup()[0]);
             $this->addDropdown(
                 '%ADMIN_DATAGROUP%',
                 'datagroup',
@@ -79,7 +96,7 @@ class BlockPositionForm extends AbstractForm implements AdminModelFormInterface
             )
 
         ) :
-            $datagroups = $this->repositories->datagroup->findAll(null, false);
+            $datagroups = $this->datagroupRepository->findAll(null, false);
             $dataGroupOptions = ['all' => 'All'];
             while ($datagroups->valid()) :
                 $datagroup = $datagroups->current();

@@ -23,7 +23,7 @@ class Migration_20210417 extends AbstractMigration
     private function parseBlocks(): bool
     {
         $blockRepository = $this->eventsManager->fire(
-            BlockEnum::LISTENER_GET_REPOSITORY->value,
+            BlockEnum::GET_REPOSITORY->value,
             source: new stdClass()
         );
 
