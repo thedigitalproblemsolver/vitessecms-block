@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Repositories;
 
@@ -8,7 +10,11 @@ use VitesseCms\Form\Blocks\FormBuilder;
 
 class BlockFormBuilderRepository
 {
-    public function __construct(private BlockRepository $blockRepository, private ViewService $viewService){}
+    public function __construct(
+        private readonly BlockRepository $blockRepository,
+        private readonly ViewService $viewService
+    ) {
+    }
 
     public function getById(string $id): ?FormBuilder
     {

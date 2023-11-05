@@ -1,53 +1,33 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block;
 
 use Phalcon\Di\Di;
 use Phalcon\Events\Manager;
 use VitesseCms\Block\Interfaces\BlockModelInterface;
+use VitesseCms\Block\Models\Block;
 use VitesseCms\Core\Interfaces\BaseObjectInterface;
+use VitesseCms\Core\Interfaces\InjectableInterface;
 use VitesseCms\Core\Services\ViewService;
 use VitesseCms\Core\Traits\BaseObjectTrait;
-use VitesseCms\Block\Models\Block;
-use VitesseCms\Core\Helpers\InjectableHelper;
-use VitesseCms\Core\Interfaces\InjectableInterface;
-use VitesseCms\Setting\Services\SettingService;
-use function is_object;
 
 abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInterface
 {
     use BaseObjectTrait;
 
-    /**
-     * @var string
-     */
-    protected $template;
-
-    /**
-     * @var bool
-     */
-    protected $excludeFromCache;
-
-    /**
-     * @var InjectableInterface
-     */
-    protected $di;
-
-    /**
-     * @var ViewService
-     */
-    protected $view;
-
+    protected string $template;
+    protected bool $excludeFromCache;
     protected Manager $eventsManager;
 
-    public function __construct(ViewService $view, Di $di)
-    {
-        $this->view = $view;
-        $this->di = $di;
-        $this->eventsManager = $this->getDi()->get('eventsManager');
+    public function __construct(
+        protected readonly ViewService $view,
+        protected readonly Di $di
+    ) {
+        $this->eventsManager = $this->di->get('eventsManager');
         $this->initialize();
     }
-
 
     public function initialize()
     {
@@ -62,6 +42,11 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
         endif;
     }
 
+    public function getTemplate(): string
+    {
+        return $this->template ?? 'core';
+    }
+
     public function getCacheKey(Block $block): string
     {
         return $block->getId() . $block->getUpdatedOn()->getTimestamp() . $_SERVER['REQUEST_URI'];
@@ -74,16 +59,6 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
         return $this;
     }
 
-    public function getTemplate(): string
-    {
-        return $this->template ?? 'core';
-    }
-
-    public function getDi(): InjectableInterface
-    {
-        return $this->di;
-    }
-
     public function getTemplateParams(Block $block): array
     {
         return [
@@ -92,5 +67,10 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
             'BASE_URI' => $this->getDi()->get('url')->getBaseUri(),
             'uploads_uri' => $this->getDi()->get('configuration')->getUploadUri()
         ];
+    }
+
+    public function getDi(): InjectableInterface
+    {
+        return $this->di;
     }
 }

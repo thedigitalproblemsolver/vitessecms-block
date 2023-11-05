@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Listeners;
 
@@ -11,6 +13,8 @@ use VitesseCms\Block\Listeners\Admin\AdminblockControllerListener;
 use VitesseCms\Block\Listeners\Admin\AdminblockpositionControllerListener;
 use VitesseCms\Block\Listeners\Admin\AdminMenuListener;
 use VitesseCms\Block\Listeners\Blocks\BlockBlocksListener;
+use VitesseCms\Block\Models\Block;
+use VitesseCms\Block\Models\BlockPosition;
 use VitesseCms\Block\Repositories\BlockPositionRepository;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Interfaces\InitiateListenersInterface;
@@ -23,15 +27,21 @@ class InitiateAdminListeners implements InitiateListenersInterface
         $di->eventsManager->attach('adminMenu', new AdminMenuListener());
         $di->eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
         $di->eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
-        $di->eventsManager->attach(BlockBlocks::class, new BlockBlocksListener(new BlockRepository()));
-        $di->eventsManager->attach(BlockEnum::BLOCK_LISTENER->value, new BlockListeners(
-            $di->eventsManager,
-            new BlockRepository()
-        ));
-        $di->eventsManager->attach(BlockPositionEnum::BLOCKPOSITION_LISTENER, new BlockPositionListener(
-            new BlockPositionRepository(),
-            new BlockRepository(),
-            $di->eventsManager
-        ));
+        $di->eventsManager->attach(BlockBlocks::class, new BlockBlocksListener(new BlockRepository(Block::class)));
+        $di->eventsManager->attach(
+            BlockEnum::LISTENER->value,
+            new BlockListeners(
+                $di->eventsManager,
+                new BlockRepository(Block::class)
+            )
+        );
+        $di->eventsManager->attach(
+            BlockPositionEnum::BLOCKPOSITION_LISTENER,
+            new BlockPositionListener(
+                new BlockPositionRepository(BlockPosition::class),
+                new BlockRepository(Block::class),
+                $di->eventsManager
+            )
+        );
     }
 }
