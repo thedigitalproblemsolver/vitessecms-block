@@ -24,7 +24,7 @@ class Migration_20210514 extends AbstractMigration
     {
         $result = true;
         $blockRepository = $this->eventsManager->fire(
-            BlockEnum::LISTENER_GET_REPOSITORY->value,
+            BlockEnum::GET_REPOSITORY->value,
             source: new stdClass()
         );
 

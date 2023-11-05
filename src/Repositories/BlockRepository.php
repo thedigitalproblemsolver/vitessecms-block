@@ -1,51 +1,35 @@
 <?php
+
 declare(strict_types=1);
 
 namespace VitesseCms\Block\Repositories;
 
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Models\BlockIterator;
+use VitesseCms\Database\Models\FindOrderIterator;
 use VitesseCms\Database\Models\FindValueIterator;
+use VitesseCms\Database\Traits\TraitRepositoryConstructor;
+use VitesseCms\Database\Traits\TraitRepositoryParseFindAll;
+use VitesseCms\Database\Traits\TraitRepositoryParseGetById;
 
 class BlockRepository
 {
+    use TraitRepositoryConstructor;
+    use TraitRepositoryParseGetById;
+    use TraitRepositoryParseFindAll;
+
     public function getById(string $id, bool $hideUnpublished = true): ?Block
     {
-        Block::setFindPublished($hideUnpublished);
-
-        /** @var Block $block */
-        $block = Block::findById($id);
-        if (is_object($block)):
-            return $block;
-        endif;
-
-        return null;
+        return $this->parseGetById($id, $hideUnpublished);
     }
 
     public function findAll(
-        ?FindValueIterator $findValues = null,
-        bool $hideUnpublished = true
+        ?FindValueIterator $findValuesIterator = null,
+        bool $hideUnpublished = true,
+        ?int $limit = null,
+        ?FindOrderIterator $findOrders = null,
+        ?array $returnFields = null
     ): BlockIterator {
-        Block::setFindPublished($hideUnpublished);
-        Block::addFindOrder('name');
-        Block::setFindLimit(999);
-        $this->parsefindValues($findValues);
-
-        return new BlockIterator(Block::findAll());
-    }
-
-    protected function parsefindValues(?FindValueIterator $findValues = null): void
-    {
-        if ($findValues !== null) :
-            while ($findValues->valid()) :
-                $findValue = $findValues->current();
-                Block::setFindValue(
-                    $findValue->getKey(),
-                    $findValue->getValue(),
-                    $findValue->getType()
-                );
-                $findValues->next();
-            endwhile;
-        endif;
+        return $this->parseFindAll($findValuesIterator, $hideUnpublished, $limit, $findOrders, $returnFields);
     }
 }

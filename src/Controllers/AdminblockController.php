@@ -50,7 +50,7 @@ class AdminblockController extends AbstractControllerAdmin implements
     {
         parent::OnConstruct();
 
-        $this->blockRepository = $this->eventsManager->fire(BlockEnum::LISTENER_GET_REPOSITORY->value, new stdClass());
+        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
     }
 
     public function getModel(string $id): ?AbstractCollection
