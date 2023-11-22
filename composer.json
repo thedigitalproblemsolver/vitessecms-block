@@ -30,7 +30,7 @@
     "vitessecms/core": "^1.7.0",
     "vitessecms/form": "^1.3.0",
     "vitessecms/datagroup": "^1.3.0",
-    "vitessecms/datafield": "^1.4.0",
+    "vitessecms/datafield": "^1.4.1",
     "vitessecms/content": "^1.7.2",
     "vitessecms/mustache": "^1.8.1"
   }
