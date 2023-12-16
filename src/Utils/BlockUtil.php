@@ -23,6 +23,12 @@ class BlockUtil
             $configuration->getAccountDir() . 'Template/views/blocks/' . $type . '/',
         ];
 
+        foreach ($directories as $key => $dir) {
+            if (is_dir($dir)) {
+                $files = array_merge($files, DirectoryUtil::getFilelist($dir));
+            }
+        }
+
         foreach (SystemUtil::getModules($configuration) as $key => $moduleDir) {
             if (is_dir($moduleDir . '/Template/views/blocks/' . $type . '/')) {
                 $files = array_merge(
