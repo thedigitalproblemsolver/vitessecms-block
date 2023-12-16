@@ -17,7 +17,7 @@ abstract class AbstractBlockModel implements BlockModelInterface, BaseObjectInte
 {
     use BaseObjectTrait;
 
-    protected string $template;
+    protected ?string $template;
     protected bool $excludeFromCache;
     protected Manager $eventsManager;
 
