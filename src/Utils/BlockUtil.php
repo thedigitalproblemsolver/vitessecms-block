@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Utils;
 
@@ -12,7 +14,7 @@ class BlockUtil
     public static function getTemplateFiles(string $class, ConfigService $configuration): array
     {
         $files = [];
-        $type = array_reverse(explode( '\\', $class ))[0];
+        $type = array_reverse(explode('\\', $class))[0];
         $type = implode('', explode('Block', $type, 1));
 
         $directories = [
@@ -21,33 +23,34 @@ class BlockUtil
             $configuration->getAccountDir() . 'Template/views/blocks/' . $type . '/',
         ];
 
-        foreach ( SystemUtil::getModules($configuration) as $key => $moduleDir ) :
-            $directories[] = $moduleDir.'/Template/views/blocks/'.$type.'/';
-        endforeach;
-
-        foreach ($directories as $directory) :
-            $files = array_merge($files, DirectoryUtil::getFilelist($directory));
-        endforeach;
+        foreach (SystemUtil::getModules($configuration) as $key => $moduleDir) {
+            if (is_dir($moduleDir . '/Template/views/blocks/' . $type . '/')) {
+                $files = array_merge(
+                    $files,
+                    DirectoryUtil::getFilelist($moduleDir . '/Template/views/blocks/' . $type . '/')
+                );
+            }
+        }
         ksort($files);
 
         $return = [];
-        foreach ($files as $directory => $file) :
+        foreach ($files as $directory => $file) {
             $parsedDir = str_replace(
                 [
                     '.mustache',
                     $configuration->getCoreTemplateDir(),
                     $configuration->getTemplateDir(),
-                    $configuration->getAccountDir().'Template/'
+                    $configuration->getAccountDir() . 'Template/'
                 ],
                 '',
                 $directory
             );
 
-            foreach ( SystemUtil::getModules($configuration) as $key => $moduleDir ) :
-                $parsedDir = str_replace($moduleDir.'/Template/','',$parsedDir);
-            endforeach;
+            foreach (SystemUtil::getModules($configuration) as $key => $moduleDir) {
+                $parsedDir = str_replace($moduleDir . '/Template/', '', $parsedDir);
+            }
             $return[$parsedDir] = ucfirst(str_replace('_', ' ', FileUtil::getName($file)));
-        endforeach;
+        }
 
         return $return;
     }
@@ -59,7 +62,7 @@ class BlockUtil
 
         foreach ($modules as $key => $directory) :
             $directory .= '/Blocks/';
-            if(is_dir($directory)) :
+            if (is_dir($directory)) :
                 $files = array_merge($files, DirectoryUtil::getFilelist($directory));
             endif;
         endforeach;
