@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Listeners;
 
@@ -10,12 +12,16 @@ use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Mustache\DTO\RenderTemplateDTO;
 use VitesseCms\Mustache\Enum\ViewEnum;
-use VitesseCms\User\Blocks\UserLogin;
 
 class BlockListeners
 {
 
-    public function __construct(private readonly Manager $eventsManager, private readonly BlockRepository $blockRepository){}
+    public function __construct(
+        private readonly Manager $eventsManager,
+        private readonly BlockRepository $blockRepository,
+        private readonly bool $isAjax
+    ) {
+    }
 
     public function getRepository(): BlockRepository
     {
@@ -28,31 +34,47 @@ class BlockListeners
 
         $renderedBlock = $this->render($block);
 
-        $this->eventsManager->fire($block->getBlock() . ':afterRenderBlock', new RenderedBlockDTO($block, $renderedBlock));
+        $this->eventsManager->fire(
+            $block->getBlock() . ':afterRenderBlock',
+            new RenderedBlockDTO($block, $renderedBlock)
+        );
 
         return $renderedBlock;
     }
 
     private function render(Block $block): string
     {
+        if ($this->isAjax === false && $block->dynamicLoading === true) {
+            return '<div id="load_block_' . $block->getId() . '" ' . HtmlHelper::makeAttribute(
+                    [$block->getClass(), 'load-block'],
+                    'class'
+                ) . ' data-block="' . $block->getId() . '"></div>';
+        }
+
         $blockType = $block->getBlockTypeInstance();
         $blockType->parse($block);
-        $return = $this->eventsManager->fire(ViewEnum::RENDER_TEMPLATE_EVENT, new RenderTemplateDTO(
-            $blockType->getTemplate(),
-            'mustache/src/Template/core/',
-            $blockType->getTemplateParams($block)
-        ));
+        $return = $this->eventsManager->fire(
+            ViewEnum::RENDER_TEMPLATE_EVENT,
+            new RenderTemplateDTO(
+                $blockType->getTemplate(),
+                'mustache/src/Template/core/',
+                $blockType->getTemplateParams($block)
+            )
+        );
 
-        if ($block->hasClass()) :
+        if ($block->hasClass() && $block->dynamicLoading === false) :
             $return = '<div ' . HtmlHelper::makeAttribute([$block->getClass()], 'class') . '>' . $return . '</div>';
         endif;
 
         if (!empty($block->getMaincontentWrapper())) :
-            $return = $this->eventsManager->fire(ViewEnum::RENDER_TEMPLATE_EVENT, new RenderTemplateDTO(
-                'main_content',
-                'mustache/src/Template/core/views/partials/block',
-                ['body' => $return]
-            ));
+            $return = $this->eventsManager->fire(
+                ViewEnum::RENDER_TEMPLATE_EVENT,
+                new RenderTemplateDTO(
+                    'main_content',
+                    'mustache/src/Template/core/views/partials/block',
+                    ['body' => $return]
+                )
+            );
         endif;
 
         return $return;

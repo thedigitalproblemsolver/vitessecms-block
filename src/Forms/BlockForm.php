@@ -7,6 +7,7 @@ namespace VitesseCms\Block\Forms;
 use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
 use VitesseCms\Block\DTO\TemplateFileDTO;
 use VitesseCms\Block\DTO\TemplateFileListDTO;
+use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Enum\BlockFormEnum;
 use VitesseCms\Block\Utils\BlockUtil;
 use VitesseCms\Core\Utils\SystemUtil;
@@ -38,10 +39,10 @@ class BlockForm extends AbstractForm implements AdminModelFormInterface
             $this->addDropdown(
                 '%ADMIN_CHOOSE_A_TEMPLATE%',
                 'template',
-                (new Attributes())->setRequired(true)->setOptions($templateFileListDTO->options)
+                (new Attributes())->setRequired()->setOptions($templateFileListDTO->options)
             );
 
-            if ((bool)$this->entity->getMaincontentWrapper()) :
+            if ($this->entity->getMaincontentWrapper()) :
                 $this->addToggle('Maincontent wrapper', 'maincontentWrapper');
             endif;
 
@@ -50,7 +51,7 @@ class BlockForm extends AbstractForm implements AdminModelFormInterface
             $this->addDropdown(
                 '%ADMIN_BLOCK%',
                 'block',
-                (new Attributes())->setRequired(true)
+                (new Attributes())->setRequired()
                     ->setOptions(
                         ElementHelper::arrayToSelectOptions(
                             BlockUtil::getTypes(SystemUtil::getModules($this->configuration))
@@ -58,6 +59,7 @@ class BlockForm extends AbstractForm implements AdminModelFormInterface
                     )
             );
         }
+        $this->addToggle('%BLOCK_DYNAMIC_LOADING%', BlockEnum::DYNAMIC_LOADING->value);
         $this->addSubmitButton('%CORE_SAVE%');
     }
 }
