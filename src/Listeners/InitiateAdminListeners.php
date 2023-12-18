@@ -32,7 +32,8 @@ class InitiateAdminListeners implements InitiateListenersInterface
             BlockEnum::LISTENER->value,
             new BlockListeners(
                 $di->eventsManager,
-                new BlockRepository(Block::class)
+                new BlockRepository(Block::class),
+                $di->request->isAjax()
             )
         );
         $di->eventsManager->attach(

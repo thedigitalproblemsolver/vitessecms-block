@@ -9,25 +9,11 @@ use VitesseCms\Database\AbstractCollection;
 
 class Block extends AbstractCollection
 {
-    /**
-     * @var string
-     */
-    public $class;
-
-    /**
-     * @var string
-     */
-    public $maincontentWrapper;
-
-    /**
-     * @var string
-     */
-    public $template;
-
-    /**
-     * @var string;
-     */
-    public $block;
+    public ?string $class = null;
+    public ?string $maincontentWrapper = null;
+    public ?string $template = null;
+    public ?string $block = null;
+    public ?bool $dynamicLoading = false;
 
     public function getClass(): string
     {
