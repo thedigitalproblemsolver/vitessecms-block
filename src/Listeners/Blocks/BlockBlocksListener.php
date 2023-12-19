@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace VitesseCms\Block\Listeners\Blocks;
 
@@ -10,14 +12,8 @@ use VitesseCms\Form\Models\Attributes;
 
 class BlockBlocksListener
 {
-    /**
-     * @var BlockRepository
-     */
-    private $blockRepository;
-
-    public function __construct(BlockRepository $blockRepository)
+    public function __construct(private readonly BlockRepository $blockRepository)
     {
-        $this->blockRepository = $blockRepository;
     }
 
     public function buildBlockForm(Event $event, BlockForm $form): void
@@ -26,7 +22,7 @@ class BlockBlocksListener
             '%ADMIN_BLOCKS%',
             'blocks',
             (new Attributes())
-                ->setMultiple(true)
+                ->setMultiple()
                 ->setInputClass('select2-sortable')
                 ->setOptions(ElementHelper::modelIteratorToOptions($this->blockRepository->findAll()))
         );
