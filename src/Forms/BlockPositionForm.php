@@ -6,8 +6,10 @@ namespace VitesseCms\Block\Forms;
 
 use stdClass;
 use VitesseCms\Admin\Interfaces\AdminModelFormInterface;
-use VitesseCms\Block\Enum\BlockEnum;
+use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Repositories\BlockRepository;
+use VitesseCms\Database\DTO\GetRepositoryDTO;
+use VitesseCms\Database\Enums\RepositoryEnum;
 use VitesseCms\Datagroup\Enums\DatagroupEnum;
 use VitesseCms\Datagroup\Models\DatagroupIterator;
 use VitesseCms\Datagroup\Repositories\DatagroupRepository;
@@ -28,7 +30,10 @@ class BlockPositionForm extends AbstractForm implements AdminModelFormInterface
     {
         parent::__construct($entity, $userOptions);
 
-        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
+        $this->blockRepository = $this->eventsManager->fire(
+            RepositoryEnum::GET_REPOSITORY->value,
+            new GetRepositoryDTO(Block::class)
+        );
         $this->layoutRepository = $this->eventsManager->fire(LayoutEnum::GET_REPOSITORY->value, new stdClass());
         $this->datagroupRepository = $this->eventsManager->fire(DatagroupEnum::GET_REPOSITORY->value, new stdClass());
     }

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace VitesseCms\Block\Listeners;
 
 use VitesseCms\Block\Enum\BlockEnum;
-use VitesseCms\Block\Models\Block;
-use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Cli\ConsoleApplication;
 use VitesseCms\Cli\Interfaces\CliListenersInterface;
 
@@ -18,7 +16,7 @@ class CliListeners implements CliListenersInterface
             BlockEnum::LISTENER->value,
             new BlockListeners(
                 $di->eventsManager,
-                new BlockRepository(Block::class)
+                $di->request->isAjax()
             )
         );
     }

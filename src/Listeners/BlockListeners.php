@@ -8,7 +8,6 @@ use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use VitesseCms\Block\DTO\RenderedBlockDTO;
 use VitesseCms\Block\Models\Block;
-use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Helpers\HtmlHelper;
 use VitesseCms\Mustache\DTO\RenderTemplateDTO;
 use VitesseCms\Mustache\Enum\ViewEnum;
@@ -16,16 +15,8 @@ use VitesseCms\Mustache\Enum\ViewEnum;
 class BlockListeners
 {
 
-    public function __construct(
-        private readonly Manager $eventsManager,
-        private readonly BlockRepository $blockRepository,
-        private readonly bool $isAjax
-    ) {
-    }
-
-    public function getRepository(): BlockRepository
+    public function __construct(private readonly Manager $eventsManager, private readonly bool $isAjax)
     {
-        return $this->blockRepository;
     }
 
     public function renderBlock(Event $event, Block $block): string
