@@ -6,10 +6,13 @@ namespace VitesseCms\Block\Controllers;
 
 use stdClass;
 use VitesseCms\Block\Enum\BlockEnum;
+use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Content\Enum\ContentEnum;
 use VitesseCms\Content\Services\ContentService;
 use VitesseCms\Core\AbstractControllerFrontend;
+use VitesseCms\Database\DTO\GetRepositoryDTO;
+use VitesseCms\Database\Enums\RepositoryEnum;
 
 class IndexController extends AbstractControllerFrontend
 {
@@ -20,7 +23,10 @@ class IndexController extends AbstractControllerFrontend
     {
         parent::onConstruct();
 
-        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
+        $this->blockRepository = $this->eventsManager->fire(
+            RepositoryEnum::GET_REPOSITORY->value,
+            new GetRepositoryDTO(Block::class)
+        );
         $this->contentService = $this->eventsManager->fire(ContentEnum::ATTACH_SERVICE_LISTENER, new stdClass());
     }
 

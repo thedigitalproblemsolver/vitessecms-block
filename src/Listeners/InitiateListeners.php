@@ -34,11 +34,7 @@ class InitiateListeners implements InitiateListenersInterface
         );
         $di->eventsManager->attach(
             BlockEnum::LISTENER->value,
-            new BlockListeners(
-                $di->eventsManager,
-                new BlockRepository(Block::class),
-                $di->request->isAjax()
-            )
+            new BlockListeners($di->eventsManager, $di->request->isAjax())
         );
         $di->eventsManager->attach(
             BlockPositionEnum::BLOCKPOSITION_LISTENER,
