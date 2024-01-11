@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace VitesseCms\Block\Blocks;
 
 use Phalcon\Di\Di;
-use stdClass;
 use VitesseCms\Block\AbstractBlockModel;
 use VitesseCms\Block\Enum\BlockEnum;
 use VitesseCms\Block\Models\Block;
 use VitesseCms\Block\Repositories\BlockRepository;
 use VitesseCms\Core\Services\ViewService;
+use VitesseCms\Database\DTO\GetRepositoryDTO;
+use VitesseCms\Database\Enums\RepositoryEnum;
 use VitesseCms\Database\Utils\MongoUtil;
 
 class Blocks extends AbstractBlockModel
@@ -21,7 +22,10 @@ class Blocks extends AbstractBlockModel
     {
         parent::__construct($view, $di);
 
-        $this->blockRepository = $this->eventsManager->fire(BlockEnum::GET_REPOSITORY->value, new stdClass());
+        $this->blockRepository = $this->eventsManager->fire(
+            RepositoryEnum::GET_REPOSITORY->value,
+            new GetRepositoryDTO(Block::class)
+        );
     }
 
     public function parse(Block $block): void
