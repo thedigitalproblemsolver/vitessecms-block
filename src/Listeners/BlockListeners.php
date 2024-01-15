@@ -24,13 +24,11 @@ class BlockListeners
         $this->eventsManager->fire($block->getBlock() . ':loadAssets', $block->getBlockTypeInstance(), $block);
 
         $renderedBlock = $this->render($block);
+        $renderedBlockDTO = new RenderedBlockDTO($block, $renderedBlock);
 
-        $this->eventsManager->fire(
-            $block->getBlock() . ':afterRenderBlock',
-            new RenderedBlockDTO($block, $renderedBlock)
-        );
+        $this->eventsManager->fire($block->getBlock() . ':afterRenderBlock', $renderedBlockDTO);
 
-        return $renderedBlock;
+        return $renderedBlockDTO->renderedBlock;
     }
 
     private function render(Block $block): string
