@@ -20,36 +20,36 @@ use VitesseCms\Core\Interfaces\InjectableInterface;
 
 class InitiateListeners implements InitiateListenersInterface
 {
-    public static function setListeners(InjectableInterface $di): void
+    public static function setListeners(InjectableInterface $injectable): void
     {
-        if ($di->user->hasAdminAccess()) :
-            $di->eventsManager->attach('adminMenu', new AdminMenuListener());
+        if ($injectable->user->hasAdminAccess()) :
+            $injectable->eventsManager->attach('adminMenu', new AdminMenuListener());
         endif;
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach(
             'contentTag',
             new TagBlockListener(
                 new BlockRepository(Block::class),
-                $di->eventsManager
+                $injectable->eventsManager
             )
         );
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach(
             BlockEnum::LISTENER->value,
-            new BlockListeners($di->eventsManager, $di->request->isAjax())
+            new BlockListeners($injectable->eventsManager, $injectable->request->isAjax())
         );
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach(
             BlockPositionEnum::BLOCKPOSITION_LISTENER,
             new BlockPositionListener(
                 new BlockPositionRepository(BlockPosition::class),
                 new BlockRepository(Block::class),
-                $di->eventsManager
+                $injectable->eventsManager
             )
         );
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach(
             BlockFormBuilderEnum::BLOCK_LISTENER->value,
             new BlockFormBuilderRepositoryListener(
                 new BlockFormBuilderRepository(
                     new BlockRepository(Block::class),
-                    $di->view
+                    $injectable->view
                 )
             )
         );

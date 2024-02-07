@@ -22,22 +22,28 @@ use VitesseCms\Core\Interfaces\InjectableInterface;
 
 class InitiateAdminListeners implements InitiateListenersInterface
 {
-    public static function setListeners(InjectableInterface $di): void
+    public static function setListeners(InjectableInterface $injectable): void
     {
-        $di->eventsManager->attach('adminMenu', new AdminMenuListener());
-        $di->eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
-        $di->eventsManager->attach(AdminblockpositionController::class, new AdminblockpositionControllerListener());
-        $di->eventsManager->attach(BlockBlocks::class, new BlockBlocksListener(new BlockRepository(Block::class)));
-        $di->eventsManager->attach(
-            BlockEnum::LISTENER->value,
-            new BlockListeners($di->eventsManager, $di->request->isAjax())
+        $injectable->eventsManager->attach('adminMenu', new AdminMenuListener());
+        $injectable->eventsManager->attach(AdminblockController::class, new AdminblockControllerListener());
+        $injectable->eventsManager->attach(
+            AdminblockpositionController::class,
+            new AdminblockpositionControllerListener()
         );
-        $di->eventsManager->attach(
+        $injectable->eventsManager->attach(
+            BlockBlocks::class,
+            new BlockBlocksListener(new BlockRepository(Block::class))
+        );
+        $injectable->eventsManager->attach(
+            BlockEnum::LISTENER->value,
+            new BlockListeners($injectable->eventsManager, $injectable->request->isAjax())
+        );
+        $injectable->eventsManager->attach(
             BlockPositionEnum::BLOCKPOSITION_LISTENER,
             new BlockPositionListener(
                 new BlockPositionRepository(BlockPosition::class),
                 new BlockRepository(Block::class),
-                $di->eventsManager
+                $injectable->eventsManager
             )
         );
     }
